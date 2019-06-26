@@ -2,20 +2,20 @@ modLoader="javafml" #mandatory
 loaderVersion="[25,)" #mandatory (24 is current forge version)
 issueTrackerURL="http://my.issue.tracker/" #optional
 [[mods]] #mandatory
-modId="halo" #mandatory
-version="${file.jarVersion}" #mandatory
-displayName="Halo" #mandatory
+modId="guncore" #mandatory
+version="0.0.0.0 - 1.13.2" #mandatory
+displayName="GunCore" #mandatory
 logoFile="examplemod.png" #optional
 credits="" #optional
 authors="Gamebuster19901" #optional
 
 description='''
-Halo Mod.
+GunCore Mod.
 
 Add descripion later!
 '''
 
-[[dependencies.halo]] #optional
+[[dependencies.guncore]] #optional
     # the modid of the dependency
     modId="forge" #mandatory
     # Does this dependency have to exist - if not, ordering below must be specified
@@ -27,7 +27,7 @@ Add descripion later!
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
 # Here's another dependency
-[[dependencies.halo]]
+[[dependencies.guncore]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.13.2]"

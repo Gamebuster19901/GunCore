@@ -1,0 +1,7 @@
+{
+	"death.attack.guncore.projectile": "%1$s %2$s %3$s",
+	
+	"item.guncore.unknown": "Unknown Item",
+	"item.guncore.unknown.icon": "?",
+	"item.guncore.null_ammo": "Null Ammo (You should never see this...)"
+}
