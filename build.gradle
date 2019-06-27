@@ -14,8 +14,8 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 version = "0.0.0.0 - 1.13.2"
-group = "com.gamebuster19901.halo" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "halo"
+group = "com.gamebuster19901.guncore" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "guncore"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
