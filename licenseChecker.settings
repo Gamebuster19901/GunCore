@@ -1,0 +1,37 @@
+{
+  "extensions": {
+    ".java": "license.javaheader"
+  },
+  "flags": {
+    ".java": {
+      "flags": [
+        {
+          "name": "append"
+        },
+        {
+          "name": "file"
+        }
+      ]
+    }
+  },
+  "excludePaths": [
+    "./metadata",
+    ".gradle",
+    "./settings",
+    ".iws",
+    "./build",
+    ".classpath",
+    ".ipr",
+    ".iml",
+    "./eclipse",
+    ".project",
+    "./out",
+    ".git",
+    "./run",
+    ".launch",
+    "./bin",
+    "./gradle",
+    ".idea",
+    ".settings"
+  ]
+}

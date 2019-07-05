@@ -1,3 +1,10 @@
+/*
+ * GunCore Copyright 2019 Gamebuster19901
+ * 
+ * All Rights Reserved.
+ * 
+ */
+
 package com.gamebuster19901.guncore.common.item.abstracts;
 
 import java.util.Random;

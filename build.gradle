@@ -1,11 +1,13 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
         mavenCentral()
+        maven { url "https://files.minecraftforge.net/maven" }
+        maven { url "https://jitpack.io" }   
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'com.github.Gamebuster19901', name: 'LicenseChecker', version: '-SNAPSHOT', changing: true;
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -14,7 +16,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
 version = "0.0.0.0 - 1.13.2"
-group = "com.gamebuster19901.guncore" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = "com.gamebuster19901" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "guncore"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
@@ -110,6 +112,37 @@ jar {
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+}
+
+task checkLicenses(type: JavaExec) {
+    classpath += sourceSets.main.runtimeClasspath
+    classpath += buildscript.configurations.classpath
+    println main = "com.gamebuster19901.license.LicenseChecker"
+    args = ['notBinary', 'silenceSkips', "classes:com.gamebuster19901.license.test.Test"]
+}
+build.dependsOn checkLicenses
+
+task applyLicenses(type: JavaExec) {
+    classpath += sourceSets.main.runtimeClasspath
+    classpath += buildscript.configurations.classpath
+    println main = "com.gamebuster19901.license.LicenseChecker"
+    args = ['notBinary', 'applyLicenses']
+}
+
+task editLicenses(type:JavaExec) {
+    classpath += sourceSets.main.runtimeClasspath
+    classpath += buildscript.configurations.classpath
+    standardInput = System.in
+    println main = "com.gamebuster19901.license.create.CreateChecker"
+    args = ['notBinary', 'applyLicenses']
+}
+
+task stripLicenses(type:JavaExec){
+    classpath += sourceSets.main.runtimeClasspath
+    classpath += buildscript.configurations.classpath
+    standardInput = System.in
+    println main = "com.gamebuster19901.license.LicenseChecker"
+    args = ['notBinary', 'stripLicenses']
 }
 
 // Example configuration to allow publishing using the maven-publish task

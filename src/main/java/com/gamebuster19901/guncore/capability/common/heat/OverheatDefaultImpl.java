@@ -1,3 +1,10 @@
+/*
+ * GunCore Copyright 2019 Gamebuster19901
+ * 
+ * All Rights Reserved.
+ * 
+ */
+
 package com.gamebuster19901.guncore.capability.common.heat;
 
 import com.gamebuster19901.guncore.Main;
