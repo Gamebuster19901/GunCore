@@ -8,7 +8,7 @@
 package com.gamebuster19901.guncore.capability.common.item.weapon;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -83,8 +83,8 @@ public class WeaponDefaultImpl implements Weapon{
 	}
 
 	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = new NBTTagCompound();
+	public CompoundNBT serializeNBT() {
+		CompoundNBT nbt = new CompoundNBT();
 		nbt.putInt("fireRate", fireRate);
 		nbt.putBoolean("isAutomatic", isAutomatic);
 		nbt.putByte("nextFire", nextFire);
@@ -92,8 +92,8 @@ public class WeaponDefaultImpl implements Weapon{
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagCompound tag) {
-		NBTTagCompound nbt = (NBTTagCompound) tag;
+	public void deserializeNBT(CompoundNBT tag) {
+		CompoundNBT nbt = (CompoundNBT) tag;
 		fireRate = nbt.getInt("fireRate");
 		isAutomatic = nbt.getBoolean("isAutomatic");
 		nextFire = nbt.getByte("nextFire");

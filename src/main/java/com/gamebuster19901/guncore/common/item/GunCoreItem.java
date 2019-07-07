@@ -13,7 +13,7 @@ import com.gamebuster19901.guncore.common.util.EasyLocalization;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 public abstract class GunCoreItem extends Item implements EasyLocalization{
@@ -44,14 +44,14 @@ public abstract class GunCoreItem extends Item implements EasyLocalization{
      * @return A holder instance associated with this ItemStack where you can hold capabilities for the life of this item.
      */
 	@Override
-	public abstract ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt);
+	public abstract ICapabilityProvider initCapabilities(ItemStack stack, CompoundNBT nbt);
 	
 	@Override
 	public abstract boolean shouldSyncTag();
 
 	@Override
-	public abstract NBTTagCompound getShareTag(ItemStack stack);
+	public abstract CompoundNBT getShareTag(ItemStack stack);
 	
 	@Override
-	public abstract void readShareTag(ItemStack stack, @Nullable NBTTagCompound nbt);
+	public abstract void readShareTag(ItemStack stack, @Nullable CompoundNBT nbt);
 }

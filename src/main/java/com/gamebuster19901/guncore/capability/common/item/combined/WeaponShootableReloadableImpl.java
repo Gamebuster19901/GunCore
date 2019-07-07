@@ -22,10 +22,10 @@ import com.gamebuster19901.guncore.common.item.abstracts.Ammo;
 import com.gamebuster19901.guncore.proxy.ClientProxy;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
@@ -212,12 +212,12 @@ public class WeaponShootableReloadableImpl implements Weapon, Shootable, Reloada
 	}
 	
 	@Override
-	public void setProjectile(NBTTagCompound projectile) {
+	public void setProjectile(CompoundNBT projectile) {
 		shootable.setProjectile(projectile);
 	}
 	
 	@Override
-	public NBTTagCompound getProjectile() {
+	public CompoundNBT getProjectile() {
 		return getAmmoType().getProjectile();
 	}
 
@@ -240,7 +240,7 @@ public class WeaponShootableReloadableImpl implements Weapon, Shootable, Reloada
 	public void fire(Entity shooter) {
 		weapon.fire(shooter);
 		shootable.shoot(shooter);
-		if(shooter instanceof EntityPlayer && ((EntityPlayer) shooter).isCreative()) {
+		if(shooter instanceof PlayerEntity && ((PlayerEntity) shooter).isCreative()) {
 			return;
 		}
 		reloadable.decreaseAmountInMag(1);
@@ -344,15 +344,15 @@ public class WeaponShootableReloadableImpl implements Weapon, Shootable, Reloada
 	}
 
 	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = (NBTTagCompound) weapon.serializeNBT();
-		nbt.merge((NBTTagCompound)shootable.serializeNBT());
-		nbt.merge((NBTTagCompound)reloadable.serializeNBT());
+	public CompoundNBT serializeNBT() {
+		CompoundNBT nbt = (CompoundNBT) weapon.serializeNBT();
+		nbt.merge((CompoundNBT)shootable.serializeNBT());
+		nbt.merge((CompoundNBT)reloadable.serializeNBT());
 		return nbt;
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagCompound nbt) {
+	public void deserializeNBT(CompoundNBT nbt) {
 		weapon.deserializeNBT(nbt);
 		shootable.deserializeNBT(nbt);
 		reloadable.deserializeNBT(nbt);

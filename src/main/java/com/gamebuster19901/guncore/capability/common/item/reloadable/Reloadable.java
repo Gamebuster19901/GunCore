@@ -10,13 +10,13 @@ package com.gamebuster19901.guncore.capability.common.item.reloadable;
 import com.gamebuster19901.guncore.common.item.abstracts.Ammo;
 import com.gamebuster19901.guncore.common.util.Updateable;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface Reloadable extends Updateable, INBTSerializable<NBTTagCompound>{
+public interface Reloadable extends Updateable, INBTSerializable<CompoundNBT>{
 	
 	/**
 	 * @return the magazine size
@@ -91,8 +91,8 @@ public interface Reloadable extends Updateable, INBTSerializable<NBTTagCompound>
 		}
 	}
 	
-	public default boolean canReload(EntityPlayer player) {
-		return !player.isSprinting() && player.isAlive() && !player.isPlayerSleeping();
+	public default boolean canReload(PlayerEntity player) {
+		return !player.isSprinting() && player.isAlive() && !player.isSleeping();
 	}
 	
 	@SuppressWarnings("unused")

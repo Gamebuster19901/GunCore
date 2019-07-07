@@ -7,9 +7,9 @@
 
 package com.gamebuster19901.guncore.capability.common.item.reloadable;
 
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 
@@ -18,13 +18,13 @@ public class ReloadableStorage implements IStorage<Reloadable>{
 	public static final ReloadableStorage INSTANCE = new ReloadableStorage();
 	
 	@Override
-	public INBTBase writeNBT(Capability<Reloadable> capability, Reloadable instance, EnumFacing side) {
+	public INBT writeNBT(Capability<Reloadable> capability, Reloadable instance, Direction side) {
 		return instance.serializeNBT();
 	}
 
 	@Override
-	public void readNBT(Capability<Reloadable> capability, Reloadable reloadable, EnumFacing side, INBTBase tag) {
-		reloadable.deserializeNBT((NBTTagCompound) tag);
+	public void readNBT(Capability<Reloadable> capability, Reloadable reloadable, Direction side, INBT tag) {
+		reloadable.deserializeNBT((CompoundNBT) tag);
 	}
 
 }

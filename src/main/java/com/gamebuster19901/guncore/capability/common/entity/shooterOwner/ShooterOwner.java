@@ -12,7 +12,7 @@ import java.util.UUID;
 import com.gamebuster19901.guncore.capability.common.item.shootable.Shootable;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 
 public interface ShooterOwner {
 	
@@ -28,6 +28,6 @@ public interface ShooterOwner {
 	
 	public void setGun(Shootable shootable);
 	
-	public NBTTagCompound getGun();
+	public CompoundNBT getGun();
 	
 }

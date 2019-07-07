@@ -12,18 +12,18 @@ import java.util.UUID;
 import com.gamebuster19901.guncore.capability.common.item.shootable.Shootable;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public class ShooterOwnerDefaultImpl implements ShooterOwner, INBTSerializable<NBTTagCompound>{
+public class ShooterOwnerDefaultImpl implements ShooterOwner, INBTSerializable<CompoundNBT>{
 
 	@CapabilityInject(ShooterOwner.class)
 	public static Capability<ShooterOwner> CAPABILITY = null;
 	
 	private UUID shooter;
-	private NBTTagCompound gun;
+	private CompoundNBT gun;
 	
 	public ShooterOwnerDefaultImpl(Entity shooter, Shootable gun) {
 		setShooter(shooter);
@@ -32,7 +32,7 @@ public class ShooterOwnerDefaultImpl implements ShooterOwner, INBTSerializable<N
 		assert gun != null;
 	}
 	
-	public ShooterOwnerDefaultImpl(UUID uuid, NBTTagCompound gun) {
+	public ShooterOwnerDefaultImpl(UUID uuid, CompoundNBT gun) {
 		setShooter(uuid);
 		setGun(gun);
 		assert uuid != null;
@@ -55,18 +55,18 @@ public class ShooterOwnerDefaultImpl implements ShooterOwner, INBTSerializable<N
 		this.gun = shootable.serializeNBT();
 	}
 
-	private void setGun(NBTTagCompound gun) {
+	private void setGun(CompoundNBT gun) {
 		this.gun = gun;
 	}
 
 	@Override
-	public NBTTagCompound getGun() {
+	public CompoundNBT getGun() {
 		return gun;
 	}
 
 	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = new NBTTagCompound();
+	public CompoundNBT serializeNBT() {
+		CompoundNBT nbt = new CompoundNBT();
 		nbt.put("gun", gun);
 		if(shooter != null) {
 			nbt.putString("shooter", shooter.toString());
@@ -75,7 +75,7 @@ public class ShooterOwnerDefaultImpl implements ShooterOwner, INBTSerializable<N
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagCompound nbt) {
+	public void deserializeNBT(CompoundNBT nbt) {
 		this.gun = nbt.getCompound("gun");
 		if(nbt.contains("shooter")) {
 			this.shooter = UUID.fromString("shooter");

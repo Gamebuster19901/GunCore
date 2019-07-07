@@ -12,7 +12,7 @@ import com.gamebuster19901.guncore.common.item.abstracts.Ammo;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -140,8 +140,8 @@ public class ReloadableDefaultImpl implements Reloadable{
 	}
 
 	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = new NBTTagCompound();
+	public CompoundNBT serializeNBT() {
+		CompoundNBT nbt = new CompoundNBT();
 		nbt.putInt("magSize", magSize);
 		nbt.putInt("reloadTime", reloadTime);
 		nbt.putInt("amountLoaded", amountLoaded);
@@ -152,8 +152,8 @@ public class ReloadableDefaultImpl implements Reloadable{
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagCompound tag) {
-		NBTTagCompound nbt = (NBTTagCompound) tag;
+	public void deserializeNBT(CompoundNBT tag) {
+		CompoundNBT nbt = (CompoundNBT) tag;
 		magSize = nbt.getInt("magSize");
 		reloadTime = nbt.getInt("reloadTime");
 		amountLoaded = nbt.getInt("amountLoaded");

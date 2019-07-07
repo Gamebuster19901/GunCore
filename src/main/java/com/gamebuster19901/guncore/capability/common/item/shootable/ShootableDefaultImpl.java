@@ -12,7 +12,7 @@ import java.util.Random;
 import com.gamebuster19901.guncore.common.item.NullAmmo;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -34,12 +34,12 @@ public class ShootableDefaultImpl implements Shootable{
 	protected float maxRecoilX;
 	protected float minRecoilY;
 	protected float maxRecoilY;
-	protected NBTTagCompound projectile = NullAmmo.INSTANCE.getProjectile();
+	protected CompoundNBT projectile = NullAmmo.INSTANCE.getProjectile();
 	
 	protected float bloom = maxBloom;
 
 	
-	public ShootableDefaultImpl(float maxBloom, float bloomI, float bloomD, float muzzleVelocity, float minRecoilX, float maxRecoilX, float minRecoilY, float maxRecoilY, NBTTagCompound projectile) {
+	public ShootableDefaultImpl(float maxBloom, float bloomI, float bloomD, float muzzleVelocity, float minRecoilX, float maxRecoilX, float minRecoilY, float maxRecoilY, CompoundNBT projectile) {
 		this.maxBloom = maxBloom;
 		this.bloomI = bloomI;
 		this.bloomD = bloomD;
@@ -156,12 +156,12 @@ public class ShootableDefaultImpl implements Shootable{
 	}
 
 	@Override
-	public NBTTagCompound getProjectile() {
+	public CompoundNBT getProjectile() {
 		return projectile;
 	}
 	
 	@Override
-	public void setProjectile(NBTTagCompound projectile) {
+	public void setProjectile(CompoundNBT projectile) {
 		this.projectile = projectile;
 	}
 	
@@ -202,8 +202,8 @@ public class ShootableDefaultImpl implements Shootable{
 
 
 	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = new NBTTagCompound();
+	public CompoundNBT serializeNBT() {
+		CompoundNBT nbt = new CompoundNBT();
 		nbt.putFloat("maxBloom", maxBloom);
 		nbt.putFloat("bloomI", bloomI);
 		nbt.putFloat("bloomD", bloomD);
@@ -219,8 +219,8 @@ public class ShootableDefaultImpl implements Shootable{
 
 
 	@Override
-	public void deserializeNBT(NBTTagCompound base) {
-		NBTTagCompound nbt = (NBTTagCompound) base;
+	public void deserializeNBT(CompoundNBT base) {
+		CompoundNBT nbt = (CompoundNBT) base;
 		maxBloom = nbt.getFloat("maxBloom");
 		bloomI = nbt.getFloat("bloomI");
 		bloomD = nbt.getFloat("bloomD");

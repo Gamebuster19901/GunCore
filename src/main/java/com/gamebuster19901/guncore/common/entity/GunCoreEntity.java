@@ -11,7 +11,7 @@ import com.gamebuster19901.guncore.common.util.EasyLocalization;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 
@@ -25,7 +25,7 @@ public abstract class GunCoreEntity extends Entity implements EasyLocalization{
 	}
 	
 	@Override
-	public boolean writeUnlessRemoved(NBTTagCompound compound) {
+	public boolean writeUnlessRemoved(CompoundNBT compound) {
 		String s = getResourceLocation().toString();
 		if (!this.removed && s != null) {
 			compound.putString("id", s);

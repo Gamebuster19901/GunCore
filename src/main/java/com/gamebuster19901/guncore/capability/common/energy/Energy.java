@@ -9,11 +9,11 @@ package com.gamebuster19901.guncore.capability.common.energy;
 
 import com.gamebuster19901.guncore.common.util.Updateable;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.energy.IEnergyStorage;
 
-public interface Energy extends IEnergyStorage, Updateable, INBTSerializable<NBTTagCompound>{
+public interface Energy extends IEnergyStorage, Updateable, INBTSerializable<CompoundNBT>{
 	
 	/**
 	 * sets the amount of energy in this to the specified amount, or

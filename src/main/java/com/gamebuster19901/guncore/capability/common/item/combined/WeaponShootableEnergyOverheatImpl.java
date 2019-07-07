@@ -13,8 +13,8 @@ import com.gamebuster19901.guncore.capability.common.heat.Overheat;
 import com.gamebuster19901.guncore.capability.common.item.shootable.Shootable;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class WeaponShootableEnergyOverheatImpl extends WeaponEnergy implements Shootable, Overheat{
@@ -70,15 +70,15 @@ public class WeaponShootableEnergyOverheatImpl extends WeaponEnergy implements S
 	}
 
 	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = super.serializeNBT();
+	public CompoundNBT serializeNBT() {
+		CompoundNBT nbt = super.serializeNBT();
 		nbt.merge(shootable.serializeNBT());
 		nbt.merge(overheat.serializeNBT());
 		return nbt;
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagCompound nbt) {
+	public void deserializeNBT(CompoundNBT nbt) {
 		super.deserializeNBT(nbt);
 		shootable.deserializeNBT(nbt);
 		overheat.deserializeNBT(nbt);
@@ -245,12 +245,12 @@ public class WeaponShootableEnergyOverheatImpl extends WeaponEnergy implements S
 	}
 
 	@Override
-	public void setProjectile(NBTTagCompound projectile) {
+	public void setProjectile(CompoundNBT projectile) {
 		shootable.setProjectile(projectile);
 	}
 
 	@Override
-	public NBTTagCompound getProjectile() {
+	public CompoundNBT getProjectile() {
 		return shootable.getProjectile();
 	}
 
@@ -273,7 +273,7 @@ public class WeaponShootableEnergyOverheatImpl extends WeaponEnergy implements S
 	public void fire(Entity shooter) {
 		weapon.fire(shooter);
 		shootable.shoot(shooter);
-		if(shooter instanceof EntityPlayer && ((EntityPlayer)shooter).isCreative()) {
+		if(shooter instanceof PlayerEntity && ((PlayerEntity)shooter).isCreative()) {
 			return;
 		}
 		energy.extractEnergy(getMaxExtract(), false);

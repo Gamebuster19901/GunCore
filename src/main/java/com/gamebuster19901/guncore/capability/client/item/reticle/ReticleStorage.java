@@ -7,19 +7,19 @@
 
 package com.gamebuster19901.guncore.capability.client.item.reticle;
 
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.INBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 
 public class ReticleStorage implements IStorage<Reticle>{
 
 	@Override
-	public INBTBase writeNBT(Capability<Reticle> capability, Reticle instance, EnumFacing side) {
+	public INBT writeNBT(Capability<Reticle> capability, Reticle instance, Direction side) {
 		return null;
 	}
 
 	@Override
-	public void readNBT(Capability<Reticle> capability, Reticle instance, EnumFacing side, INBTBase nbt) {}
+	public void readNBT(Capability<Reticle> capability, Reticle instance, Direction side, INBT nbt) {}
 
 }

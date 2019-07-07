@@ -11,7 +11,7 @@ import java.util.Random;
 
 import com.gamebuster19901.guncore.capability.common.item.shootable.Shootable;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public final class HandImpl implements Shootable{
@@ -75,7 +75,7 @@ public final class HandImpl implements Shootable{
 	}
 
 	@Override
-	public NBTTagCompound getProjectile() {
+	public CompoundNBT getProjectile() {
 		return null;
 	}
 
@@ -94,7 +94,7 @@ public final class HandImpl implements Shootable{
 	}
 
 	@Override
-	public void setProjectile(NBTTagCompound projectile) {}
+	public void setProjectile(CompoundNBT projectile) {}
 
 	@Override
 	public void setMaxBloom(float maxBloom) {
@@ -129,8 +129,8 @@ public final class HandImpl implements Shootable{
 	}
 
 	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = new NBTTagCompound();
+	public CompoundNBT serializeNBT() {
+		CompoundNBT nbt = new CompoundNBT();
 		nbt.putFloat("maxBloom", 0);
 		nbt.putFloat("bloomI", 0);
 		nbt.putFloat("bloomD", 0);
@@ -139,12 +139,12 @@ public final class HandImpl implements Shootable{
 		nbt.putFloat("minRecoilY", 0);
 		nbt.putFloat("maxRecoilX", 0);
 		nbt.putFloat("maxRecoilY", 0);
-		nbt.put("projectile", new NBTTagCompound());
+		nbt.put("projectile", new CompoundNBT());
 		nbt.putFloat("bloom", 0);
 		return nbt;
 	}
 
 
 	@Override
-	public void deserializeNBT(NBTTagCompound base) {}
+	public void deserializeNBT(CompoundNBT base) {}
 }

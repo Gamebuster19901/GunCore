@@ -17,17 +17,17 @@ import com.gamebuster19901.guncore.common.util.VecMath;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IProjectile;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import net.minecraft.world.chunk.storage.AnvilChunkLoader;
+import net.minecraft.world.chunk.storage.ChunkLoaderUtil;
 
 public final class Projectile implements IProjectile{
 	private static final Field RAND = ForgeReflectionHelper.findField(Entity.class, "rand");
 	
-	protected final NBTTagCompound projectile;
+	protected final CompoundNBT projectile;
 	
 	protected double x;
 	protected double y;
@@ -40,7 +40,7 @@ public final class Projectile implements IProjectile{
 	/**
 	 * @param projectile the nbt representing the projectile
 	 */
-	public Projectile(NBTTagCompound projectile) {
+	public Projectile(CompoundNBT projectile) {
 		this.projectile = projectile;
 	}
 	
@@ -106,7 +106,7 @@ public final class Projectile implements IProjectile{
 				Vec3d lookVec = shooter.getLookVec();
 				projectileEntity.shoot(gun, shooter);
 				shoot(lookVec.x, lookVec.y, lookVec.z, gun.getMuzzleVelocity(), gun.getBloom()); //Shoot before spawning entity so it has momentum when spawned!
-				world.spawnEntity(projectileEntity);
+				world.addEntity(projectileEntity);
 				return;
 			}
 			
@@ -140,9 +140,7 @@ public final class Projectile implements IProjectile{
 			vx = vx * (double)velocity;
 			vy = vy * (double)velocity;
 			vz = vz * (double)velocity;
-			projectileEntity.motionX = vx;
-			projectileEntity.motionY = vy;
-			projectileEntity.motionZ = vz;
+			projectileEntity.setMotion(new Vec3d(vx,vy,vz));
 			float f1 = MathHelper.sqrt(vx * vx + vz * vz);
 			projectileEntity.rotationYaw = -(float)(MathHelper.atan2(vx, vz) * (180D / Math.PI));
 			projectileEntity.rotationPitch = -(float)(MathHelper.atan2(vy, (double)f1) * (180D / Math.PI));
@@ -151,7 +149,7 @@ public final class Projectile implements IProjectile{
 		}
 	}
 	
-	public NBTTagCompound getProjectileNBT() {
+	public CompoundNBT getProjectileNBT() {
 		return projectile;
 	}
 	

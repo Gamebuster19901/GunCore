@@ -20,10 +20,11 @@ import com.gamebuster19901.guncore.common.util.GunCoreDamageSource;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -36,9 +37,9 @@ import net.minecraft.world.World;
 
 public abstract class ProjectileEntity extends GunCoreEntity implements ShooterOwner, EasyLocalization{
 	
-	public static final Predicate<Entity> DEFAULT_TARGETS = EntitySelectors.NOT_SPECTATING.and(Entity::canBeCollidedWith);
+	public static final Predicate<Entity> DEFAULT_TARGETS = EntityPredicates.NOT_SPECTATING.and(Entity::canBeCollidedWith);
 	
-	protected NBTTagCompound gun;
+	protected CompoundNBT gun;
 	protected UUID shooter;
 	protected float damage = 1f; //damage to deal if this hits an entity
 	
@@ -66,7 +67,7 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 			RayTraceResult.Type hitType = MISS;
 			
 			Vec3d pos = this.getPositionVector();
-			Vec3d nextPos = pos.add(this.motionX, this.motionY, this.motionZ);
+			Vec3d nextPos = pos.add(this.getMotion());
 			
 			RayTraceResult blockResult = this.world.rayTraceBlocks(pos, nextPos, RayTraceFluidMode.NEVER, true, false);
 			if(blockResult != null) {
@@ -92,8 +93,8 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	}
 	
 	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound ret = new NBTTagCompound();
+	public CompoundNBT serializeNBT() {
+		CompoundNBT ret = new CompoundNBT();
 		ret.putString("id", getResourceLocation().toString());
 		ret.putInt("ticksExisted", this.ticksExisted);
 		this.writeUnlessRemoved(ret);
@@ -101,7 +102,7 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	}
 	
 	@Override
-	protected void readAdditional(NBTTagCompound compound) {
+	protected void readAdditional(CompoundNBT compound) {
 		this.ticksExisted = compound.getInt("ticksExisted");
 		if(compound.contains("gun")) {
 			this.gun = compound.getCompound("gun");
@@ -112,7 +113,7 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	}
 
 	@Override
-	protected void writeAdditional(NBTTagCompound compound) {
+	protected void writeAdditional(CompoundNBT compound) {
 		compound.putInt("ticksExisted", this.ticksExisted);
 		if(gun != null) {
 			compound.put("gun", gun);
@@ -135,8 +136,8 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 			
 			Entity entity = rayTrace.entity;
 			
-			if(entity instanceof EntityLivingBase) {
-				EntityLivingBase hitEntity = (EntityLivingBase) entity;
+			if(entity instanceof LivingEntity) {
+				LivingEntity hitEntity = (LivingEntity) entity;
 				hitEntity.attackEntityFrom(damageSource, this.damage);
 			}
 		}
@@ -158,7 +159,7 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	protected RayTraceResult getCollidingEntity(Vec3d start, Vec3d end, Predicate<Entity> targets) {
 		RayTraceResult result = null;
 		Entity entity = null;
-		List<Entity> entities = this.world.getEntitiesInAABBexcluding(this, this.getBoundingBox().expand(this.motionX, this.motionY, this.motionZ).grow(1), targets);
+		List<Entity> entities = this.world.getEntitiesInAABBexcluding(this, this.getBoundingBox().expand(this.getMotion()).grow(1), targets);
 		double distance = Integer.MAX_VALUE;
 		
 		for(int i = 0; i < entities.size(); i++) {

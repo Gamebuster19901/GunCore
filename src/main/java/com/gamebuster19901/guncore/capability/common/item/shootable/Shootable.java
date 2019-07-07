@@ -13,12 +13,12 @@ import com.gamebuster19901.guncore.common.item.abstracts.Projectile;
 import com.gamebuster19901.guncore.common.util.Updateable;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface Shootable extends Updateable, INBTSerializable<NBTTagCompound>{
+public interface Shootable extends Updateable, INBTSerializable<CompoundNBT>{
 	
 	public void setBloom(float bloom);
 	
@@ -109,7 +109,7 @@ public interface Shootable extends Updateable, INBTSerializable<NBTTagCompound>{
 	 * Changes the projectile of this shootable
 	 * @param projectile
 	 */
-	public void setProjectile(NBTTagCompound projectile);
+	public void setProjectile(CompoundNBT projectile);
 	
 	/**
 	 * Get the nbt that represents the projectile.
@@ -117,7 +117,7 @@ public interface Shootable extends Updateable, INBTSerializable<NBTTagCompound>{
 	 * 
 	 * @return the nbt of the projectile
 	 */
-	public NBTTagCompound getProjectile();
+	public CompoundNBT getProjectile();
 	
 	public Random getRandom();
 	

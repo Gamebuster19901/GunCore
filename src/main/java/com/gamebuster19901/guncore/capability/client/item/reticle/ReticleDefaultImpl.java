@@ -11,7 +11,7 @@ import com.gamebuster19901.guncore.capability.common.item.shootable.Shootable;
 import com.gamebuster19901.guncore.capability.common.item.shootable.ShootableDefaultImpl;
 
 import net.minecraft.client.GameSettings;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -21,7 +21,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class ReticleDefaultImpl extends Gui implements Reticle{
+public class ReticleDefaultImpl extends AbstractGui implements Reticle{
 
 	@CapabilityInject(Reticle.class)
 	public static Capability<Reticle> CAPABILITY = null;

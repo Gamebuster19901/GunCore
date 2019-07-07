@@ -17,9 +17,9 @@ import com.gamebuster19901.guncore.capability.common.item.weapon.Weapon;
 import com.gamebuster19901.guncore.proxy.ClientProxy;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
@@ -91,8 +91,8 @@ public class WeaponEnergy implements Weapon, Energy, Reticle, Overlay{
 	}
 
 	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = (NBTTagCompound) weapon.serializeNBT();
+	public CompoundNBT serializeNBT() {
+		CompoundNBT nbt = (CompoundNBT) weapon.serializeNBT();
 		try {
 			nbt.merge(energy.serializeNBT());
 		}
@@ -104,7 +104,7 @@ public class WeaponEnergy implements Weapon, Energy, Reticle, Overlay{
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagCompound nbt) {
+	public void deserializeNBT(CompoundNBT nbt) {
 		weapon.deserializeNBT(nbt);
 		energy.deserializeNBT(nbt);
 	}
@@ -222,7 +222,7 @@ public class WeaponEnergy implements Weapon, Energy, Reticle, Overlay{
 	@Override
 	public boolean canFire(Entity shooter) {
 		if (weapon.canFire(shooter)) {
-			if(shooter instanceof EntityPlayer && ((EntityPlayer) shooter).isCreative()) {
+			if(shooter instanceof PlayerEntity && ((PlayerEntity) shooter).isCreative()) {
 				return this.getTimeUntilNextFire() <= 0;
 			}
 			return this.getEnergyStored() > 0 && this.getTimeUntilNextFire() <= 0;
@@ -233,7 +233,7 @@ public class WeaponEnergy implements Weapon, Energy, Reticle, Overlay{
 	@Override
 	public void fire(Entity shooter) {
 		weapon.fire(shooter);
-		if(shooter instanceof EntityPlayer && ((EntityPlayer)shooter).isCreative()) {
+		if(shooter instanceof PlayerEntity && ((PlayerEntity)shooter).isCreative()) {
 			return;
 		}
 		energy.extractEnergy(getMaxExtract(), false);

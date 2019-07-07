@@ -9,7 +9,7 @@ package com.gamebuster19901.guncore.capability.common.heat;
 
 import com.gamebuster19901.guncore.Main;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -131,8 +131,8 @@ public class OverheatDefaultImpl implements Overheat{
 	}
 
 	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = new NBTTagCompound();
+	public CompoundNBT serializeNBT() {
+		CompoundNBT nbt = new CompoundNBT();
 		
 		nbt.putBoolean("overheating", overheating);
 		nbt.putDouble("temp", temp);
@@ -145,7 +145,7 @@ public class OverheatDefaultImpl implements Overheat{
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagCompound nbt) {
+	public void deserializeNBT(CompoundNBT nbt) {
 		overheating = nbt.getBoolean("overheating");
 		temp = nbt.getDouble("temp");
 		minTemp = nbt.getDouble("minTemp");

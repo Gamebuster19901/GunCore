@@ -10,11 +10,11 @@ package com.gamebuster19901.guncore.capability.common.item.weapon;
 import com.gamebuster19901.guncore.common.util.Updateable;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface Weapon extends Updateable, INBTSerializable<NBTTagCompound>{
+public interface Weapon extends Updateable, INBTSerializable<CompoundNBT>{
 	double FPSToMPS = 0.3048d;
 	double TPS = 20;
 	

@@ -21,7 +21,7 @@ import com.gamebuster19901.guncore.common.item.abstracts.HeldWeapon;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderSpecificHandEvent;
 import net.minecraftforge.common.util.LazyOptional;
@@ -61,7 +61,7 @@ public class RenderHelper{
 	
 	@SubscribeEvent
 	public static void onHandRender(RenderSpecificHandEvent e) {
-		EnumHand hand = e.getHand();
+		Hand hand = e.getHand();
 		if(mc.player.getHeldItem(hand).getItem() instanceof HeldWeapon) {
 			e.setCanceled(true);
 			mc.getFirstPersonRenderer().renderItemInFirstPerson(mc.player, e.getPartialTicks(), e.getInterpolatedPitch(), hand, e.getSwingProgress(), e.getItemStack(), 0f);

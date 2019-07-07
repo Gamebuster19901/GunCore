@@ -7,9 +7,9 @@
 
 package com.gamebuster19901.guncore.capability.common.item.shootable;
 
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 
@@ -18,13 +18,13 @@ public class ShootableStorage implements IStorage<Shootable>{
 	public static final ShootableStorage INSTANCE = new ShootableStorage();
 	
 	@Override
-	public INBTBase writeNBT(Capability<Shootable> capability, Shootable instance, EnumFacing side) {
+	public INBT writeNBT(Capability<Shootable> capability, Shootable instance, Direction side) {
 		return instance.serializeNBT();
 	}
 
 	@Override
-	public void readNBT(Capability<Shootable> capability, Shootable shootable, EnumFacing side, INBTBase tag) {
-		shootable.deserializeNBT((NBTTagCompound) tag);
+	public void readNBT(Capability<Shootable> capability, Shootable shootable, Direction side, INBT tag) {
+		shootable.deserializeNBT((CompoundNBT) tag);
 	}
 
 }

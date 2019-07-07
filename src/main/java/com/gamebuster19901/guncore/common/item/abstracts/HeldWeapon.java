@@ -13,8 +13,8 @@ import com.gamebuster19901.guncore.common.item.GunCoreItem;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -27,10 +27,10 @@ public abstract class HeldWeapon extends GunCoreItem{
 	}
 
 	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+	public ICapabilityProvider initCapabilities(ItemStack stack, CompoundNBT nbt) {
 		return new ICapabilityProvider() {			
 			@Override
-			public <T> LazyOptional<T> getCapability(Capability<T> capability, EnumFacing facing) {
+			public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction facing) {
 				if(capability == WeaponDefaultImpl.CAPABILITY) {
 					return (LazyOptional<T>) LazyOptional.of(() -> new WeaponDefaultImpl(1,false));
 				}
@@ -59,13 +59,13 @@ public abstract class HeldWeapon extends GunCoreItem{
 	}
 
 	@Override
-	public NBTTagCompound getShareTag(ItemStack stack) {
-		NBTTagCompound nbt = stack.getCapability(WeaponDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new).serializeNBT();
+	public CompoundNBT getShareTag(ItemStack stack) {
+		CompoundNBT nbt = stack.getCapability(WeaponDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new).serializeNBT();
 		return nbt;
 	}
 
 	@Override
-	public void readShareTag(ItemStack stack, NBTTagCompound nbt) {
+	public void readShareTag(ItemStack stack, CompoundNBT nbt) {
 		stack.getCapability(WeaponDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new).deserializeNBT(nbt);
 	}
 }

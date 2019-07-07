@@ -9,10 +9,10 @@ package com.gamebuster19901.guncore.capability.common.heat;
 
 import com.gamebuster19901.guncore.common.util.Updateable;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface Overheat extends Updateable, INBTSerializable<NBTTagCompound>{
+public interface Overheat extends Updateable, INBTSerializable<CompoundNBT>{
 
 	public double getTemp();
 	

@@ -7,9 +7,9 @@
 
 package com.gamebuster19901.guncore.capability.common.item.weapon;
 
-import net.minecraft.nbt.INBTBase;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 
 public class WeaponStorage implements Capability.IStorage<Weapon>{
@@ -21,13 +21,13 @@ public class WeaponStorage implements Capability.IStorage<Weapon>{
 	public static final String NEXT_FIRE = "nextFire";
 	
 	@Override
-	public INBTBase writeNBT(Capability<Weapon> capability, Weapon instance, EnumFacing side) {
+	public INBT writeNBT(Capability<Weapon> capability, Weapon instance, Direction side) {
 		return instance.serializeNBT();
 	}
 
 	@Override
-	public void readNBT(Capability<Weapon> capability, Weapon instance, EnumFacing side, INBTBase tag) {
-		instance.deserializeNBT((NBTTagCompound) tag);
+	public void readNBT(Capability<Weapon> capability, Weapon instance, Direction side, INBT tag) {
+		instance.deserializeNBT((CompoundNBT) tag);
 	}
 
 }

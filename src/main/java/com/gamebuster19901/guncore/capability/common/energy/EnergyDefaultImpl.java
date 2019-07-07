@@ -7,7 +7,7 @@
 
 package com.gamebuster19901.guncore.capability.common.energy;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -139,8 +139,8 @@ public class EnergyDefaultImpl implements Energy{
 	}
 
 	@Override
-	public NBTTagCompound serializeNBT() {
-		NBTTagCompound nbt = new NBTTagCompound();
+	public CompoundNBT serializeNBT() {
+		CompoundNBT nbt = new CompoundNBT();
 		nbt.putInt("energy", energy);
 		nbt.putInt("capacity", capacity);
 		nbt.putInt("maxReceive", maxReceive);
@@ -151,7 +151,7 @@ public class EnergyDefaultImpl implements Energy{
 	}
 
 	@Override
-	public void deserializeNBT(NBTTagCompound nbt) {
+	public void deserializeNBT(CompoundNBT nbt) {
 		energy = nbt.getInt("energy");
 		capacity = nbt.getInt("capacity");
 		maxReceive = nbt.getInt("maxReceive");
