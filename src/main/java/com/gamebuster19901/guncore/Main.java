@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 public class Main {
 	public static final String MODID = "guncore";
 	public static final String MODNAME = "GunCore";
-	public static final String VERSION = "0.0.0.0 - 1.13.2";
+	public static final String VERSION = "0.0.0.0 - 1.14.3";
 	public static final Logger LOGGER = LogManager.getLogger(MODNAME);
 	
 	public static Proxy proxy;
