@@ -9,6 +9,7 @@ package com.gamebuster19901.guncore.common.item.abstracts;
 
 import java.lang.reflect.Field;
 import java.util.Random;
+import java.util.function.Function;
 
 import com.gamebuster19901.guncore.capability.common.item.shootable.Shootable;
 import com.gamebuster19901.guncore.common.entity.ProjectileEntity;
@@ -16,13 +17,12 @@ import com.gamebuster19901.guncore.common.util.ForgeReflectionHelper;
 import com.gamebuster19901.guncore.common.util.VecMath;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-
-import net.minecraft.world.chunk.storage.ChunkLoaderUtil;
 
 public final class Projectile implements IProjectile{
 	private static final Field RAND = ForgeReflectionHelper.findField(Entity.class, "rand");
@@ -96,7 +96,7 @@ public final class Projectile implements IProjectile{
 		this.gun = gun;
 		if(!world.isRemote && projectile != null) {
 			projectile.putString("ownerName", shooter.getName().getString());
-			projectileEntity = (ProjectileEntity)AnvilChunkLoader.readWorldEntityPos(projectile, world, pos.x, pos.y, pos.z, false);
+			projectileEntity = (ProjectileEntity)EntityType.func_220335_a(projectile, world, Function.identity());
 			if(projectileEntity != null) {
 				try {
 					projectileEntity.setUniqueId(MathHelper.getRandomUUID((Random)RAND.get(projectileEntity)));

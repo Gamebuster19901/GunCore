@@ -9,7 +9,8 @@ package com.gamebuster19901.guncore.capability.client.item.reticle;
 
 import com.gamebuster19901.guncore.client.render.Renderer;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.util.ResourceLocation;
 
 public interface Reticle extends Renderer{

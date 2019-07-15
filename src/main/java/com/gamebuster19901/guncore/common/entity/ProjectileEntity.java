@@ -7,7 +7,6 @@
 
 package com.gamebuster19901.guncore.common.entity;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
 
@@ -21,22 +20,26 @@ import com.gamebuster19901.guncore.common.util.GunCoreDamageSource;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityPredicates;
-import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.RayTraceFluidMode;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import static net.minecraft.util.math.RayTraceResult.Type.*;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.ServerWorld;
 
 public abstract class ProjectileEntity extends GunCoreEntity implements ShooterOwner, EasyLocalization{
 	
+	public static final Predicate<Entity> ANY_ENTITY = (entity) -> {return true;};
 	public static final Predicate<Entity> DEFAULT_TARGETS = EntityPredicates.NOT_SPECTATING.and(Entity::canBeCollidedWith);
 	
 	protected CompoundNBT gun;
@@ -69,15 +72,15 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 			Vec3d pos = this.getPositionVector();
 			Vec3d nextPos = pos.add(this.getMotion());
 			
-			RayTraceResult blockResult = this.world.rayTraceBlocks(pos, nextPos, RayTraceFluidMode.NEVER, true, false);
+			RayTraceResult blockResult = this.world.rayTraceBlocks(new RayTraceContext(pos, nextPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
 			if(blockResult != null) {
-				nextPos = new Vec3d(blockResult.hitVec.x, blockResult.hitVec.y,blockResult.hitVec.z);
+				blockResult.getHitVec();
 				hitType = BLOCK;
 			}
 			
-			RayTraceResult entityResult = getCollidingEntity(pos, nextPos, DEFAULT_TARGETS);
+			EntityRayTraceResult entityResult = getCollidingEntity(pos, nextPos, DEFAULT_TARGETS);
 			if(entityResult != null) {
-				nextPos = new Vec3d(entityResult.hitVec.x, entityResult.hitVec.y, entityResult.hitVec.z);
+				entityResult.getHitVec();
 				hitType = ENTITY;
 			}
 
@@ -130,11 +133,11 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	@Nullable
 	public abstract SoundEvent getImpactSound();
 	
-	public void hitEntity(RayTraceResult rayTrace) {
+	public void hitEntity(EntityRayTraceResult rayTrace) {
 		if(!world.isRemote) {
 			DamageSource damageSource = getDamageSource();
 			
-			Entity entity = rayTrace.entity;
+			Entity entity = rayTrace.getEntity();
 			
 			if(entity instanceof LivingEntity) {
 				LivingEntity hitEntity = (LivingEntity) entity;
@@ -146,7 +149,7 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	
 	public void hitBlock(RayTraceResult rayTrace) {
 		this.world.playSound(null, posX, posY, posZ, getImpactSound(), SoundCategory.NEUTRAL, 1f, getNextSoundPitch());
-		SoundType blockSound = world.getBlockState(rayTrace.getBlockPos()).getSoundType(world, rayTrace.getBlockPos(), this);
+		SoundType blockSound = world.getBlockState(new BlockPos(rayTrace.getHitVec())).getSoundType(world, new BlockPos(rayTrace.getHitVec()), this);
 		this.world.playSound(null, posX, posY, posZ, blockSound.getBreakSound(), SoundCategory.NEUTRAL, blockSound.volume, blockSound.pitch);
 		onHit();
 	}
@@ -156,27 +159,9 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	}
 	
 	@Nullable
-	protected RayTraceResult getCollidingEntity(Vec3d start, Vec3d end, Predicate<Entity> targets) {
-		RayTraceResult result = null;
-		Entity entity = null;
-		List<Entity> entities = this.world.getEntitiesInAABBexcluding(this, this.getBoundingBox().expand(this.getMotion()).grow(1), targets);
-		double distance = Integer.MAX_VALUE;
-		
-		for(int i = 0; i < entities.size(); i++) {
-			Entity loopEntity = entities.get(i);
-			assert loopEntity != this;
-			AxisAlignedBB bounding = loopEntity.getBoundingBox().grow(0.3f);
-			RayTraceResult rayTraceResult = bounding.calculateIntercept(start, end);
-			if(rayTraceResult != null) {
-				double newDistance = start.squareDistanceTo(rayTraceResult.hitVec);
-				if(newDistance < distance) {
-					distance = newDistance;
-					entity = loopEntity;
-					result = new RayTraceResult(entity, rayTraceResult.hitVec);
-				}
-			}
-		}
-		return result;
+	protected EntityRayTraceResult getCollidingEntity(Vec3d start, Vec3d end, Predicate<Entity> targets) {
+		AxisAlignedBB bounds = new AxisAlignedBB(start, end);
+		return ProjectileHelper.func_221273_a(this, start, end, bounds, targets, 0f);
 	}
 	
 	protected float getNextSoundPitch() {
@@ -185,7 +170,7 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	
 	protected DamageSource getDamageSource() {
 		Entity shooter = null;
-		for(Entity e: world.loadedEntityList) {
+		for(Entity e: ((ServerWorld)world).getEntities(null, ANY_ENTITY)) {
 			if(e.getUniqueID() == this.shooter) {
 				shooter = e;
 				break;
