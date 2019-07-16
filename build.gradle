@@ -15,7 +15,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "0.0.0.0 - 1.14.3"
+version = "0.0.0.0-1.14.3"
 group = "com.gamebuster19901" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "guncore"
 
@@ -49,7 +49,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                halo {
+                guncore {
                     source sourceSets.main
                 }
             }
@@ -65,7 +65,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                halo {
+                guncore {
                     source sourceSets.main
                 }
             }
@@ -103,7 +103,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "halo",
+            "Specification-Title": "guncore",
             "Specification-Vendor": "examplemodsareus",
             "Specification-Version": "1", // We are version 1 of ourselves
             "Implementation-Title": project.name,
@@ -161,8 +161,6 @@ publishing {
         }
     }
     repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
+        mavenLocal()
     }
 }
