@@ -15,7 +15,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 
-public abstract class GunCoreEntity extends Entity implements EasyLocalization{
+public abstract class GunCoreEntity extends Entity implements EasyLocalization, EntityType.IFactory{
 
 	public GunCoreEntity(EntityType<?> entityTypeIn, World worldIn) {
 		super(entityTypeIn, worldIn);
