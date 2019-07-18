@@ -14,11 +14,9 @@ cache:
     
 before_install: chmod +x gradlew
 
-jobs:
-  include:
-    stage: Build
-    script:
-      - ./gradlew jar --refresh-dependencies
+install:
+  - echo "Running a custom install command"
+  - ./gradlew jar --refresh-dependencies
       
 notifications:
   email:false
