@@ -97,6 +97,7 @@ public final class Projectile implements IProjectile{
 		if(!world.isRemote && projectile != null) {
 			projectile.putString("ownerName", shooter.getName().getString());
 			projectileEntity = (ProjectileEntity)EntityType.func_220335_a(projectile, world, Function.identity());
+			projectileEntity.setPosition(pos.getX(), pos.getY(), pos.getZ());
 			if(projectileEntity != null) {
 				try {
 					projectileEntity.setUniqueId(MathHelper.getRandomUUID((Random)RAND.get(projectileEntity)));
