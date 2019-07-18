@@ -18,7 +18,7 @@ jobs:
   include:
     stage: Build
     script:
-      - ./gradlew build --refresh-dependencies
+      - ./gradlew jar --refresh-dependencies
       
 notifications:
   email:false
