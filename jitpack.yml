@@ -16,7 +16,7 @@ before_install: chmod +x gradlew
 
 install:
   - echo "Running a custom install command"
-  - ./gradlew jar --refresh-dependencies
+  - ./gradlew jar publishToMavenLocal --refresh-dependencies
       
 notifications:
   email:false
