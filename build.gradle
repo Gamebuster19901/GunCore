@@ -1,14 +1,14 @@
 buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-        maven { url "https://files.minecraftforge.net/maven" }
-        maven { url "https://jitpack.io" }   
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
-        classpath group: 'com.github.Gamebuster19901', name: 'LicenseChecker', version: '-SNAPSHOT', changing: true;
-    }
+	repositories {
+		jcenter()
+		mavenCentral()
+		maven { url "https://files.minecraftforge.net/maven" }
+		maven { url "https://jitpack.io" }   
+	}
+	dependencies {
+		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+		classpath group: 'com.github.Gamebuster19901', name: 'LicenseChecker', version: '-SNAPSHOT', changing: true;
+	}
 }
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
@@ -21,128 +21,128 @@ archivesBaseName = "guncore"
 
 sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
+	sourceCompatibility = targetCompatibility = '1.8'
 }
 
 minecraft {
-    // The mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   Snapshot are built nightly.
-    // stable_#            Stables are built at the discretion of the MCP team.
+	// The mappings can be changed at any time, and must be in the following format.
+	// snapshot_YYYYMMDD   Snapshot are built nightly.
+	// stable_#			Stables are built at the discretion of the MCP team.
 
-    // Use non-default mappings at your own risk. they may not always work.
-    // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20190715-1.14.3'
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-    
-    accessTransformer = file('src/main/resources/main/META-INF/accesstransformer.cfg')
+	// Use non-default mappings at your own risk. they may not always work.
+	// Simply re-run your setup task after changing the mappings to update your workspace.
+	mappings channel: 'snapshot', version: '20190715-1.14.3'
+	// makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+	
+	accessTransformer = file('src/main/resources/main/META-INF/accesstransformer.cfg')
 
-    // Default run configurations.
-    // These can be tweaked, removed, or duplicated as needed.
-    runs {
-        client {
-            workingDirectory project.file('run')
+	// Default run configurations.
+	// These can be tweaked, removed, or duplicated as needed.
+	runs {
+		client {
+			workingDirectory project.file('run')
 
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+			// Recommended logging data for a userdev environment
+			property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+			// Recommended logging level for the console
+			property 'forge.logging.console.level', 'debug'
 
-            mods {
-                guncore {
-                    source sourceSets.main
-                }
-            }
-        }
+			mods {
+				guncore {
+					source sourceSets.main
+				}
+			}
+		}
 
-        server {
-            workingDirectory project.file('run')
+		server {
+			workingDirectory project.file('run')
 
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+			// Recommended logging data for a userdev environment
+			property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
+			// Recommended logging level for the console
+			property 'forge.logging.console.level', 'debug'
 
-            mods {
-                guncore {
-                    source sourceSets.main
-                }
-            }
-        }
-    }
+			mods {
+				guncore {
+					source sourceSets.main
+				}
+			}
+		}
+	}
 }
 
 dependencies {
-    // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
-    // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
-    // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.14.3-27.0.51'
+	// Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
+	// that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
+	// The userdev artifact is a special name and will get all sorts of transformations applied to it.
+	minecraft 'net.minecraftforge:forge:1.14.3-27.0.51'
 
-    // You may put jars on which you depend on in ./libs or you may define them like so..
-    // compile "some.group:artifact:version:classifier"
-    // compile "some.group:artifact:version"
+	// You may put jars on which you depend on in ./libs or you may define them like so..
+	// compile "some.group:artifact:version:classifier"
+	// compile "some.group:artifact:version"
 
-    // Real examples
-    // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
+	// Real examples
+	// compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
+	// compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
-    // The 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
-    // provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+	// The 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
+	// provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
 
-    // These dependencies get remapped to your current MCP mappings
-    // deobf 'com.mod-buildcraft:buildcraft:6.0.8:dev'
+	// These dependencies get remapped to your current MCP mappings
+	// deobf 'com.mod-buildcraft:buildcraft:6.0.8:dev'
 
-    // For more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
+	// For more info...
+	// http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
+	// http://www.gradle.org/docs/current/userguide/dependency_management.html
 
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
-    manifest {
-        attributes([
-            "Specification-Title": "guncore",
-            "Specification-Vendor": "examplemodsareus",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"examplemodsareus",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
+	manifest {
+		attributes([
+			"Specification-Title": "guncore",
+			"Specification-Vendor": "examplemodsareus",
+			"Specification-Version": "1", // We are version 1 of ourselves
+			"Implementation-Title": project.name,
+			"Implementation-Version": "${version}",
+			"Implementation-Vendor" :"examplemodsareus",
+			"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+		])
+	}
 }
 
 task checkLicenses(type: JavaExec) {
-    classpath += sourceSets.main.runtimeClasspath
-    classpath += buildscript.configurations.classpath
-    println main = "com.gamebuster19901.license.LicenseChecker"
-    args = ['notBinary', 'silenceSkips', "classes:com.gamebuster19901.license.test.Test"]
+	classpath += sourceSets.main.runtimeClasspath
+	classpath += buildscript.configurations.classpath
+	println main = "com.gamebuster19901.license.LicenseChecker"
+	args = ['notBinary', 'silenceSkips', "classes:com.gamebuster19901.license.test.Test"]
 }
 build.dependsOn checkLicenses
 
 task applyLicenses(type: JavaExec) {
-    classpath += sourceSets.main.runtimeClasspath
-    classpath += buildscript.configurations.classpath
-    println main = "com.gamebuster19901.license.LicenseChecker"
-    args = ['notBinary', 'applyLicenses']
+	classpath += sourceSets.main.runtimeClasspath
+	classpath += buildscript.configurations.classpath
+	println main = "com.gamebuster19901.license.LicenseChecker"
+	args = ['notBinary', 'applyLicenses']
 }
 
 task editLicenses(type:JavaExec) {
-    classpath += sourceSets.main.runtimeClasspath
-    classpath += buildscript.configurations.classpath
-    standardInput = System.in
-    println main = "com.gamebuster19901.license.create.CreateChecker"
-    args = ['notBinary', 'applyLicenses']
+	classpath += sourceSets.main.runtimeClasspath
+	classpath += buildscript.configurations.classpath
+	standardInput = System.in
+	println main = "com.gamebuster19901.license.create.CreateChecker"
+	args = ['notBinary', 'applyLicenses']
 }
 
 task stripLicenses(type:JavaExec){
-    classpath += sourceSets.main.runtimeClasspath
-    classpath += buildscript.configurations.classpath
-    standardInput = System.in
-    println main = "com.gamebuster19901.license.LicenseChecker"
-    args = ['notBinary', 'stripLicenses']
+	classpath += sourceSets.main.runtimeClasspath
+	classpath += buildscript.configurations.classpath
+	standardInput = System.in
+	println main = "com.gamebuster19901.license.LicenseChecker"
+	args = ['notBinary', 'stripLicenses']
 }
 
 // Example configuration to allow publishing using the maven-publish task
@@ -151,16 +151,16 @@ task stripLicenses(type:JavaExec){
 // Note you'll need to add a repository here
 def reobfFile = file("$buildDir/reobfJar/output.jar")
 def reobfArtifact = artifacts.add('default', reobfFile) {
-    type 'jar'
-    builtBy 'reobfJar'
+	type 'jar'
+	builtBy 'reobfJar'
 }
 publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact reobfArtifact
-        }
-    }
-    repositories {
-        mavenLocal()
-    }
+	publications {
+		mavenJava(MavenPublication) {
+			artifact reobfArtifact
+		}
+	}
+	repositories {
+		mavenLocal()
+	}
 }
