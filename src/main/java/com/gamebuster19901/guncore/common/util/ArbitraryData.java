@@ -32,4 +32,14 @@ public class ArbitraryData {
 		return (T)data.get(type);
 	}
 	
+	@Nullable
+	public <T> T getInstanceOf(Class<T> type) {
+		for(Object obj : data.values()) {
+			if(obj.getClass().isAssignableFrom(type)) {
+				return (T)obj;
+			}
+		}
+		return null;
+	}
+	
 }
