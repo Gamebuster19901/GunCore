@@ -178,7 +178,7 @@ public class ShootableDefaultImpl implements Shootable{
 		ArbitraryData event = getUpdateData(data);
 		
 		Entity entity = event.getInstanceOf(Entity.class);
-		Boolean isSelected = event.getInstanceOf(boolean.class);
+		Boolean isSelected = event.getInstanceOf(Boolean.class);
 		
 		if(entity != null) {
 			if(isSelected) {

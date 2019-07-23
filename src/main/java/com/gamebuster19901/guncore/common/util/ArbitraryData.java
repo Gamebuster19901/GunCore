@@ -35,7 +35,7 @@ public class ArbitraryData {
 	@Nullable
 	public <T> T getInstanceOf(Class<T> type) {
 		for(Object obj : data.values()) {
-			if(obj.getClass().isAssignableFrom(type)) {
+			if(type.isInstance(obj)) {
 				return (T)obj;
 			}
 		}
