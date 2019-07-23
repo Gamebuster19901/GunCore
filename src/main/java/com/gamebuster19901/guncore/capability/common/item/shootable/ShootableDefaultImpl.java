@@ -10,8 +10,11 @@ package com.gamebuster19901.guncore.capability.common.item.shootable;
 import java.util.Random;
 
 import com.gamebuster19901.guncore.common.item.NullAmmo;
+import com.gamebuster19901.guncore.common.util.ArbitraryData;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -172,6 +175,27 @@ public class ShootableDefaultImpl implements Shootable{
 
 	@Override
 	public void update(Object... data) {
+		ArbitraryData event = getUpdateData(data);
+		
+		Entity entity = event.get(Entity.class);
+		Boolean isSelected = event.get(boolean.class);
+		
+		if(entity != null) {
+			if(isSelected) {
+				Vec3d motion = entity.getMotion();
+				addBloom((float) MathHelper.clamp(Math.max(Math.abs(motion.getX()), Math.abs(motion.getZ())) * 4, 0, getMaxBloom() / 2));
+				if(!entity.onGround && (entity.getLowestRidingEntity() instanceof PlayerEntity || entity.getLowestRidingEntity() instanceof LivingEntity)) {
+					if(entity instanceof PlayerEntity) {
+						PlayerEntity player = (PlayerEntity) entity;
+						if(!player.isCreative()) {
+							return;
+						}
+					}
+					addBloom(getBloomDecreasePerTick());
+				}
+			}
+		}
+		
 		if(bloom > 0) {
 			bloom = MathHelper.clamp(bloom - bloomD, 0, getMaxBloom());
 		}

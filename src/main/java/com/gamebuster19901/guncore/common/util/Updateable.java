@@ -21,4 +21,12 @@ public interface Updateable {
 	}
 	
 	public void update(Object... data);
+	
+	public default ArbitraryData getUpdateData(Object... data) {
+		return getUpdateDataStatically(data);
+	}
+	
+	public static ArbitraryData getUpdateDataStatically(Object... data){
+		return new ArbitraryData(data);
+	}
 }
