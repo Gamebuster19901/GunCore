@@ -7,22 +7,18 @@
 
 package com.gamebuster19901.guncore.common.util;
 
-import javax.annotation.Nullable;
-
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
-
 public interface Updateable {
 	
-	public default void onTick(WorldTickEvent e) {
-		if(canUpdate(e)) {
-			update(e);
+	public default void onTick(Object... data) {
+		if(canUpdate(data)) {
+			update(data);
 		}
 	}
 	
 	@SuppressWarnings("unused")
-	public default boolean canUpdate(WorldTickEvent e) {
+	public default boolean canUpdate(Object... data) {
 		return true;
 	}
 	
-	public void update(@Nullable WorldTickEvent e);
+	public void update(Object... data);
 }

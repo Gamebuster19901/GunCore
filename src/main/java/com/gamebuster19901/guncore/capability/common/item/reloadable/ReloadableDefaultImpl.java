@@ -16,7 +16,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ReloadableDefaultImpl implements Reloadable{
@@ -132,8 +131,14 @@ public class ReloadableDefaultImpl implements Reloadable{
 		return ammo;
 	}
 	
+	@Deprecated
 	@Override
-	public void update(WorldTickEvent e) {
+	public void onTick(Object... data) {
+		update(data);
+	}
+	
+	@Override
+	public void update(Object... data) {
 		if(getReloadProgress() < getReloadTime()) {
 			reloadProgress++;
 		}

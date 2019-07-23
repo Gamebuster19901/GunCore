@@ -29,7 +29,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class WeaponShootableReloadableImpl implements Weapon, Shootable, Reloadable, Reticle, Overlay{
 	
@@ -261,11 +260,17 @@ public class WeaponShootableReloadableImpl implements Weapon, Shootable, Reloada
 		return weapon.isAutomatic();
 	}
 
+	@Deprecated
 	@Override
-	public void update(WorldTickEvent e) {
-		weapon.update(e);
-		shootable.update(e);
-		reloadable.update(e);
+	public void onTick(Object... data) {
+		update(data);
+	}
+	
+	@Override
+	public void update(Object... data) {
+		weapon.update(data);
+		shootable.update(data);
+		reloadable.update(data);
 	}
 
 	@Override

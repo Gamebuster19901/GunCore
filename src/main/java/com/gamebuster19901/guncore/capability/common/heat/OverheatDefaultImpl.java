@@ -13,7 +13,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class OverheatDefaultImpl implements Overheat{
 
@@ -34,8 +33,14 @@ public class OverheatDefaultImpl implements Overheat{
 		setTempIncrease(tempIncrease);
 	}
 	
+	@Deprecated
 	@Override
-	public void update(WorldTickEvent e) {
+	public void onTick(Object... data) {
+		update(data);
+	}
+	
+	@Override
+	public void update(Object... data) {
 		if(!overheating) {
 			if(getTemp() == getMaxTemp()) {
 				overheat();

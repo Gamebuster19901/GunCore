@@ -46,9 +46,10 @@ public abstract class HeldWeapon extends GunCoreItem{
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		Capability<Weapon> weapon = WeaponDefaultImpl.CAPABILITY;
+		
 		if(isSelected) {
 			if(stack.getCapability(weapon).isPresent()) {
-				stack.getCapability(weapon).orElseThrow(AssertionError::new).update(null);
+				stack.getCapability(weapon).orElseThrow(AssertionError::new).update(stack, worldIn, entityIn, itemSlot, isSelected);
 			}
 		}
 	}

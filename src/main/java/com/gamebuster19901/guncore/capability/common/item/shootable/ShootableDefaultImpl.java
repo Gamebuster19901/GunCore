@@ -18,7 +18,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class ShootableDefaultImpl implements Shootable{
 	@CapabilityInject(Shootable.class)
@@ -167,12 +166,12 @@ public class ShootableDefaultImpl implements Shootable{
 	
 	@Override
 	@Deprecated
-	public void onTick(WorldTickEvent e) {
-		update(e);
+	public void onTick(Object... data) {
+		update(data);
 	}
 
 	@Override
-	public void update(WorldTickEvent e) {
+	public void update(Object... data) {
 		if(bloom > 0) {
 			bloom = MathHelper.clamp(bloom - bloomD, 0, getMaxBloom());
 		}

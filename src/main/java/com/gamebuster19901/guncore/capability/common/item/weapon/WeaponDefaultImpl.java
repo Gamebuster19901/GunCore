@@ -11,8 +11,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class WeaponDefaultImpl implements Weapon{
 	@CapabilityInject(Weapon.class)
@@ -68,15 +66,14 @@ public class WeaponDefaultImpl implements Weapon{
 		this.isAutomatic = isAutomatic;
 	}
 
-	@SubscribeEvent
 	@Deprecated
 	@Override
-	public void onTick(WorldTickEvent e) {
-		update(e);
+	public void onTick(Object... data) {
+		update(data);
 	}
 
 	@Override
-	public void update(WorldTickEvent e) {
+	public void update(Object... data) {
 		if(nextFire > 0) {
 			nextFire--;
 		}

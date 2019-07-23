@@ -23,7 +23,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class WeaponEnergy implements Weapon, Energy, Reticle, Overlay{
 
@@ -84,10 +83,16 @@ public class WeaponEnergy implements Weapon, Energy, Reticle, Overlay{
 		}
 	}
 	
+	@Deprecated
 	@Override
-	public void update(WorldTickEvent e) {
-		weapon.update(e);
-		energy.update(e);
+	public void onTick(Object... data) {
+		update(data);
+	}
+	
+	@Override
+	public void update(Object... data) {
+		weapon.update(data);
+		energy.update(data);
 	}
 
 	@Override

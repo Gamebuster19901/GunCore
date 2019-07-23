@@ -15,7 +15,6 @@ import com.gamebuster19901.guncore.capability.common.item.shootable.Shootable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public class WeaponShootableEnergyOverheatImpl extends WeaponEnergy implements Shootable, Overheat{
 
@@ -61,12 +60,18 @@ public class WeaponShootableEnergyOverheatImpl extends WeaponEnergy implements S
 		}	
 	}
 
+	@Deprecated
 	@Override
-	public void update(WorldTickEvent e) {
-		weapon.update(e);
-		shootable.update(e);
-		energy.update(e);
-		overheat.update(e);
+	public void onTick(Object... data) {
+		update(data);
+	}
+	
+	@Override
+	public void update(Object... data) {
+		weapon.update(data);
+		shootable.update(data);
+		energy.update(data);
+		overheat.update(data);
 	}
 
 	@Override
