@@ -34,16 +34,28 @@ import com.gamebuster19901.guncore.capability.common.item.shootable.ShootableSto
 import com.gamebuster19901.guncore.capability.common.item.weapon.Weapon;
 import com.gamebuster19901.guncore.capability.common.item.weapon.WeaponFactory;
 import com.gamebuster19901.guncore.capability.common.item.weapon.WeaponStorage;
+import com.gamebuster19901.guncore.capability.common.stickable.Stickable;
+import com.gamebuster19901.guncore.capability.common.stickable.StickableDefaultProvider;
+import com.gamebuster19901.guncore.capability.common.stickable.StickableFactory;
+import com.gamebuster19901.guncore.capability.common.stickable.StickableStorage;
+import com.gamebuster19901.guncore.capability.common.sticky.Sticky;
+import com.gamebuster19901.guncore.capability.common.sticky.StickyDefaultProvider;
+import com.gamebuster19901.guncore.capability.common.sticky.StickyFactory;
+import com.gamebuster19901.guncore.capability.common.sticky.StickyStorage;
+import com.gamebuster19901.guncore.common.entity.StickyProjectile;
 import com.gamebuster19901.guncore.common.item.abstracts.Ammo;
 import com.gamebuster19901.guncore.common.item.abstracts.Projectile;
+import com.gamebuster19901.guncore.common.util.EasyLocalization;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.SoundEvent;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -71,6 +83,8 @@ public abstract class Proxy {
 		CapabilityManager.INSTANCE.register(ShooterOwner.class, new ShooterOwnerStorage(), new ShooterOwnerFactory());
 		CapabilityManager.INSTANCE.register(Reticle.class, new ReticleStorage(), new ReticleFactory());
 		CapabilityManager.INSTANCE.register(Overlay.class, new OverlayStorage(), new OverlayFactory());
+		CapabilityManager.INSTANCE.register(Stickable.class, new StickableStorage(), new StickableFactory());
+		CapabilityManager.INSTANCE.register(Sticky.class, new StickyStorage(), new StickyFactory());
 		CapabilityManager.INSTANCE.register(Energy.class, new EnergyStorage(), new EnergyFactory());
 		CapabilityManager.INSTANCE.register(Overheat.class, new OverheatStorage(), new OverheatFactory());
 	}
@@ -105,6 +119,17 @@ public abstract class Proxy {
 	@SubscribeEvent
 	public void registerSounds(RegistryEvent.Register<SoundEvent> e) {
 		
+	}
+	
+	@SubscribeEvent
+	public void attachEntityCapabilities(AttachCapabilitiesEvent<Entity> e) {
+		e.addCapability(EasyLocalization.getResourceLocation("guncore", Stickable.class), new StickableDefaultProvider());
+		
+		Entity entity = e.getObject();
+		
+		if(entity instanceof StickyProjectile || entity instanceof ArrowEntity) {
+			e.addCapability(EasyLocalization.getResourceLocation("guncore", Sticky.class), new StickyDefaultProvider());
+		}
 	}
 	
 }
