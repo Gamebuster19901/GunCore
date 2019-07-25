@@ -60,7 +60,6 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 		if(this.world != null && !this.removed) {
 			if(this.ticksExisted == 1) {
 				this.world.playSound(posX, posY, posZ, getShootingSound(), SoundCategory.NEUTRAL, 1f, getNextSoundPitch(), false);
-				//this.world.spawnAlwaysVisibleParticle(p_190523_1_, p_190523_2_, p_190523_4_, p_190523_6_, p_190523_8_, p_190523_10_, p_190523_12_, p_190523_14_);
 			}
 			else if(this.ticksExisted > 120 || this.ticksExisted < 1) {
 				this.remove();

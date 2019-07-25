@@ -11,26 +11,31 @@ import javax.annotation.Nullable;
 
 import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.capability.common.stickable.Stickable;
+import com.gamebuster19901.guncore.capability.common.stickable.StickableDefaultImpl;
 
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class StickyDefaultImpl implements Sticky{
 
 	@CapabilityInject(Sticky.class)
 	public static Capability<Sticky> CAPABILITY = null;
-	/**
-	 * Do not serialize/deserialize this! The object that this is sticking to should
-	 * call stick(this) to set this when it is desrializing avoid a stackoverflow
-	 */
-	private transient Object stuckTo;
+	
+	private Entity stuckTo;
+	
+	private Entity entity;
 	
 	@Override
-	public boolean canStick(Object o) {
-		if(o instanceof Stickable) {
-			if (((Stickable) o).canBeStuckBy(this)){
-				stuckTo = o;
+	public boolean canStick(Entity e) {
+		if(e.getCapability(StickableDefaultImpl.CAPABILITY).isPresent()) {
+			Stickable stickable = e.getCapability(StickableDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
+			if (stickable.canBeStuckBy(this)){
+				stuckTo = e;
 				return true;
 			}
 		}
@@ -38,10 +43,11 @@ public class StickyDefaultImpl implements Sticky{
 	}
 
 	@Override
-	public boolean stick(Object o) {
-		if(o instanceof Stickable) {
-			if(((Stickable) o).stick(this)) {
-				stuckTo = o;
+	public boolean stick(Entity e) {
+		if(e.getCapability(StickableDefaultImpl.CAPABILITY).isPresent()) {
+			Stickable stickable = e.getCapability(StickableDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
+			if(stickable.stick(this)) {
+				stuckTo = e;
 				return true;
 			}
 		}
@@ -49,9 +55,9 @@ public class StickyDefaultImpl implements Sticky{
 	}
 
 	@Override
-	public void unStick(Object o) {
-		if(stuckTo != o) {
-			Main.LOGGER.warn("Unstuck from wrong object " + o + " was actually stuck to " + stuckTo);
+	public void unStick(Entity e) {
+		if(stuckTo != e) {
+			Main.LOGGER.warn("Unstuck from wrong object " + e + " was actually stuck to " + stuckTo);
 			if(stuckTo instanceof Stickable) {
 				((Stickable) stuckTo).unStick(this);
 			}
@@ -69,8 +75,19 @@ public class StickyDefaultImpl implements Sticky{
 	
 	@Override
 	@Nullable
-	public Object getObjectStuckTo() {
+	public Entity getObjectStuckTo() {
 		return stuckTo;
+	}
+	
+
+	@Override
+	public Entity getStickyEntity() {
+		return entity;
+	}
+	
+	@Override
+	public void setEntity(Entity e) {
+		entity = e;
 	}
 
 	@Override
@@ -78,13 +95,21 @@ public class StickyDefaultImpl implements Sticky{
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public CompoundNBT serializeNBT() {
-		return new CompoundNBT();
+	
+	@SubscribeEvent
+	public static void onProjectileImpact(ProjectileImpactEvent e) {
+		Entity projectile = e.getEntity();
+		if(projectile.getCapability(CAPABILITY).isPresent()) {
+			Sticky sticky = projectile.getCapability(CAPABILITY).orElseThrow(AssertionError::new);
+			RayTraceResult rayTrace = e.getRayTraceResult();
+		    RayTraceResult.Type type = rayTrace.getType();
+		    if (type == RayTraceResult.Type.ENTITY) {
+		    	Entity entity = ((EntityRayTraceResult)rayTrace).getEntity();
+		    	if(sticky.canStick(entity)) {
+		    		sticky.stick(entity);
+		    	}
+		    }
+		}
 	}
-
-	@Override
-	public void deserializeNBT(CompoundNBT nbt) {}
-
+	
 }

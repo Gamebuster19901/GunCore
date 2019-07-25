@@ -39,6 +39,7 @@ import com.gamebuster19901.guncore.capability.common.stickable.StickableDefaultP
 import com.gamebuster19901.guncore.capability.common.stickable.StickableFactory;
 import com.gamebuster19901.guncore.capability.common.stickable.StickableStorage;
 import com.gamebuster19901.guncore.capability.common.sticky.Sticky;
+import com.gamebuster19901.guncore.capability.common.sticky.StickyDefaultImpl;
 import com.gamebuster19901.guncore.capability.common.sticky.StickyDefaultProvider;
 import com.gamebuster19901.guncore.capability.common.sticky.StickyFactory;
 import com.gamebuster19901.guncore.capability.common.sticky.StickyStorage;
@@ -49,6 +50,8 @@ import com.gamebuster19901.guncore.common.util.EasyLocalization;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.SoundEvent;
@@ -77,6 +80,7 @@ public abstract class Proxy {
 	public void setup(FMLCommonSetupEvent e) {
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(Projectile.class);
+		MinecraftForge.EVENT_BUS.register(StickyDefaultImpl.class);
 		CapabilityManager.INSTANCE.register(Weapon.class, new WeaponStorage(), new WeaponFactory());
 		CapabilityManager.INSTANCE.register(Shootable.class, new ShootableStorage(), new ShootableFactory());
 		CapabilityManager.INSTANCE.register(Reloadable.class,  new ReloadableStorage(),  new ReloadableFactory());
@@ -123,12 +127,13 @@ public abstract class Proxy {
 	
 	@SubscribeEvent
 	public void attachEntityCapabilities(AttachCapabilitiesEvent<Entity> e) {
-		e.addCapability(EasyLocalization.getResourceLocation("guncore", Stickable.class), new StickableDefaultProvider());
-		
 		Entity entity = e.getObject();
+		if(entity instanceof LivingEntity || entity instanceof PlayerEntity) {
+			e.addCapability(EasyLocalization.getResourceLocation("guncore", Stickable.class), new StickableDefaultProvider(entity));
+		}
 		
 		if(entity instanceof StickyProjectile || entity instanceof ArrowEntity) {
-			e.addCapability(EasyLocalization.getResourceLocation("guncore", Sticky.class), new StickyDefaultProvider());
+			e.addCapability(EasyLocalization.getResourceLocation("guncore", Sticky.class), new StickyDefaultProvider(entity));
 		}
 	}
 	

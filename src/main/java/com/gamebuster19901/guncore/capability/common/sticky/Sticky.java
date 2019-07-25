@@ -9,19 +9,22 @@ package com.gamebuster19901.guncore.capability.common.sticky;
 
 import com.gamebuster19901.guncore.common.util.Updateable;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraft.entity.Entity;
 
-public interface Sticky extends Updateable, INBTSerializable<CompoundNBT>{
+public interface Sticky extends Updateable{
 
-	public boolean canStick(Object o);
+	public boolean canStick(Entity e);
 	
-	public boolean stick(Object o);
+	public boolean stick(Entity e);
 	
-	public void unStick(Object o);
+	public void unStick(Entity e);
 	
 	public void unStick();
 	
-	public Object getObjectStuckTo();
+	public Entity getObjectStuckTo();
+	
+	public Entity getStickyEntity();
+
+	public void setEntity(Entity o);
 	
 }

@@ -7,17 +7,21 @@
 
 package com.gamebuster19901.guncore.capability.common.stickable;
 
-import org.apache.logging.log4j.Level;
+import java.util.function.Function;
 
 import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.capability.common.sticky.Sticky;
+import com.gamebuster19901.guncore.capability.common.sticky.StickyDefaultImpl;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
+
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
@@ -27,6 +31,7 @@ public class StickableDefaultImpl implements Stickable{
 	public static Capability<Stickable> CAPABILITY;
 	
 	private Multimap<Class<? extends Sticky>, Sticky> sticks = HashMultimap.create();
+	private Entity entity;
 
 	@Override
 	public boolean canBeStuckBy(Sticky sticky) {
@@ -61,23 +66,14 @@ public class StickableDefaultImpl implements Stickable{
 		
 	}
 
-	//TODO: Figure out a better way to do this, perhaps look at how riding entities are saved?
 	@Override
 	public CompoundNBT serializeNBT() {
 		CompoundNBT nbt = new CompoundNBT();
-		
 		ListNBT sticks = new ListNBT();
-		for(Class<? extends Sticky> stickyType : this.sticks.keySet()) {
-			ListNBT list = new ListNBT();
-			list.add(new StringNBT(stickyType.getCanonicalName()));
-			for(Sticky sticky : this.sticks.get(stickyType)) {
-				list.add(sticky.serializeNBT());
-			}
-			sticks.add(list);
+		for(Sticky sticky : this.sticks.values()) {
+			sticks.add(sticky.getStickyEntity().serializeNBT());
 		}
-		
 		nbt.put("sticks", sticks);
-		
 		return nbt;
 	}
 
@@ -85,26 +81,27 @@ public class StickableDefaultImpl implements Stickable{
 	public void deserializeNBT(CompoundNBT nbt) {
 		ListNBT sticks = nbt.getList("sticks", 9);
 		for(int i = 0; i < sticks.size(); i++) {
-			int j = 0;
-			ListNBT list = sticks.getList(i);
-			Class<? extends Sticky> stickyType;
-			
-			try {
-				stickyType = (Class<? extends Sticky>) Class.forName(list.getString(j++));
-				Sticky sticky = stickyType.newInstance();
-				if(!sticky.stick(this)) {
-					Main.LOGGER.warn("Could not stick sticky " + sticky + " to " + this + " even though it was serialized as such!");
+			Entity e = EntityType.func_220335_a(sticks.getCompound(i), this.getEntity().world, Function.identity());
+			if(e.getCapability(StickyDefaultImpl.CAPABILITY).isPresent()) {
+				Sticky sticky = e.getCapability(StickyDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
+				if(!(sticky.canStick(getEntity()) || sticky.stick(getEntity()))) {
+					Main.LOGGER.warn("Couldn't stick " + sticky.getStickyEntity() + " to " + getEntity() + " even though it was serialized that way!");
 				}
-			} catch (ClassNotFoundException e) {
-				Main.LOGGER.catching(Level.ERROR, e);
-				Main.LOGGER.error("Perhaps a mod was removed?");
-				continue;
-			} catch (ClassCastException | InstantiationException | IllegalAccessException e) {
-				ClassFormatError formatError = new ClassFormatError();
-				formatError.initCause(e);
-				throw formatError;
+			}
+			else {
+				Main.LOGGER.warn(e + " isn't stickable, even though it was serialized as such!");
 			}
 		}
+	}
+
+	@Override
+	public Entity getEntity() {
+		return entity;
+	}
+
+	@Override
+	public void setEntity(Entity e) {
+		entity = e;
 	}
 
 }
