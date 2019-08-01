@@ -10,6 +10,7 @@ package com.gamebuster19901.guncore.proxy;
 import java.util.HashSet;
 import java.util.function.Consumer;
 
+import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.capability.client.item.overlay.Overlay;
 import com.gamebuster19901.guncore.capability.client.item.overlay.OverlayFactory;
 import com.gamebuster19901.guncore.capability.client.item.overlay.OverlayStorage;
@@ -47,6 +48,7 @@ import com.gamebuster19901.guncore.common.entity.StickyProjectile;
 import com.gamebuster19901.guncore.common.item.abstracts.Ammo;
 import com.gamebuster19901.guncore.common.item.abstracts.Projectile;
 import com.gamebuster19901.guncore.common.util.EasyLocalization;
+import com.gamebuster19901.guncore.test.Test;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -91,6 +93,10 @@ public abstract class Proxy {
 		CapabilityManager.INSTANCE.register(Sticky.class, new StickyStorage(), new StickyFactory());
 		CapabilityManager.INSTANCE.register(Energy.class, new EnergyStorage(), new EnergyFactory());
 		CapabilityManager.INSTANCE.register(Overheat.class, new OverheatStorage(), new OverheatFactory());
+		
+		for(Test t : Main.getTests()) {
+			MinecraftForge.EVENT_BUS.register(t);
+		}
 	}
 	
 	protected static IEventBus getBus() {
