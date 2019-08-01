@@ -7,13 +7,16 @@
 
 package com.gamebuster19901.guncore.capability.common.stickable;
 
+import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.capability.common.sticky.Sticky;
 import com.gamebuster19901.guncore.common.util.Updateable;
+
 import com.google.common.collect.ImmutableMultimap;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.common.util.LazyOptional;
 
 public interface Stickable extends Updateable, INBTSerializable<CompoundNBT>{
 
@@ -22,6 +25,14 @@ public interface Stickable extends Updateable, INBTSerializable<CompoundNBT>{
 	public boolean canBeStuckBy(Class<? extends Sticky> stickyType);
 	
 	public default boolean stick(Sticky sticky) {
+		LazyOptional<Stickable> optional = sticky.getStickyEntity().getCapability(StickableDefaultImpl.CAPABILITY);
+		if(optional.isPresent()) {
+			Stickable stickable = optional.orElseThrow(AssertionError::new);
+			if(stickable.contains(this)) {
+				Main.LOGGER.warn("Stopped recursive sticking of " + this);
+				return false;
+			}
+		}
 		return stick(sticky.getClass(), sticky);
 	}
 	
@@ -64,5 +75,16 @@ public interface Stickable extends Updateable, INBTSerializable<CompoundNBT>{
 	public Entity getEntity();
 
 	public void setEntity(Entity e);
+	
+	public default boolean contains(Stickable other) {
+		for(Sticky sticky : getAllStickies().values()) {
+			LazyOptional<Stickable> optional = sticky.getStickyEntity().getCapability(StickableDefaultImpl.CAPABILITY);
+			if(optional.isPresent()) {
+				Stickable stickable = optional.orElseThrow(AssertionError::new);
+				return stickable == other || stickable.contains(other);
+			}
+		}
+		return false;
+	}
 	
 }
