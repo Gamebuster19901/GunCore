@@ -5,10 +5,10 @@
  * 
  */
 
-package com.gamebuster19901.guncore.capability.common.stickable;
+package com.gamebuster19901.guncore.capability.common.entity.stickable;
 
 import com.gamebuster19901.guncore.Main;
-import com.gamebuster19901.guncore.capability.common.sticky.Sticky;
+import com.gamebuster19901.guncore.capability.common.entity.sticky.Sticky;
 import com.gamebuster19901.guncore.common.util.Updateable;
 
 import com.google.common.collect.ImmutableMultimap;

@@ -5,13 +5,13 @@
  * 
  */
 
-package com.gamebuster19901.guncore.capability.common.sticky;
+package com.gamebuster19901.guncore.capability.common.entity.sticky;
 
 import javax.annotation.Nullable;
 
 import com.gamebuster19901.guncore.Main;
-import com.gamebuster19901.guncore.capability.common.stickable.Stickable;
-import com.gamebuster19901.guncore.capability.common.stickable.StickableDefaultImpl;
+import com.gamebuster19901.guncore.capability.common.entity.stickable.Stickable;
+import com.gamebuster19901.guncore.capability.common.entity.stickable.StickableDefaultImpl;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.EntityRayTraceResult;

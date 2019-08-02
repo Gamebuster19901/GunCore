@@ -5,7 +5,7 @@
  * 
  */
 
-package com.gamebuster19901.guncore.capability.common.stickable;
+package com.gamebuster19901.guncore.capability.common.entity.stickable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Direction;

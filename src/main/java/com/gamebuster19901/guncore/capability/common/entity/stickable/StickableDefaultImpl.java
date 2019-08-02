@@ -5,14 +5,13 @@
  * 
  */
 
-package com.gamebuster19901.guncore.capability.common.stickable;
+package com.gamebuster19901.guncore.capability.common.entity.stickable;
 
 import java.util.function.Function;
 
 import com.gamebuster19901.guncore.Main;
-import com.gamebuster19901.guncore.capability.common.sticky.Sticky;
-import com.gamebuster19901.guncore.capability.common.sticky.StickyDefaultImpl;
-
+import com.gamebuster19901.guncore.capability.common.entity.sticky.Sticky;
+import com.gamebuster19901.guncore.capability.common.entity.sticky.StickyDefaultImpl;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;

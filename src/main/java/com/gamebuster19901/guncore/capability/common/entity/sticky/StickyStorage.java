@@ -5,7 +5,7 @@
  * 
  */
 
-package com.gamebuster19901.guncore.capability.common.sticky;
+package com.gamebuster19901.guncore.capability.common.entity.sticky;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
