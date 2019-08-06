@@ -35,7 +35,7 @@ import net.minecraft.util.math.RayTraceResult;
 import static net.minecraft.util.math.RayTraceResult.Type.*;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.ServerWorld;
+import net.minecraft.world.server.ServerWorld;
 
 public abstract class ProjectileEntity extends GunCoreEntity implements ShooterOwner, EasyLocalization{
 	
