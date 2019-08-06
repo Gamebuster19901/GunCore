@@ -15,7 +15,7 @@ import com.gamebuster19901.guncore.common.util.EasyLocalization;
 import net.minecraft.util.ResourceLocation;
 
 /**
- * Tests are chosen to be loaded at runtime using the environemnt variable "guncore:test"
+ * Tests are chosen to be loaded at runtime using the environment variable "guncore:test"
  * 
  * Tests are to be loaded using the resource location format, as such, any subclass of Test
  * must be named to comply with the java language specification AND the resource location
@@ -62,7 +62,7 @@ public abstract class Test implements EasyLocalization{
 	
 	private static Class<? extends Test> toClass(String locationString) throws ClassNotFoundException, NoClassDefFoundError, ClassCastException{
 		ResourceLocation location = new ResourceLocation(locationString);
-		return (Class<? extends Test>) Class.forName("com.gamebuster19901.guncore.test." + location.getPath());
+		return (Class<? extends Test>) Class.forName(Test.class.getPackage().getName() + "." + location.getPath());
 	}
 	
 }

@@ -8,11 +8,11 @@
 package com.gamebuster19901.guncore.test;
 
 import com.gamebuster19901.guncore.Main;
-import com.gamebuster19901.guncore.capability.common.stickable.Stickable;
-import com.gamebuster19901.guncore.capability.common.stickable.StickableDefaultProvider;
-import com.gamebuster19901.guncore.capability.common.sticky.Sticky;
-import com.gamebuster19901.guncore.capability.common.sticky.StickyDefaultImpl;
-import com.gamebuster19901.guncore.capability.common.sticky.StickyDefaultProvider;
+import com.gamebuster19901.guncore.capability.common.entity.stickable.Stickable;
+import com.gamebuster19901.guncore.capability.common.entity.stickable.StickableDefaultProvider;
+import com.gamebuster19901.guncore.capability.common.entity.sticky.Sticky;
+import com.gamebuster19901.guncore.capability.common.entity.sticky.StickyDefaultImpl;
+import com.gamebuster19901.guncore.capability.common.entity.sticky.StickyDefaultProvider;
 import com.gamebuster19901.guncore.common.entity.StickyProjectile;
 import com.gamebuster19901.guncore.common.util.EasyLocalization;
 
@@ -49,7 +49,7 @@ public class recursive_sticky_test extends Test{
 			damager = source.getImmediateSource();
 		}
 		if(damaged != null && damager != null) {
-			Sticky sticky = damager.getCapability(StickyDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);;
+			Sticky sticky = damager.getCapability(StickyDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
 	    	if(sticky.canStick(damaged)) {
 	    		Main.LOGGER.info(sticky.stick(damaged));
 	    	}
