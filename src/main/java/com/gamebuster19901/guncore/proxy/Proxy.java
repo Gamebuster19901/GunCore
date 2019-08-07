@@ -44,6 +44,9 @@ import com.gamebuster19901.guncore.capability.common.item.shootable.ShootableSto
 import com.gamebuster19901.guncore.capability.common.item.weapon.Weapon;
 import com.gamebuster19901.guncore.capability.common.item.weapon.WeaponFactory;
 import com.gamebuster19901.guncore.capability.common.item.weapon.WeaponStorage;
+import com.gamebuster19901.guncore.capability.common.tracker.Tracker;
+import com.gamebuster19901.guncore.capability.common.tracker.TrackerFactory;
+import com.gamebuster19901.guncore.capability.common.tracker.TrackerStorage;
 import com.gamebuster19901.guncore.common.entity.StickyProjectile;
 import com.gamebuster19901.guncore.common.item.abstracts.Ammo;
 import com.gamebuster19901.guncore.common.item.abstracts.Projectile;
@@ -93,6 +96,7 @@ public abstract class Proxy {
 		CapabilityManager.INSTANCE.register(Sticky.class, new StickyStorage(), new StickyFactory());
 		CapabilityManager.INSTANCE.register(Energy.class, new EnergyStorage(), new EnergyFactory());
 		CapabilityManager.INSTANCE.register(Overheat.class, new OverheatStorage(), new OverheatFactory());
+		CapabilityManager.INSTANCE.register(Tracker.class, new TrackerStorage(), new TrackerFactory());
 		
 		for(Test t : Main.getTests()) {
 			MinecraftForge.EVENT_BUS.register(t);
