@@ -7,26 +7,24 @@
 
 package com.gamebuster19901.guncore.test;
 
-import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.capability.common.entity.stickable.Stickable;
 import com.gamebuster19901.guncore.capability.common.entity.stickable.StickableDefaultProvider;
 import com.gamebuster19901.guncore.capability.common.entity.sticky.Sticky;
-import com.gamebuster19901.guncore.capability.common.entity.sticky.StickyDefaultImpl;
 import com.gamebuster19901.guncore.capability.common.entity.sticky.StickyDefaultProvider;
 import com.gamebuster19901.guncore.common.entity.StickyProjectile;
 import com.gamebuster19901.guncore.common.util.EasyLocalization;
+import com.gamebuster19901.guncore.test.command.StickCommand;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
 @SuppressWarnings("all")
-public class recursive_sticky_test extends Test{
+public class sticky_test extends Test{
 
 	@SubscribeEvent
 	public void attachEntityCapabilities(AttachCapabilitiesEvent<Entity> e) {
@@ -41,19 +39,8 @@ public class recursive_sticky_test extends Test{
 	}
 	
 	@SubscribeEvent
-	public void onDamage(LivingAttackEvent e) {
-		DamageSource source = e.getSource();
-		Entity damaged = e.getEntity();
-		Entity damager = source.getTrueSource();
-		if(damager == null) {
-			damager = source.getImmediateSource();
-		}
-		if(damaged != null && damager != null) {
-			Sticky sticky = damager.getCapability(StickyDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
-	    	if(sticky.canStick(damaged)) {
-	    		Main.LOGGER.info(sticky.stick(damaged));
-	    	}
-		}
+	public void onServerStart(FMLServerStartingEvent e) {
+		StickCommand.register(e.getCommandDispatcher());
 	}
 
 	@Override
