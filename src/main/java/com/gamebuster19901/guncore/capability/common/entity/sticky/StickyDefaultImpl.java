@@ -59,7 +59,7 @@ public class StickyDefaultImpl implements Sticky{
 		if(stuckTo != e) {
 			Main.LOGGER.warn("Unstuck from wrong object " + e + " was actually stuck to " + stuckTo);
 			if(stuckTo instanceof Stickable) {
-				((Stickable) stuckTo).unStick(this);
+				((Stickable) stuckTo).unStick(this, true);
 			}
 		}
 		stuckTo = null;
@@ -68,7 +68,7 @@ public class StickyDefaultImpl implements Sticky{
 	@Override
 	public void unStick() {
 		if(stuckTo instanceof Stickable) {
-			((Stickable) stuckTo).unStick(this);
+			((Stickable) stuckTo).unStick(this, true);
 		}
 		stuckTo = null;
 	}

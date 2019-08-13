@@ -51,6 +51,7 @@ import com.gamebuster19901.guncore.common.entity.StickyProjectile;
 import com.gamebuster19901.guncore.common.item.abstracts.Ammo;
 import com.gamebuster19901.guncore.common.item.abstracts.Projectile;
 import com.gamebuster19901.guncore.common.util.EasyLocalization;
+import com.gamebuster19901.guncore.network.Network;
 import com.gamebuster19901.guncore.test.Test;
 
 import net.minecraft.entity.Entity;
@@ -97,6 +98,8 @@ public abstract class Proxy {
 		CapabilityManager.INSTANCE.register(Energy.class, new EnergyStorage(), new EnergyFactory());
 		CapabilityManager.INSTANCE.register(Overheat.class, new OverheatStorage(), new OverheatFactory());
 		CapabilityManager.INSTANCE.register(Tracker.class, new TrackerStorage(), new TrackerFactory());
+		
+		Network.register();
 		
 		for(Test t : Main.getTests()) {
 			MinecraftForge.EVENT_BUS.register(t);

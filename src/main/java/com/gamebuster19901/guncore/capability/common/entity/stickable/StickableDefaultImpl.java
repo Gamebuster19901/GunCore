@@ -7,25 +7,30 @@
 
 package com.gamebuster19901.guncore.capability.common.entity.stickable;
 
-import java.util.function.Function;
-
 import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.capability.common.entity.sticky.Sticky;
 import com.gamebuster19901.guncore.capability.common.entity.sticky.StickyDefaultImpl;
+import com.gamebuster19901.guncore.network.packet.server.UpdateStickable;
+
+import static com.gamebuster19901.guncore.network.Network.CHANNEL;
+
+import org.apache.logging.log4j.Level;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.IntNBT;
 import net.minecraft.nbt.ListNBT;
 
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 public class StickableDefaultImpl implements Stickable{
-
+	
 	@CapabilityInject(Stickable.class)
 	public static Capability<Stickable> CAPABILITY;
 	
@@ -44,14 +49,22 @@ public class StickableDefaultImpl implements Stickable{
 
 	@Override
 	@Deprecated
-	public boolean stick(Class<? extends Sticky> stickyType, Sticky sticky) {
-		return sticks.put(stickyType, sticky);
+	public boolean stick(Class<? extends Sticky> stickyType, Sticky sticky, boolean markDirty) {
+		boolean stuck = sticks.put(stickyType, sticky);
+		if(stuck) {
+			update();
+		}
+		return stuck;
 	}
 
 	@Override
 	@Deprecated
-	public boolean unStick(Class<? extends Sticky> stickyType, Sticky sticky) {
-		return sticks.remove(stickyType, sticky);
+	public boolean unStick(Class<? extends Sticky> stickyType, Sticky sticky, boolean markDirty) {
+		boolean unstuck = sticks.remove(stickyType, sticky);
+		if(unstuck) {
+			update();
+		}
+		return unstuck;
 	}
 
 	@Override
@@ -61,8 +74,9 @@ public class StickableDefaultImpl implements Stickable{
 
 	@Override
 	public void update(Object... data) {
-		// TODO Auto-generated method stub
-		
+		if(entity != null && !entity.getEntityWorld().isRemote) {
+			CHANNEL.send(PacketDistributor.ALL.noArg(), new UpdateStickable(this));
+		}
 	}
 
 	@Override
@@ -70,7 +84,7 @@ public class StickableDefaultImpl implements Stickable{
 		CompoundNBT nbt = new CompoundNBT();
 		ListNBT sticks = new ListNBT();
 		for(Sticky sticky : this.sticks.values()) {
-			sticks.add(sticky.getStickyEntity().serializeNBT());
+			sticks.add(new IntNBT(sticky.getStickyEntity().getEntityId()));
 		}
 		nbt.put("sticks", sticks);
 		return nbt;
@@ -78,9 +92,11 @@ public class StickableDefaultImpl implements Stickable{
 
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
-		ListNBT sticks = nbt.getList("sticks", 9);
+		clear();
+		ListNBT sticks = nbt.getList("sticks", 3);
 		for(int i = 0; i < sticks.size(); i++) {
-			Entity e = EntityType.func_220335_a(sticks.getCompound(i), this.getEntity().world, Function.identity());
+			Entity e = this.getEntity().world.getEntityByID(sticks.getInt(i));
+			Main.LOGGER.log(Level.WARN, e.getDisplayName());
 			if(e.getCapability(StickyDefaultImpl.CAPABILITY).isPresent()) {
 				Sticky sticky = e.getCapability(StickyDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
 				if(!(sticky.canStick(getEntity()) || sticky.stick(getEntity()))) {
@@ -101,6 +117,11 @@ public class StickableDefaultImpl implements Stickable{
 	@Override
 	public void setEntity(Entity e) {
 		entity = e;
+	}
+
+	@Override
+	public void clear() {
+		sticks = HashMultimap.create();
 	}
 
 }
