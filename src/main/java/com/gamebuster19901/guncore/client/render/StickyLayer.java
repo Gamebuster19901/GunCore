@@ -42,7 +42,7 @@ public class StickyLayer <T extends LivingEntity, M extends EntityModel<T>> exte
 			ImmutableMultimap<Class<? extends Sticky>, Sticky> stickies = stickable.getAllStickies();
 			for(Sticky sticky : stickies.values()) {
 				Entity entity = (Entity) sticky.getStickyEntity();
-				Random random = new Random(sticky.getStickyEntity().getEntityId());
+				Random random = new Random(sticky.getStickyEntity().getUniqueID().getMostSignificantBits());
 				
 				GlStateManager.pushMatrix();
 				RendererModel rendererModel = this.getEntityModel().getRandomModelBox(random);
