@@ -7,6 +7,7 @@
 
 package com.gamebuster19901.guncore.capability.common.entity.sticky;
 
+import com.gamebuster19901.guncore.capability.common.entity.stickable.Stickable;
 import com.gamebuster19901.guncore.common.util.Updateable;
 
 import net.minecraft.entity.Entity;
@@ -17,11 +18,9 @@ public interface Sticky extends Updateable{
 	
 	public boolean stick(Entity e);
 	
-	public void unStick(Entity e);
+	public void unStick(boolean origin);
 	
-	public void unStick();
-	
-	public Entity getObjectStuckTo();
+	public Stickable getObjectStuckTo();
 	
 	public Entity getStickyEntity();
 

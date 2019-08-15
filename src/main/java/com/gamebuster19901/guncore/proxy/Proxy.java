@@ -24,6 +24,7 @@ import com.gamebuster19901.guncore.capability.common.entity.shooterOwner.Shooter
 import com.gamebuster19901.guncore.capability.common.entity.shooterOwner.ShooterOwnerFactory;
 import com.gamebuster19901.guncore.capability.common.entity.shooterOwner.ShooterOwnerStorage;
 import com.gamebuster19901.guncore.capability.common.entity.stickable.Stickable;
+import com.gamebuster19901.guncore.capability.common.entity.stickable.StickableDefaultImpl;
 import com.gamebuster19901.guncore.capability.common.entity.stickable.StickableDefaultProvider;
 import com.gamebuster19901.guncore.capability.common.entity.stickable.StickableFactory;
 import com.gamebuster19901.guncore.capability.common.entity.stickable.StickableStorage;
@@ -64,8 +65,11 @@ import net.minecraft.util.SoundEvent;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -147,6 +151,43 @@ public abstract class Proxy {
 		
 		if(entity instanceof StickyProjectile || entity instanceof ArrowEntity) {
 			e.addCapability(EasyLocalization.getResourceLocation("guncore", Sticky.class), new StickyDefaultProvider(entity));
+		}
+	}
+	
+	@SubscribeEvent
+	public void onStartTracking(PlayerEvent.StartTracking e) {
+		Entity target = e.getTarget();
+		if(!target.world.isRemote) {
+			if(target.isAlive()) {
+				LazyOptional<Sticky> stickyCapability = target.getCapability(StickyDefaultImpl.CAPABILITY);
+				LazyOptional<Stickable> stickableCapability = target.getCapability(StickableDefaultImpl.CAPABILITY);
+				if(stickyCapability.isPresent()) {
+					Sticky sticky = stickyCapability.orElseThrow(AssertionError::new);
+					sticky.update();
+				}
+				if(stickableCapability.isPresent()) {
+					Stickable stickable = stickableCapability.orElseThrow(AssertionError::new);
+					stickable.update();
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onDeath(LivingDeathEvent e) {
+		Entity entity = e.getEntity();
+		if(!entity.world.isRemote) {
+			LazyOptional<Sticky> stickyCapability = entity.getCapability(StickyDefaultImpl.CAPABILITY);
+			LazyOptional<Stickable> stickableCapability = entity.getCapability(StickableDefaultImpl.CAPABILITY);
+			
+			if(stickyCapability.isPresent()) {
+				Sticky sticky = stickyCapability.orElseThrow(AssertionError::new);
+				sticky.unStick(true);
+			}
+			if(stickableCapability.isPresent()) {
+				Stickable stickable = stickableCapability.orElseThrow(AssertionError::new);
+				stickable.unStick();
+			}
 		}
 	}
 	

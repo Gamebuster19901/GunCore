@@ -9,7 +9,6 @@ package com.gamebuster19901.guncore.capability.common.entity.sticky;
 
 import javax.annotation.Nullable;
 
-import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.capability.common.entity.stickable.Stickable;
 import com.gamebuster19901.guncore.capability.common.entity.stickable.StickableDefaultImpl;
 
@@ -26,7 +25,7 @@ public class StickyDefaultImpl implements Sticky{
 	@CapabilityInject(Sticky.class)
 	public static Capability<Sticky> CAPABILITY = null;
 	
-	private Entity stuckTo;
+	private Stickable stuckTo;
 	
 	private Entity entity;
 	
@@ -35,7 +34,7 @@ public class StickyDefaultImpl implements Sticky{
 		if(e.getCapability(StickableDefaultImpl.CAPABILITY).isPresent()) {
 			Stickable stickable = e.getCapability(StickableDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
 			if (stickable.canBeStuckBy(this)){
-				stuckTo = e;
+				stuckTo = stickable;
 				return true;
 			}
 		}
@@ -47,7 +46,7 @@ public class StickyDefaultImpl implements Sticky{
 		if(e.getCapability(StickableDefaultImpl.CAPABILITY).isPresent()) {
 			Stickable stickable = e.getCapability(StickableDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
 			if(stickable.stick(this)) {
-				stuckTo = e;
+				stuckTo = stickable;
 				return true;
 			}
 		}
@@ -55,27 +54,16 @@ public class StickyDefaultImpl implements Sticky{
 	}
 
 	@Override
-	public void unStick(Entity e) {
-		if(stuckTo != e) {
-			Main.LOGGER.warn("Unstuck from wrong object " + e + " was actually stuck to " + stuckTo);
-			if(stuckTo instanceof Stickable) {
-				((Stickable) stuckTo).unStick(this, true);
-			}
-		}
-		stuckTo = null;
-	}
-
-	@Override
-	public void unStick() {
-		if(stuckTo instanceof Stickable) {
-			((Stickable) stuckTo).unStick(this, true);
+	public void unStick(boolean origin) {
+		if(origin && stuckTo != null) {
+			stuckTo.unStick(this, true);
 		}
 		stuckTo = null;
 	}
 	
 	@Override
 	@Nullable
-	public Entity getObjectStuckTo() {
+	public Stickable getObjectStuckTo() {
 		return stuckTo;
 	}
 	

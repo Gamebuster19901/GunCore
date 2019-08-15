@@ -14,15 +14,18 @@ import com.gamebuster19901.guncore.network.packet.server.UpdateStickable;
 
 import static com.gamebuster19901.guncore.network.Network.CHANNEL;
 
+import java.util.function.Function;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.IntNBT;
 import net.minecraft.nbt.ListNBT;
-
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -59,6 +62,7 @@ public class StickableDefaultImpl implements Stickable{
 	@Deprecated
 	public boolean unStick(Class<? extends Sticky> stickyType, Sticky sticky, boolean markDirty) {
 		boolean unstuck = sticks.remove(stickyType, sticky);
+		sticky.unStick(false);
 		if(unstuck) {
 			update();
 		}
@@ -82,7 +86,10 @@ public class StickableDefaultImpl implements Stickable{
 		CompoundNBT nbt = new CompoundNBT();
 		ListNBT sticks = new ListNBT();
 		for(Sticky sticky : this.sticks.values()) {
-			sticks.add(new IntNBT(sticky.getStickyEntity().getEntityId()));
+			CompoundNBT data = new CompoundNBT();
+			data.put("id", new IntNBT(sticky.getStickyEntity().getEntityId()));
+			data.put("fullData", sticky.getStickyEntity().serializeNBT());
+			sticks.add(data);
 		}
 		nbt.put("sticks", sticks);
 		return nbt;
@@ -91,10 +98,15 @@ public class StickableDefaultImpl implements Stickable{
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
 		clear();
-		ListNBT sticks = nbt.getList("sticks", 3);
+		ListNBT sticks = nbt.getList("sticks", 10);
+		World world = this.getEntity().world;
 		for(int i = 0; i < sticks.size(); i++) {
-			Entity e = this.getEntity().world.getEntityByID(sticks.getInt(i));
-			if(e.getCapability(StickyDefaultImpl.CAPABILITY).isPresent()) {
+			CompoundNBT data = (CompoundNBT) sticks.get(i);
+			Entity e = world.getEntityByID(data.getInt("id"));
+			if(e == null) {
+				e = EntityType.func_220335_a(data.getCompound("fullData"), world, Function.identity());
+			}
+			if(e != null && e.getCapability(StickyDefaultImpl.CAPABILITY).isPresent()) {
 				Sticky sticky = e.getCapability(StickyDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
 				if(!(sticky.canStick(getEntity()) || sticky.stick(getEntity()))) {
 					Main.LOGGER.warn("Couldn't stick " + sticky.getStickyEntity() + " to " + getEntity() + " even though it was serialized that way!");
