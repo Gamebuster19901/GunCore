@@ -48,7 +48,7 @@ public class StickCommand {
 			}
 			
 			for(Sticky sticky : stickable.getAllStickies().values()) {
-				entities = entities += getEntityString(sticky.getStickyEntity());
+				entities = entities += getEntityString(sticky.getStickyEntity()) + "\n";
 			}
 			
 			source.sendFeedback(new TranslationTextComponent("commands.guncore.stick.info.success", getEntityString(stickableEntity), stickable.getAmountStuck(), entities), true);
