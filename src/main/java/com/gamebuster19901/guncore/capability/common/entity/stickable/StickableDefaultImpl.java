@@ -102,6 +102,7 @@ public class StickableDefaultImpl implements Stickable{
 				if(!(sticky.canStick(getEntity()) || sticky.stick(getEntity()))) {
 					Main.LOGGER.warn("Couldn't stick " + sticky.getStickyEntity() + " to " + getEntity() + " even though it was serialized that way!");
 				}
+				stick(sticky);
 			}
 			else {
 				Main.LOGGER.warn(e + " isn't stickable, even though it was serialized as such!");
