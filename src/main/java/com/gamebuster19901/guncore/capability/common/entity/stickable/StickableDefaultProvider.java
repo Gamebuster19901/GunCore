@@ -8,12 +8,13 @@
 package com.gamebuster19901.guncore.capability.common.entity.stickable;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class StickableDefaultProvider implements ICapabilityProvider{
+public class StickableDefaultProvider implements ICapabilitySerializable<CompoundNBT>{
 	
 	public Stickable impl = getCapability(StickableDefaultImpl.CAPABILITY, null).orElseThrow(AssertionError::new);
 
@@ -34,6 +35,16 @@ public class StickableDefaultProvider implements ICapabilityProvider{
 			return impl;
 		}
 		return new StickableDefaultImpl();
+	}
+
+	@Override
+	public CompoundNBT serializeNBT() {
+		return impl.serializeNBT();
+	}
+
+	@Override
+	public void deserializeNBT(CompoundNBT nbt) {
+		impl.deserializeNBT(nbt);
 	}
 	
 }
