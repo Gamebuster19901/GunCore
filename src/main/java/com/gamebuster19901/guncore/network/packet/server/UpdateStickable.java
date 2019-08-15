@@ -9,8 +9,6 @@ package com.gamebuster19901.guncore.network.packet.server;
 
 import java.util.function.Supplier;
 
-import org.apache.logging.log4j.Level;
-
 import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.capability.common.entity.stickable.Stickable;
 import com.gamebuster19901.guncore.capability.common.entity.stickable.StickableDefaultImpl;
@@ -47,12 +45,9 @@ public class UpdateStickable {
 		buf.writeInt(entity.getEntityWorld().getDimension().getType().getId());
 		buf.writeInt(entity.getEntityId());
 		buf.writeCompoundTag(stickable.serializeNBT());
-		Main.LOGGER.catching(new Throwable());
-		Main.LOGGER.log(Level.FATAL, "ENDCODED");
 	}
 	
 	private void decodeAndApply(PacketBuffer buf) {
-		Main.LOGGER.log(Level.FATAL, "DECODED");
 		World world = Minecraft.getInstance().world;
 		int curDim = world.getDimension().getType().getId();
 		int stickyDim = buf.readInt();
@@ -78,7 +73,6 @@ public class UpdateStickable {
 	}
 	
 	public void handle(Supplier<NetworkEvent.Context> context) {
-		Main.LOGGER.log(Level.FATAL, "RECEIVED");
 		context.get().enqueueWork(() -> {
 			decodeAndApply(buf);
 		});

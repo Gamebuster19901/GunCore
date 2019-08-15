@@ -14,8 +14,6 @@ import com.gamebuster19901.guncore.network.packet.server.UpdateStickable;
 
 import static com.gamebuster19901.guncore.network.Network.CHANNEL;
 
-import org.apache.logging.log4j.Level;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -96,7 +94,6 @@ public class StickableDefaultImpl implements Stickable{
 		ListNBT sticks = nbt.getList("sticks", 3);
 		for(int i = 0; i < sticks.size(); i++) {
 			Entity e = this.getEntity().world.getEntityByID(sticks.getInt(i));
-			Main.LOGGER.log(Level.WARN, e.getDisplayName());
 			if(e.getCapability(StickyDefaultImpl.CAPABILITY).isPresent()) {
 				Sticky sticky = e.getCapability(StickyDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
 				if(!(sticky.canStick(getEntity()) || sticky.stick(getEntity()))) {
