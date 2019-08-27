@@ -16,6 +16,6 @@ jobs:
     - name: Gradle Wrapper
       run: chmod +x gradlew
     - name: Check Licenses
-      run: sudo gradlew checkLicenses
+      run: ./gradlew checkLicenses
     - name: Build
-      run: sudo gradlew build
+      run: ./gradlew build
