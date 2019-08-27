@@ -14,6 +14,6 @@ jobs:
       with:
         java-version: 1.8
     - name: Check Licenses
-      run: ./gradlew checkLicenses
+      run: sudo ./gradlew checkLicenses
     - name: Build
-      run: ./gradlew build
+      run: sudo ./gradlew build
