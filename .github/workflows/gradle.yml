@@ -13,6 +13,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Gradle Wrapper
+      run: chmod +x gradlew
     - name: Check Licenses
       run: sudo gradlew checkLicenses
     - name: Build
