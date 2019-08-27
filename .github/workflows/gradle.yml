@@ -16,7 +16,5 @@ jobs:
       env:
         CI: true
       run: chmod +x gradlew
-    - name: Check Licenses
-      run: ./gradlew checkLicenses
     - name: Build
       run: ./gradlew build
