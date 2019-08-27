@@ -120,7 +120,10 @@ task checkLicenses(type: JavaExec) {
 	println main = "com.gamebuster19901.license.LicenseChecker"
 	args = ['notBinary', 'silenceSkips', "classes:com.gamebuster19901.license.test.Test"]
 }
-build.dependsOn checkLicenses
+
+if(System.getenv('CI') == null) { //Local builds should check licenses at build time, any CI should execute a separate task to check
+    build.dependsOn checkLicenses
+}
 jar.dependsOn checkLicenses
 
 task applyLicenses(type: JavaExec) {
