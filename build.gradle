@@ -114,6 +114,35 @@ jar {
 	}
 }
 
+task checkVersion() {
+/*
+    def matcher = "My code is groovier and better when I use Groovy there" =~ /\S+er\b/ 
+    
+    assert matcher.find() 
+    
+    assert matcher.size() == 3
+    
+    assert matcher[0..-1] == ["groovier", "better"]
+*/
+    def versionRegex = ~'(?i)version(?i-)\\s?=\\s?\\"[\\w.-]*\\"';
+    
+    
+    String allContainingFiles = 
+        new File('src/main/java/com/gamebuster19901/guncore/Main.java').text +
+        new File('src/main/resources/META-INF/mods.toml').text +
+        new File('build.gradle').text
+        
+    allContainingFiles = allContainingFiles.replaceAll(' ','')
+        
+    def matcher = allContainingFiles =~ versionRegex
+    
+    assert matcher.find();
+    assert matcher.size() == 3;
+    assert matcher[0].equalsIgnoreCase(matcher[1]) && matcher[1].equalsIgnoreCase(matcher[2])
+
+    logger.info("Version verified: " + matcher[0])
+}
+
 task checkLicenses(type: JavaExec) {
 	classpath += sourceSets.main.runtimeClasspath
 	classpath += buildscript.configurations.classpath
@@ -121,9 +150,8 @@ task checkLicenses(type: JavaExec) {
 	args = ['notBinary', 'silenceSkips', "classes:com.gamebuster19901.license.test.Test"]
 }
 
-if(System.getenv('CI') == null) { //Local builds should check licenses at build time, any CI should execute a separate task to check
-    build.dependsOn checkLicenses
-}
+build.dependsOn checkVersion
+build.dependsOn checkLicenses
 jar.dependsOn checkLicenses
 
 task applyLicenses(type: JavaExec) {
