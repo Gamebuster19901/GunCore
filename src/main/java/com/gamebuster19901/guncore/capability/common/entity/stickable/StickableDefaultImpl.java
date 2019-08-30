@@ -23,7 +23,6 @@ import com.google.common.collect.Multimap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.IntNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -80,17 +79,28 @@ public class StickableDefaultImpl implements Stickable{
 			CHANNEL.send(PacketDistributor.ALL.noArg(), new UpdateStickable(this));
 		}
 	}
+	
+	@Override
+	public void onTick(Object... data) {
+		if(entity != null) {
+			for(Sticky sticky : getAllStickies().values()) {
+				sticky.onTick(this);
+			}
+		}
+	}
 
 	@Override
 	public CompoundNBT serializeNBT() {
 		CompoundNBT nbt = new CompoundNBT();
 		ListNBT sticks = new ListNBT();
+		
 		for(Sticky sticky : this.sticks.values()) {
 			CompoundNBT data = new CompoundNBT();
-			data.put("id", new IntNBT(sticky.getStickyEntity().getEntityId()));
-			data.put("fullData", sticky.getStickyEntity().serializeNBT());
+			data.put("entity", sticky.getStickyEntity().serializeNBT());
 			sticks.add(data);
 		}
+		
+		nbt.putInt("id", entity.getEntityId()); //used so UpdateStickable can find the stickable on the client
 		nbt.put("sticks", sticks);
 		return nbt;
 	}
@@ -102,10 +112,8 @@ public class StickableDefaultImpl implements Stickable{
 		World world = this.getEntity().world;
 		for(int i = 0; i < sticks.size(); i++) {
 			CompoundNBT data = (CompoundNBT) sticks.get(i);
-			Entity e = world.getEntityByID(data.getInt("id"));
-			if(e == null) {
-				e = EntityType.func_220335_a(data.getCompound("fullData"), world, Function.identity());
-			}
+			Entity e = EntityType.func_220335_a(data.getCompound("entity"), world, Function.identity());
+			e.remove(true);
 			if(e != null && e.getCapability(StickyDefaultImpl.CAPABILITY).isPresent()) {
 				Sticky sticky = e.getCapability(StickyDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
 				if(!(sticky.canStick(getEntity()) || sticky.stick(getEntity()))) {

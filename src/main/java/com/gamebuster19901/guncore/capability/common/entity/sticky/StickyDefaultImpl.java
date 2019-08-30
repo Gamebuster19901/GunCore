@@ -47,6 +47,7 @@ public class StickyDefaultImpl implements Sticky{
 			Stickable stickable = e.getCapability(StickableDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
 			if(stickable.stick(this)) {
 				stuckTo = stickable;
+				entity.remove(true);
 				return true;
 			}
 		}
@@ -80,8 +81,24 @@ public class StickyDefaultImpl implements Sticky{
 
 	@Override
 	public void update(Object... data) {
-		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void onTick(Object... data) {
+		if(data.length == 1) {
+			if(data[0] instanceof Stickable) {
+				if(!(data[0] == stuckTo)) {
+					throw new AssertionError();
+				}
+				Entity stuckTo = this.stuckTo.getEntity();
+				if(stuckTo == null) {
+					throw new AssertionError();
+				}
+				entity.setPositionAndRotation(stuckTo.posX, stuckTo.posY, stuckTo.posZ, stuckTo.rotationYaw, stuckTo.rotationPitch);
+				entity.tick();
+			}
+		}
 	}
 	
 	@SubscribeEvent

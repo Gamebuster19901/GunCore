@@ -62,12 +62,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.SoundEvent;
-
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -159,17 +160,27 @@ public abstract class Proxy {
 		Entity target = e.getTarget();
 		if(!target.world.isRemote) {
 			if(target.isAlive()) {
-				LazyOptional<Sticky> stickyCapability = target.getCapability(StickyDefaultImpl.CAPABILITY);
 				LazyOptional<Stickable> stickableCapability = target.getCapability(StickableDefaultImpl.CAPABILITY);
-				if(stickyCapability.isPresent()) {
-					Sticky sticky = stickyCapability.orElseThrow(AssertionError::new);
-					sticky.update();
-				}
 				if(stickableCapability.isPresent()) {
-					Stickable stickable = stickableCapability.orElseThrow(AssertionError::new);
-					stickable.update();
+					stickableCapability.orElseThrow(AssertionError::new).update();
 				}
 			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onWorldTick(TickEvent.WorldTickEvent e) {
+		if(!e.world.isRemote && e.phase == TickEvent.Phase.END) {
+			
+			ServerWorld world = (ServerWorld) e.world;
+			
+			world.getEntities().forEachOrdered(entity -> {
+				LazyOptional<Stickable> stickableCapability = entity.getCapability(StickableDefaultImpl.CAPABILITY);
+				if(stickableCapability.isPresent()) {
+					stickableCapability.orElseThrow(AssertionError::new).onTick();
+				}
+			});
+				
 		}
 	}
 	
@@ -181,12 +192,10 @@ public abstract class Proxy {
 			LazyOptional<Stickable> stickableCapability = entity.getCapability(StickableDefaultImpl.CAPABILITY);
 			
 			if(stickyCapability.isPresent()) {
-				Sticky sticky = stickyCapability.orElseThrow(AssertionError::new);
-				sticky.unStick(true);
+				stickyCapability.orElseThrow(AssertionError::new).unStick(true);
 			}
 			if(stickableCapability.isPresent()) {
-				Stickable stickable = stickableCapability.orElseThrow(AssertionError::new);
-				stickable.unStick();
+				stickableCapability.orElseThrow(AssertionError::new).unStick();
 			}
 		}
 	}

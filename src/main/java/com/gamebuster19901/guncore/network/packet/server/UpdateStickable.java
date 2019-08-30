@@ -9,7 +9,6 @@ package com.gamebuster19901.guncore.network.packet.server;
 
 import java.util.function.Supplier;
 
-import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.capability.common.entity.stickable.Stickable;
 import com.gamebuster19901.guncore.capability.common.entity.stickable.StickableDefaultImpl;
 import com.gamebuster19901.guncore.exception.CapabilityMismatchError;
@@ -17,18 +16,13 @@ import com.gamebuster19901.guncore.network.Network;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 public class UpdateStickable {
-
 	private final Stickable stickable;
 	private final PacketBuffer buf;
-	
-	public UpdateStickable() {
-		this((Stickable)null);
-	}
 	
 	public UpdateStickable(Stickable stickable) {
 		this.stickable = stickable;
@@ -36,45 +30,24 @@ public class UpdateStickable {
 	}
 	
 	public UpdateStickable(PacketBuffer buf) {
+		stickable = null;
 		this.buf = buf;
-		this.stickable = null;
 	}
 	
 	public void encode(PacketBuffer buf) {
-		Entity entity = stickable.getEntity();
-		buf.writeInt(entity.getEntityWorld().getDimension().getType().getId());
-		buf.writeInt(entity.getEntityId());
 		buf.writeCompoundTag(stickable.serializeNBT());
 	}
 	
 	private void decodeAndApply(PacketBuffer buf) {
-		World world = Minecraft.getInstance().world;
-		int curDim = world.getDimension().getType().getId();
-		int stickyDim = buf.readInt();
-		if(curDim == stickyDim) {
-			int stickyID = buf.readInt();
-			Entity entity = world.getEntityByID(stickyID);
-			if(entity != null) {
-				if(entity.isAlive()) {
-					Stickable stickable = entity.getCapability(StickableDefaultImpl.CAPABILITY).orElseThrow(() -> new CapabilityMismatchError(StickableDefaultImpl.CAPABILITY, entity));
-					stickable.deserializeNBT(buf.readCompoundTag()); //update the entity nbt
-				}
-				else {
-					Main.LOGGER.warn("Received stickable update for deceased entity #" + stickyID + "... Ignoring!");
-				}
-			}
-			else {
-				Main.LOGGER.warn("Received stickable update for untracked entity #" + stickyID + "... Ignoring!");
-			}
-		}
-		else {
-			Main.LOGGER.warn("We are in dimension " + curDim + " but received a stickable update for an entity in dimension " + stickyDim + "... ignoring!");
-		}
+		stickable.deserializeNBT(buf.readCompoundTag());
 	}
 	
 	public void handle(Supplier<NetworkEvent.Context> context) {
 		context.get().enqueueWork(() -> {
-			decodeAndApply(buf);
+			CompoundNBT nbt = buf.readCompoundTag();
+			Entity e = Minecraft.getInstance().world.getEntityByID(nbt.getInt("id"));
+			Stickable stickable = e.getCapability(StickableDefaultImpl.CAPABILITY).orElseThrow(() -> new CapabilityMismatchError(StickableDefaultImpl.CAPABILITY, e));
+			stickable.deserializeNBT(nbt);
 		});
 	}
 	
