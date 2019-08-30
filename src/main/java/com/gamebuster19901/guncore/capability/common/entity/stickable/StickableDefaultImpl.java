@@ -39,7 +39,7 @@ public class StickableDefaultImpl implements Stickable{
 
 	@Override
 	public boolean canBeStuckBy(Sticky sticky) {
-		return canBeStuckBy(sticky.getClass());
+		return !getAllStickies().values().contains(sticky) && canBeStuckBy(sticky.getClass());
 	}
 	
 	@Override
