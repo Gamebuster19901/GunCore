@@ -62,8 +62,14 @@ public class StickCommand {
 	public static int stick(CommandSource source, Entity stickableEntity, Entity stickyEntity) {
 		if(stickableEntity.getCapability(StickableDefaultImpl.CAPABILITY).isPresent()) {
 			if(stickyEntity.getCapability(StickyDefaultImpl.CAPABILITY).isPresent()) {
-				if(stickyEntity.getCapability(StickyDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new).stick(stickableEntity)) {
-					source.sendFeedback(new TranslationTextComponent("commands.guncore.stick.sticky.success", getEntityString(stickyEntity), getEntityString(stickableEntity)), true);
+				Sticky sticky = stickyEntity.getCapability(StickyDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
+				if(sticky.canStick(stickableEntity)) {
+					if(sticky.stick(stickableEntity)) {
+						source.sendFeedback(new TranslationTextComponent("commands.guncore.stick.sticky.success", getEntityString(stickyEntity), getEntityString(stickableEntity)), true);
+					}
+					else {
+						source.sendErrorMessage(new TranslationTextComponent("commands.guncore.stick.sticky.failure.rejected.unexpected"));
+					}
 				}
 				else {
 					source.sendErrorMessage(new TranslationTextComponent("commands.guncore.stick.sticky.failure.rejected", getEntityString(stickyEntity), getEntityString(stickableEntity)));

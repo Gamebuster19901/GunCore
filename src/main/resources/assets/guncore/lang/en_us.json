@@ -4,6 +4,7 @@
 	"commands.guncore.stick.stickable.failure.missing": "%1$s is not stickable",
 	"commands.guncore.stick.sticky.success": "stuck %2$s to %1$s",
 	"commands.guncore.stick.sticky.failure.rejected": "%2$s rejected the sticking of %1$s",
+	"commands.guncore.stick.sticky.failure.rejected.unexpected": "%2$s rejected the sticking of %1$s unexpectedly, this should never happen!",
 	"commands.guncore.stick.sticky.failure.missing": "%2$s is not sticky",
 
 	"commands.guncore.tracking.success.entity": "%1$s is tracking %2$s in %3$s[%4$s]",
