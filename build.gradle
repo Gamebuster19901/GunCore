@@ -115,15 +115,6 @@ jar {
 }
 
 task checkVersion() {
-/*
-    def matcher = "My code is groovier and better when I use Groovy there" =~ /\S+er\b/ 
-    
-    assert matcher.find() 
-    
-    assert matcher.size() == 3
-    
-    assert matcher[0..-1] == ["groovier", "better"]
-*/
     def versionRegex = ~'(?i)version(?i-)\\s?=\\s?\\"[\\w.-]*\\"';
     
     
