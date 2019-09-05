@@ -7,45 +7,36 @@
 
 package com.gamebuster19901.guncore.capability.common.tracker;
 
-import com.gamebuster19901.guncore.capability.common.tracker.context.EntityTrackingContext;
-import com.gamebuster19901.guncore.capability.common.tracker.context.TrackingContext;
+import static com.gamebuster19901.guncore.network.Network.CHANNEL;
+
+import com.gamebuster19901.guncore.network.packet.server.UpdateTracker;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 public class TrackerEntityImpl extends TrackerBaseImpl{
+
+	private Entity tracker;
 	
-	public TrackerEntityImpl(Entity tracker, double trackingRange, double destinationRange) {
-		super(new EntityTrackingContext(tracker), trackingRange, destinationRange);
+	public TrackerEntityImpl(Entity tracker) {
+		this.tracker = tracker;
 	}
-	
-	@Override
-	public EntityTrackingContext getTrackingContext() {
-		return (EntityTrackingContext) super.getTrackingContext();
-	}
-	
+
 	@Override
 	public World getWorld() {
-		return trackingContext.getTrackerWorld();
+		return tracker.getEntityWorld();
 	}
-	
-	@Override
-	public Vec3d getPosition() {
-		return getTrackingContext().getTracker().getPositionVec();
-	}
-	
-	@Override
-	public boolean canTrack(TrackingContext trackingContext) {
-		if(trackingContext instanceof EntityTrackingContext) {
-			return super.canTrack(trackingContext);
-		}
-		return false;
+
+	private Entity getTracker() {
+		return tracker;
 	}
 	
 	@Override
 	public void update(Object... data) {
-		
+		if(tracker != null && !tracker.getEntityWorld().isRemote) {
+			CHANNEL.send(PacketDistributor.TRACKING_ENTITY.with(this::getTracker), new UpdateTracker(this));
+		}
 	}
 
 }

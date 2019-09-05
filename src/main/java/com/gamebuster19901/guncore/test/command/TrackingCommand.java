@@ -9,8 +9,7 @@ package com.gamebuster19901.guncore.test.command;
 
 import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.capability.common.tracker.Tracker;
-import com.gamebuster19901.guncore.capability.common.tracker.TrackerDefaultImpl;
-import com.gamebuster19901.guncore.capability.common.tracker.context.EntityTrackingContext;
+import com.gamebuster19901.guncore.capability.common.tracker.TrackerBaseImpl;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
@@ -18,6 +17,7 @@ import net.minecraft.command.arguments.EntityArgument;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 
 public class TrackingCommand {
@@ -31,17 +31,20 @@ public class TrackingCommand {
 		})));
 	}
 	
+	@SuppressWarnings("resource")
 	public static int getTrackingInfo(CommandSource source, Entity target) {
-		if(target.getCapability(TrackerDefaultImpl.CAPABILITY).isPresent()) {
-			Tracker tracker = target.getCapability(TrackerDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
-			EntityTrackingContext trackingContext = ((EntityTrackingContext)tracker.getTrackingContext());
-			if(trackingContext.hasDestination()) {
-				DimensionType dimension = trackingContext.getDestinationWorld().getDimension().getType();
-				if(trackingContext.hasTrackee()) {
-					source.sendFeedback(new TranslationTextComponent("commands.guncore.tracking.success.entity", target.getDisplayName(), trackingContext.getTrackee().getDisplayName(), dimension.getRegistryName(), dimension.getId()), true);
+		if(target.getCapability(TrackerBaseImpl.CAPABILITY).isPresent()) {
+			Tracker tracker = target.getCapability(TrackerBaseImpl.CAPABILITY).orElseThrow(AssertionError::new);
+			if(tracker.isTracking()) {
+				World world = tracker.getWorld();
+				if(tracker.getTrackee() != null) {
+					Entity trackee = tracker.getTrackee();
+					DimensionType dimension = world.dimension.getType();
+					source.sendFeedback(new TranslationTextComponent("commands.guncore.tracking.success.entity", target.getDisplayName(), trackee.getDisplayName(), dimension.getRegistryName(), dimension.getId()), true);
 				}
 				else {
-					Vec3d destination = trackingContext.getDestination();
+					Vec3d destination = tracker.getDestination();
+					DimensionType dimension = world.getDimension().getType();
 					source.sendFeedback(new TranslationTextComponent("commands.guncore.tracking.success.location", target.getDisplayName(), destination.x, destination.y, destination.z, dimension.getRegistryName(), dimension.getId()), true);
 				}
 			}

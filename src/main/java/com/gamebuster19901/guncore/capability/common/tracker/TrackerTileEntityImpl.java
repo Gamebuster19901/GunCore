@@ -7,46 +7,37 @@
 
 package com.gamebuster19901.guncore.capability.common.tracker;
 
-import com.gamebuster19901.guncore.capability.common.tracker.context.TileEntityTrackingContext;
-import com.gamebuster19901.guncore.capability.common.tracker.context.TrackingContext;
+import static com.gamebuster19901.guncore.network.Network.CHANNEL;
+
+import com.gamebuster19901.guncore.network.packet.server.UpdateTracker;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.fml.network.PacketDistributor;
 
 public class TrackerTileEntityImpl extends TrackerBaseImpl{
 
-	public TrackerTileEntityImpl(TileEntity tracker, double trackingRange, double destinationRange) {
-		super(new TileEntityTrackingContext(tracker), trackingRange, destinationRange);
-	}
-
-	@Override
-	public TileEntityTrackingContext getTrackingContext() {
-		return (TileEntityTrackingContext) super.getTrackingContext();
-	}
-
-	@Override
-	public World getWorld() {
-		return getTrackingContext().getTrackerWorld();
-	}
-
-	@Override
-	public Vec3d getPosition() {
-		return new Vec3d(getTrackingContext().getTracker().getPos());
+	private TileEntity tracker;
+	
+	public TrackerTileEntityImpl(TileEntity tracker) {
+		this.tracker = tracker;
 	}
 	
 	@Override
-	public boolean canTrack(TrackingContext trackingContext) {
-		if(trackingContext instanceof TileEntityTrackingContext) {
-			return super.canTrack(trackingContext);
-		}
-		return false;
+	public World getWorld() {
+		return tracker.getWorld();
 	}
-
+	
+	private Chunk getChunk() {
+		return (Chunk) tracker.getWorld().getChunk(tracker.getPos());
+	}
+	
 	@Override
 	public void update(Object... data) {
-		// TODO Auto-generated method stub
-		
+		if(tracker != null && !tracker.getWorld().isRemote) {
+			CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(this::getChunk), new UpdateTracker(this));
+		}
 	}
 
 }

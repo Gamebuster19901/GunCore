@@ -13,7 +13,7 @@ public class TrackerFactory implements Callable<Tracker>{
 
 	@Override
 	public Tracker call() throws Exception {
-		return new TrackerDefaultImpl();
+		return new TrackerNoImpl();
 	}
 
 }

@@ -7,61 +7,38 @@
 
 package com.gamebuster19901.guncore.capability.common.tracker;
 
-import com.gamebuster19901.guncore.capability.common.tracker.context.TrackingContext;
+import java.util.UUID;
+
 import com.gamebuster19901.guncore.common.util.Updateable;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public interface Tracker extends Updateable, INBTSerializable<CompoundNBT>{
+
+	public void track(Entity e);
 	
-	public TrackingContext getTrackingContext();
+	public void track(World world, Vec3d vec);
 	
-	public default boolean isTracking() {
-		return getTrackingContext().hasDestination();
-	}
+	public boolean isTracking();
 	
-	/**
-	 * @return true if the tracker is within the range of its destination
-	 */
-	public default boolean destinationReached() {
-		if(isTracking()) {
-			return getPosition().distanceTo(getTrackingContext().getDestination()) <= getDestinationRange();
-		}
-		return false;
-	}
+	public Entity getTrackee();
 	
-	public default boolean withinTrackingRange(World world, Vec3d vec) {
-		return getWorld() == world && getPosition().distanceTo(vec) <= getTrackingRange();
-	}
+	public Vec3d getDestination();
 	
-	public void setTrackingRange(double range);
+	public void setRange(double range);
 	
-	public double getTrackingRange();
+	public double getRange();
 	
-	public void setDestinationRange(double range);
+	public void setActivationRange(double range);
 	
-	public double getDestinationRange();
+	public double getActivationRange();
 	
-	/**
-	 * Returns the world that this tracker is in
-	 */
+	public UUID getTrackeeUUID();
+	
 	public World getWorld();
-	
-	/**
-	 * @return the location of this tracker
-	 */
-	public Vec3d getPosition();
-	
-	public void track(TrackingContext trackingContext);
-	
-	public default boolean canTrack(TrackingContext trackingContext) {
-		return trackingContext != null && 
-		trackingContext.hasDestination() &&
-		trackingContext.getDestinationWorld() == getWorld() &&
-		withinTrackingRange(trackingContext.getDestinationWorld(), trackingContext.getDestination());
-	}
 	
 }

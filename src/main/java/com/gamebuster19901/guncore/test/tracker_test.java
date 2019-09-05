@@ -8,9 +8,8 @@
 package com.gamebuster19901.guncore.test;
 
 import com.gamebuster19901.guncore.capability.common.tracker.Tracker;
-import com.gamebuster19901.guncore.capability.common.tracker.TrackerDefaultImpl;
+import com.gamebuster19901.guncore.capability.common.tracker.TrackerBaseImpl;
 import com.gamebuster19901.guncore.capability.common.tracker.TrackerDefaultProvider;
-import com.gamebuster19901.guncore.capability.common.tracker.context.EntityTrackingContext;
 import com.gamebuster19901.guncore.common.util.EasyLocalization;
 import com.gamebuster19901.guncore.test.command.TrackingCommand;
 
@@ -28,7 +27,7 @@ public class tracker_test extends Test{
 	public void attachEntityCapabilities(AttachCapabilitiesEvent<Entity> e) {
 		Entity entity = e.getObject();
 		if(entity instanceof PlayerEntity) {
-			e.addCapability(EasyLocalization.getResourceLocation("guncore", Tracker.class), new TrackerDefaultProvider(entity, 10, 20));
+			e.addCapability(EasyLocalization.getResourceLocation("guncore", Tracker.class), new TrackerDefaultProvider(entity));
 		}
 	}
 	
@@ -41,12 +40,9 @@ public class tracker_test extends Test{
 			damager = source.getImmediateSource();
 		}
 		if(damaged != null && damager != null) {
-			if(damager.getCapability(TrackerDefaultImpl.CAPABILITY).isPresent()) {
-				Tracker tracker = damager.getCapability(TrackerDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
-				EntityTrackingContext trackingContext = new EntityTrackingContext(damager, damaged);
-		    	if(tracker.canTrack(trackingContext)){
-		    		tracker.track(trackingContext);
-		    	}
+			if(damager.getCapability(TrackerBaseImpl.CAPABILITY).isPresent()) {
+				Tracker tracker = damager.getCapability(TrackerBaseImpl.CAPABILITY).orElseThrow(AssertionError::new);
+				tracker.track(damaged);
 			}
 		}
 	}
