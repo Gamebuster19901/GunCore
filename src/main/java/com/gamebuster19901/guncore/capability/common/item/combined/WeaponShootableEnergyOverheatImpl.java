@@ -60,10 +60,12 @@ public class WeaponShootableEnergyOverheatImpl extends WeaponEnergy implements S
 		}	
 	}
 
-	@Deprecated
 	@Override
 	public void onTick(Object... data) {
-		update(data);
+		weapon.onTick(data);
+		shootable.onTick(data);
+		energy.onTick(data);
+		overheat.onTick(data);
 	}
 	
 	@Override

@@ -159,10 +159,9 @@ public class EnergyDefaultImpl implements Energy{
 		canExtract = nbt.getBoolean("canExtract");
 	}
 
-	@Deprecated
 	@Override
 	public void onTick(Object... data) {
-		update(data);
+
 	}
 	
 	@Override

@@ -79,6 +79,10 @@ public final class HandImpl implements Shootable{
 	}
 
 	@Override
+	public void onTick(Object... data) {
+	}
+	
+	@Override
 	public void update(Object... data) {
 	}
 
@@ -146,4 +150,5 @@ public final class HandImpl implements Shootable{
 
 	@Override
 	public void deserializeNBT(CompoundNBT base) {}
+
 }

@@ -167,5 +167,19 @@ public abstract class TrackerBaseImpl implements Tracker, Clearable{
 		world = null;
 		dest = null;
 	}
+	
+	@Override
+	public void onTick(Object... data) {
+		if(this.isTracking() && this.getTrackee() != null) {
+			if(!this.getTrackee().isAlive()) {
+				track(null);
+			}
+		}
+	}
+	
+	@Override
+	public void update(Object... data) {
+
+	}
 
 }

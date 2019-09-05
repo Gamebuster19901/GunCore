@@ -131,17 +131,16 @@ public class ReloadableDefaultImpl implements Reloadable{
 		return ammo;
 	}
 	
-	@Deprecated
 	@Override
 	public void onTick(Object... data) {
-		update(data);
+		if(getReloadProgress() < getReloadTime()) {
+			reloadProgress++;
+		}
 	}
 	
 	@Override
 	public void update(Object... data) {
-		if(getReloadProgress() < getReloadTime()) {
-			reloadProgress++;
-		}
+
 	}
 
 	@Override

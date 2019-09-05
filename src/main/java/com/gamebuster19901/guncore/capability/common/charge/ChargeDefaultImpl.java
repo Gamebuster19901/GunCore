@@ -63,7 +63,7 @@ public class ChargeDefaultImpl implements Charge{
 	}
 	
 	@Override
-	public void update(Object... data) {
+	public void onTick(Object...data) {
 		if(isCharging()) {
 			if(getChargeTime() < getMaxChargeTime()) {
 				chargeTime++;
@@ -72,6 +72,11 @@ public class ChargeDefaultImpl implements Charge{
 				stopCharging();
 			}
 		}
+	}
+	
+	@Override
+	public void update(Object... data) {
+
 	}
 
 	@Override

@@ -66,17 +66,16 @@ public class WeaponDefaultImpl implements Weapon{
 		this.isAutomatic = isAutomatic;
 	}
 
-	@Deprecated
 	@Override
 	public void onTick(Object... data) {
-		update(data);
+		if(nextFire > 0) {
+			nextFire--;
+		}
 	}
 
 	@Override
 	public void update(Object... data) {
-		if(nextFire > 0) {
-			nextFire--;
-		}
+
 	}
 
 	@Override

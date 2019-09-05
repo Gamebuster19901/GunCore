@@ -83,10 +83,10 @@ public class WeaponEnergy implements Weapon, Energy, Reticle, Overlay{
 		}
 	}
 	
-	@Deprecated
 	@Override
 	public void onTick(Object... data) {
-		update(data);
+		weapon.onTick(data);
+		energy.onTick(data);
 	}
 	
 	@Override

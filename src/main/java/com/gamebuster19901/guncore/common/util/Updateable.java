@@ -9,11 +9,7 @@ package com.gamebuster19901.guncore.common.util;
 
 public interface Updateable {
 	
-	public default void onTick(Object... data) {
-		if(canUpdate(data)) {
-			update(data);
-		}
-	}
+	public void onTick(Object... data);
 	
 	@SuppressWarnings("unused")
 	public default boolean canUpdate(Object... data) {

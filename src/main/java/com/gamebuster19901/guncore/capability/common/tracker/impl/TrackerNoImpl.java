@@ -84,4 +84,14 @@ public class TrackerNoImpl implements Tracker{
 		throw new NoImplementationProvidedException();
 	}
 
+	@Override
+	public void onTick(Object... data) {
+		throw new NoImplementationProvidedException();
+	}
+	
+	@Override
+	public void update(Object... data) {
+		throw new NoImplementationProvidedException();
+	}
+
 }

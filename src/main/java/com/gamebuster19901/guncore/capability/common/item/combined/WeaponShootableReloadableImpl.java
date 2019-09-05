@@ -260,10 +260,11 @@ public class WeaponShootableReloadableImpl implements Weapon, Shootable, Reloada
 		return weapon.isAutomatic();
 	}
 
-	@Deprecated
 	@Override
 	public void onTick(Object... data) {
-		update(data);
+		weapon.onTick(data);
+		shootable.onTick(data);
+		reloadable.onTick(data);
 	}
 	
 	@Override

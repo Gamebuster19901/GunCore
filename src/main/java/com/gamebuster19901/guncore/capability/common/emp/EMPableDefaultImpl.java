@@ -35,5 +35,18 @@ public class EMPableDefaultImpl implements EMPable{
 	public void deserializeNBT(IntNBT duration) {
 		this.duration = duration.getInt();
 	}
+	
+	@Override
+	public void onTick(Object...data) {
+		if(isEMPed()) {
+			duration--;
+		}
+	}
+
+	@Override
+	public void update(Object... data) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

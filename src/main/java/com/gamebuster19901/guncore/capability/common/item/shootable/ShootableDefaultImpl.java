@@ -168,13 +168,7 @@ public class ShootableDefaultImpl implements Shootable{
 	}
 	
 	@Override
-	@Deprecated
 	public void onTick(Object... data) {
-		update(data);
-	}
-
-	@Override
-	public void update(Object... data) {
 		ArbitraryData event = getUpdateData(data);
 		
 		Entity entity = event.getInstanceOf(Entity.class);
@@ -199,6 +193,11 @@ public class ShootableDefaultImpl implements Shootable{
 		if(bloom > 0) {
 			bloom = MathHelper.clamp(bloom - bloomD, 0, getMaxBloom());
 		}
+	}
+
+	@Override
+	public void update(Object... data) {
+
 	}
 	
 	@Override

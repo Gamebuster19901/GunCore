@@ -33,14 +33,8 @@ public class OverheatDefaultImpl implements Overheat{
 		setTempIncrease(tempIncrease);
 	}
 	
-	@Deprecated
 	@Override
 	public void onTick(Object... data) {
-		update(data);
-	}
-	
-	@Override
-	public void update(Object... data) {
 		if(!overheating) {
 			if(getTemp() == getMaxTemp()) {
 				overheat();
@@ -54,6 +48,11 @@ public class OverheatDefaultImpl implements Overheat{
 			}
 		}
 		addTemp(-tempDecrease);
+	}
+	
+	@Override
+	public void update(Object... data) {
+
 	}
 
 	@Override
