@@ -49,7 +49,7 @@ public abstract class HeldWeapon extends GunCoreItem{
 		
 		if(isSelected) {
 			if(stack.getCapability(weapon).isPresent()) {
-				stack.getCapability(weapon).orElseThrow(AssertionError::new).update(stack, worldIn, entityIn, itemSlot, isSelected);
+				stack.getCapability(weapon).orElseThrow(AssertionError::new).onTick(stack, worldIn, entityIn, itemSlot, isSelected);
 			}
 		}
 	}
