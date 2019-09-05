@@ -25,7 +25,7 @@ public class ReticleDefaultImpl extends AbstractGui implements Reticle{
 
 	@CapabilityInject(Reticle.class)
 	public static Capability<Reticle> CAPABILITY = null;
-	public static final ResourceLocation DEFAULT_IMAGE = new ResourceLocation(DEFAULT_DIRECTORY + "reticles.png");
+	public static final ResourceLocation DEFAULT_IMAGE = new ResourceLocation(DEFAULT_DIRECTORY + "default_reticle.png");
 
 	@Override
 	public int width() {
