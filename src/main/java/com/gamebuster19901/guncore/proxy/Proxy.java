@@ -17,6 +17,9 @@ import com.gamebuster19901.guncore.capability.client.item.overlay.OverlayStorage
 import com.gamebuster19901.guncore.capability.client.item.reticle.Reticle;
 import com.gamebuster19901.guncore.capability.client.item.reticle.ReticleFactory;
 import com.gamebuster19901.guncore.capability.client.item.reticle.ReticleStorage;
+import com.gamebuster19901.guncore.capability.common.emp.EMPable;
+import com.gamebuster19901.guncore.capability.common.emp.EMPableFactory;
+import com.gamebuster19901.guncore.capability.common.emp.EMPableStorage;
 import com.gamebuster19901.guncore.capability.common.energy.Energy;
 import com.gamebuster19901.guncore.capability.common.energy.EnergyFactory;
 import com.gamebuster19901.guncore.capability.common.energy.EnergyStorage;
@@ -103,7 +106,7 @@ public abstract class Proxy {
 		CapabilityManager.INSTANCE.register(Energy.class, new EnergyStorage(), new EnergyFactory());
 		CapabilityManager.INSTANCE.register(Overheat.class, new OverheatStorage(), new OverheatFactory());
 		CapabilityManager.INSTANCE.register(Tracker.class, new TrackerStorage(), new TrackerFactory());
-		
+		CapabilityManager.INSTANCE.register(EMPable.class, new EMPableStorage(), new EMPableFactory());
 		Network.register();
 		
 		for(Test t : Main.getTests()) {
