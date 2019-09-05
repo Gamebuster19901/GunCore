@@ -9,7 +9,6 @@ package com.gamebuster19901.guncore.network;
 
 import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.network.packet.server.UpdateStickable;
-import com.gamebuster19901.guncore.network.packet.server.UpdateTracker;
 
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -25,7 +24,6 @@ public final class Network {
 	public static void register() {
 		int id = 0;
 		UpdateStickable.register(id++);
-		UpdateTracker.register(id++);
 	}
 
 }

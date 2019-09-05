@@ -38,7 +38,6 @@ public abstract class TrackerBaseImpl implements Tracker, Clearable{
 	public void track(Entity trackee) {
 		world = null;
 		this.trackee = trackee;
-		update();
 	}
 
 	@Override
@@ -46,7 +45,6 @@ public abstract class TrackerBaseImpl implements Tracker, Clearable{
 		clear();
 		this.world = world;
 		this.dest = dest;
-		update();
 	}
 
 	@Override
@@ -101,7 +99,6 @@ public abstract class TrackerBaseImpl implements Tracker, Clearable{
 	@Override
 	public CompoundNBT serializeNBT() {
 		CompoundNBT nbt = new CompoundNBT();
-		
 		if(trackee != null) {
 			nbt.putUniqueId("uuid", trackee.getUniqueID());
 			nbt.putInt("id", trackee.getEntityId());
@@ -163,18 +160,6 @@ public abstract class TrackerBaseImpl implements Tracker, Clearable{
 		setActivationRange(nbt.getDouble("actRange"));
 		
 	}
-	
-	@Override
-	public void onTick(Object...data) {
-		if(getWorld() != null && !getWorld().isRemote) {
-			if(trackee != null && !trackee.isAlive()) {
-				track(null);
-			}
-		}
-	}
-	
-	@Override
-	public abstract void update(Object... data);
 
 	@Override
 	public void clear() {

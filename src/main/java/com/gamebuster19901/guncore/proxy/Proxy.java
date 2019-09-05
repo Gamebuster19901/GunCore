@@ -48,7 +48,6 @@ import com.gamebuster19901.guncore.capability.common.item.weapon.WeaponStorage;
 import com.gamebuster19901.guncore.capability.common.tracker.Tracker;
 import com.gamebuster19901.guncore.capability.common.tracker.TrackerFactory;
 import com.gamebuster19901.guncore.capability.common.tracker.TrackerStorage;
-import com.gamebuster19901.guncore.capability.common.tracker.impl.TrackerBaseImpl;
 import com.gamebuster19901.guncore.common.entity.StickyProjectile;
 import com.gamebuster19901.guncore.common.item.abstracts.Ammo;
 import com.gamebuster19901.guncore.common.item.abstracts.Projectile;
@@ -165,10 +164,6 @@ public abstract class Proxy {
 				if(stickableCapability.isPresent()) {
 					stickableCapability.orElseThrow(AssertionError::new).update();
 				}
-				LazyOptional<Tracker> trackerCapability = target.getCapability(TrackerBaseImpl.CAPABILITY);
-				if(trackerCapability.isPresent()) {
-					trackerCapability.orElseThrow(AssertionError::new).update();
-				}
 			}
 		}
 	}
@@ -183,10 +178,6 @@ public abstract class Proxy {
 				LazyOptional<Stickable> stickableCapability = entity.getCapability(StickableDefaultImpl.CAPABILITY);
 				if(stickableCapability.isPresent()) {
 					stickableCapability.orElseThrow(AssertionError::new).onTick();
-				}
-				LazyOptional<Tracker> trackerCapability = entity.getCapability(TrackerBaseImpl.CAPABILITY);
-				if(trackerCapability.isPresent()) {
-					trackerCapability.orElseThrow(AssertionError::new).onTick();
 				}
 			});
 			

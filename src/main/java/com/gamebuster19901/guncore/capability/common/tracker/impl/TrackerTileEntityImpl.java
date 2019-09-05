@@ -7,14 +7,11 @@
 
 package com.gamebuster19901.guncore.capability.common.tracker.impl;
 
-import static com.gamebuster19901.guncore.network.Network.CHANNEL;
-
-import com.gamebuster19901.guncore.network.packet.server.UpdateTracker;
-
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.fml.network.PacketDistributor;
 
 public class TrackerTileEntityImpl extends TrackerBaseImpl{
 
@@ -34,10 +31,16 @@ public class TrackerTileEntityImpl extends TrackerBaseImpl{
 	}
 	
 	@Override
-	public void update(Object... data) {
-		if(tracker != null && !tracker.getWorld().isRemote) {
-			CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(this::getChunk), new UpdateTracker(this));
-		}
+	public CompoundNBT serializeNBT() {
+		CompoundNBT nbt = super.serializeNBT();
+
+		BlockPos pos = tracker.getPos();
+		
+		nbt.putInt("tileX", pos.getX());
+		nbt.putInt("tileY", pos.getY());
+		nbt.putInt("tileZ", pos.getZ());
+		
+		return nbt;
 	}
 
 }

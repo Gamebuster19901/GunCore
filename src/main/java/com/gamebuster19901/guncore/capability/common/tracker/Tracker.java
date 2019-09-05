@@ -9,15 +9,13 @@ package com.gamebuster19901.guncore.capability.common.tracker;
 
 import java.util.UUID;
 
-import com.gamebuster19901.guncore.common.util.Updateable;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface Tracker extends Updateable, INBTSerializable<CompoundNBT>{
+public interface Tracker extends INBTSerializable<CompoundNBT>{
 
 	public void track(Entity e);
 	

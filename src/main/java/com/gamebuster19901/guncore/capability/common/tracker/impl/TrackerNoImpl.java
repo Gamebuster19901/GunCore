@@ -20,11 +20,6 @@ import net.minecraft.world.World;
 public class TrackerNoImpl implements Tracker{
 
 	@Override
-	public void update(Object... data) {
-		throw new NoImplementationProvidedException();
-	}
-
-	@Override
 	public CompoundNBT serializeNBT() {
 		throw new NoImplementationProvidedException();
 	}
