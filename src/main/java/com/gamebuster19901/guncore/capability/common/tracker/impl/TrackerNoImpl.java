@@ -5,10 +5,11 @@
  * 
  */
 
-package com.gamebuster19901.guncore.capability.common.tracker;
+package com.gamebuster19901.guncore.capability.common.tracker.impl;
 
 import java.util.UUID;
 
+import com.gamebuster19901.guncore.capability.common.tracker.Tracker;
 import com.gamebuster19901.guncore.exception.NoImplementationProvidedException;
 
 import net.minecraft.entity.Entity;

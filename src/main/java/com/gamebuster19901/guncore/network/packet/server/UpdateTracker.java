@@ -10,7 +10,7 @@ package com.gamebuster19901.guncore.network.packet.server;
 import java.util.function.Supplier;
 
 import com.gamebuster19901.guncore.capability.common.tracker.Tracker;
-import com.gamebuster19901.guncore.capability.common.tracker.TrackerBaseImpl;
+import com.gamebuster19901.guncore.capability.common.tracker.impl.TrackerBaseImpl;
 import com.gamebuster19901.guncore.exception.CapabilityMismatchError;
 import com.gamebuster19901.guncore.network.Network;
 

@@ -7,6 +7,10 @@
 
 package com.gamebuster19901.guncore.capability.common.tracker;
 
+import com.gamebuster19901.guncore.capability.common.tracker.impl.TrackerBaseImpl;
+import com.gamebuster19901.guncore.capability.common.tracker.impl.TrackerEntityImpl;
+import com.gamebuster19901.guncore.capability.common.tracker.impl.TrackerTileEntityImpl;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;

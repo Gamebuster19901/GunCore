@@ -5,7 +5,7 @@
  * 
  */
 
-package com.gamebuster19901.guncore.capability.common.tracker;
+package com.gamebuster19901.guncore.capability.common.tracker.impl;
 
 import static com.gamebuster19901.guncore.network.Network.CHANNEL;
 

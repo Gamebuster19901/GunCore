@@ -5,13 +5,14 @@
  * 
  */
 
-package com.gamebuster19901.guncore.capability.common.tracker;
+package com.gamebuster19901.guncore.capability.common.tracker.impl;
 
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
 import com.gamebuster19901.guncore.Main;
+import com.gamebuster19901.guncore.capability.common.tracker.Tracker;
 import com.gamebuster19901.guncore.common.util.Clearable;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;

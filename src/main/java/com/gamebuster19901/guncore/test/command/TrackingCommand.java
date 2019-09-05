@@ -9,7 +9,7 @@ package com.gamebuster19901.guncore.test.command;
 
 import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.capability.common.tracker.Tracker;
-import com.gamebuster19901.guncore.capability.common.tracker.TrackerBaseImpl;
+import com.gamebuster19901.guncore.capability.common.tracker.impl.TrackerBaseImpl;
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;

@@ -8,8 +8,8 @@
 package com.gamebuster19901.guncore.test;
 
 import com.gamebuster19901.guncore.capability.common.tracker.Tracker;
-import com.gamebuster19901.guncore.capability.common.tracker.TrackerBaseImpl;
 import com.gamebuster19901.guncore.capability.common.tracker.TrackerDefaultProvider;
+import com.gamebuster19901.guncore.capability.common.tracker.impl.TrackerBaseImpl;
 import com.gamebuster19901.guncore.common.util.EasyLocalization;
 import com.gamebuster19901.guncore.test.command.TrackingCommand;
 
