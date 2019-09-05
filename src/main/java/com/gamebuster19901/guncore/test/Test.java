@@ -45,7 +45,7 @@ public abstract class Test implements EasyLocalization{
 		Test[] tests = new Test[]{};
 		try {
 			String values = System.getenv(EasyLocalization.getResourceLocation("guncore", Test.class).toString());
-			if(values != null) {
+			if(values != null && !values.isEmpty()) {
 				HashSet<Test> classes = new HashSet<Test>();
 				String[] classNames = values.split("\\|");
 				for(String s : classNames) {
