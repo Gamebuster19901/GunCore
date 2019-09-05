@@ -79,7 +79,7 @@ public class StickableDefaultImpl implements Stickable{
 	@Override
 	public void update(Object... data) {
 		if(entity != null && !entity.getEntityWorld().isRemote) {
-			CHANNEL.send(PacketDistributor.ALL.noArg(), new UpdateStickable(this));
+			CHANNEL.send(PacketDistributor.TRACKING_ENTITY.with(this::getEntity), new UpdateStickable(this));
 		}
 	}
 	
