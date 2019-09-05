@@ -28,7 +28,6 @@ public class ClientProxy extends Proxy{
 
 	public ClientProxy() {
 		super();
-		addListener(this::clientSetup);
 	}
 	
 	private static final Field PLAYER_RENDERER = ForgeReflectionHelper.findField(EntityRendererManager.class, "playerRenderer");

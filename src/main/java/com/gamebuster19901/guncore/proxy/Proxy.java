@@ -8,7 +8,7 @@
 package com.gamebuster19901.guncore.proxy;
 
 import java.util.HashSet;
-import java.util.function.Consumer;
+import org.apache.logging.log4j.Level;
 
 import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.capability.client.item.overlay.Overlay;
@@ -77,11 +77,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 public abstract class Proxy {
 	
@@ -89,7 +86,7 @@ public abstract class Proxy {
 	HashSet<Class<? extends Entity>> registeredProjectile = new HashSet<Class<? extends Entity>>();
 	
 	public Proxy() {
-		getBus().register(this);
+
 	}
 	
 	@SubscribeEvent
@@ -116,14 +113,6 @@ public abstract class Proxy {
 		for(Test t : Main.getTests()) {
 			MinecraftForge.EVENT_BUS.register(t);
 		}
-	}
-	
-	protected static IEventBus getBus() {
-		return FMLJavaModLoadingContext.get().getModEventBus();
-	}
-	
-	protected <T extends Event> void addListener(Consumer<T> consumer) {
-		getBus().addListener(consumer);
 	}
 	
 	@SubscribeEvent
@@ -154,6 +143,7 @@ public abstract class Proxy {
 	public void attachEntityCapabilities(AttachCapabilitiesEvent<Entity> e) {
 		Entity entity = e.getObject();
 		if(entity instanceof LivingEntity || entity instanceof PlayerEntity) {
+			Main.LOGGER.catching(Level.FATAL, new AssertionError());
 			e.addCapability(EasyLocalization.getResourceLocation("guncore", Stickable.class), new StickableDefaultProvider(entity));
 		}
 		

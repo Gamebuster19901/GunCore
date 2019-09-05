@@ -8,12 +8,13 @@
 package com.gamebuster19901.guncore.capability.common.charge;
 
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
 public class ChargeDefaultImpl implements Charge{
 
 	@CapabilityInject(Charge.class)
-	public static Charge CAPABILITY;
+	public static Capability<Charge> CAPABILITY;
 	
 	private boolean charging;
 	private int chargeTime;
