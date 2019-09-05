@@ -38,10 +38,6 @@ public class UpdateStickable {
 		buf.writeCompoundTag(stickable.serializeNBT());
 	}
 	
-	private void decodeAndApply(PacketBuffer buf) {
-		stickable.deserializeNBT(buf.readCompoundTag());
-	}
-	
 	public void handle(Supplier<NetworkEvent.Context> context) {
 		context.get().enqueueWork(() -> {
 			CompoundNBT nbt = buf.readCompoundTag();
