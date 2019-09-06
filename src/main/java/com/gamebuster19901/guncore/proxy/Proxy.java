@@ -79,6 +79,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 public abstract class Proxy {
 	
@@ -86,7 +87,7 @@ public abstract class Proxy {
 	HashSet<Class<? extends Entity>> registeredProjectile = new HashSet<Class<? extends Entity>>();
 	
 	public Proxy() {
-
+		FMLJavaModLoadingContext.get().getModEventBus().register(this);
 	}
 	
 	@SubscribeEvent
