@@ -25,7 +25,6 @@ public interface Overlay extends Renderer{
 		mc.textureManager.bindTexture(getImage());
 		GlStateManager.enableBlend();
 		GlStateManager.enableAlphaTest();
-		GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 	}
 	
 	@Override
