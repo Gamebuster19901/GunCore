@@ -21,7 +21,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 
 public class WeaponEnergy implements Weapon, Energy, Reticle, Overlay{
@@ -146,11 +145,11 @@ public class WeaponEnergy implements Weapon, Energy, Reticle, Overlay{
 
 	@Override
 	public void render(Pre e, ItemStack stack, float partialTicks, int scaledWidth, int scaledHeight) {
-		if(overlay != null && e.getType() == ElementType.CHAT) {
-			overlay.render(stack, partialTicks, scaledWidth, scaledHeight);
+		if(overlay != null) {
+			overlay.render(e, stack, partialTicks, scaledWidth, scaledHeight);
 		}
-		if(reticle != null && e.getType() == ElementType.CROSSHAIRS) {
-			reticle.render(stack, partialTicks, scaledWidth, scaledHeight);
+		if(reticle != null) {
+			reticle.render(e, stack, partialTicks, scaledWidth, scaledHeight);
 		}
 	}
 	

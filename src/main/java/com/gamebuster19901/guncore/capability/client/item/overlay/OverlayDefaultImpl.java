@@ -62,7 +62,7 @@ public class OverlayDefaultImpl implements Overlay{
 
 	@Override
 	public void render(Pre e, ItemStack stack, float partialTicks, int scaledWidth, int scaledHeight) {
-		if(e.getType() == ElementType.CHAT) {
+		if(e.getType() == ElementType.VIGNETTE) {
 			render(stack, partialTicks, scaledWidth, scaledHeight);
 		}
 	}

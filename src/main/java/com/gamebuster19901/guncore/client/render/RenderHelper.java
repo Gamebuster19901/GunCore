@@ -55,7 +55,7 @@ public class RenderHelper{
 			}
 			return;
 		}
-		else if (e.getType() == RenderGameOverlayEvent.ElementType.CHAT) {
+		else if (e.getType() == RenderGameOverlayEvent.ElementType.VIGNETTE) {
 			ItemStack stack = mc.player.getHeldItemMainhand();
 			LazyOptional<Reloadable> reloadableCapability = stack.getCapability(ReloadableDefaultImpl.CAPABILITY);
 			LazyOptional<Energy> energyCapability = stack.getCapability(EnergyDefaultImpl.CAPABILITY);
