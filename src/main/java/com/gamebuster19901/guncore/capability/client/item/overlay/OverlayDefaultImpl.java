@@ -16,6 +16,7 @@ import com.gamebuster19901.guncore.capability.common.item.reloadable.ReloadableD
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
 import net.minecraftforge.common.capabilities.Capability;
@@ -25,6 +26,7 @@ public class OverlayDefaultImpl implements Overlay{
 
 	@CapabilityInject(Overlay.class)
 	public static Capability<Overlay> CAPABILITY;
+	public static final ResourceLocation DEFAULT_IMAGE = new ResourceLocation(DEFAULT_DIRECTORY + "default_weapon.png");
 	
 	@Override
 	public void render(float partialTicks, int scaledWidth, int scaledHeight) {
@@ -74,4 +76,10 @@ public class OverlayDefaultImpl implements Overlay{
 	public int height() {
 		return 0;
 	}
+
+	@Override
+	public ResourceLocation getImage() {
+		return DEFAULT_IMAGE;
+	}
+
 }
