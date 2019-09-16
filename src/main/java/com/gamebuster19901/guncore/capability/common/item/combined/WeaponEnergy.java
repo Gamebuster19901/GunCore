@@ -177,6 +177,19 @@ public class WeaponEnergy implements Weapon, Energy, Reticle, Overlay{
 	public int height() {
 		throw new UnsupportedOperationException();
 	}
+	
+
+	@Override
+	@Deprecated
+	public void unbind() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	@Deprecated
+	public void bind() {
+		throw new UnsupportedOperationException();
+	}
 
 	@Override
 	@Deprecated

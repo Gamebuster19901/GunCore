@@ -56,8 +56,7 @@ public class OverlayDefaultImpl implements Overlay{
 	public void bind() {}
 
 	@Override
-	public void unbind() {
-	}
+	public void unbind() {}
 
 	@Override
 	public void render(Pre e, ItemStack stack, float partialTicks, int scaledWidth, int scaledHeight) {
@@ -66,4 +65,13 @@ public class OverlayDefaultImpl implements Overlay{
 		}
 	}
 
+	@Override
+	public int width() {
+		return 0;
+	}
+
+	@Override
+	public int height() {
+		return 0;
+	}
 }
