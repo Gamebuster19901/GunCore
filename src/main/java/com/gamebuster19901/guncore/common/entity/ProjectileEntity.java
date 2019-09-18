@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 
 import com.gamebuster19901.guncore.capability.common.entity.shooterOwner.ShooterOwner;
 import com.gamebuster19901.guncore.capability.common.item.shootable.Shootable;
-import com.gamebuster19901.guncore.common.util.EasyLocalization;
+import com.gamebuster19901.guncore.common.util.Resourced;
 import com.gamebuster19901.guncore.common.util.GunCoreDamageSource;
 
 import net.minecraft.block.SoundType;
@@ -37,7 +37,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-public abstract class ProjectileEntity extends GunCoreEntity implements ShooterOwner, EasyLocalization{
+public abstract class ProjectileEntity extends GunCoreEntity implements ShooterOwner, Resourced{
 	
 	public static final Predicate<Entity> ANY_ENTITY = (entity) -> {return true;};
 	public static final Predicate<Entity> DEFAULT_TARGETS = EntityPredicates.NOT_SPECTATING.and(Entity::canBeCollidedWith);

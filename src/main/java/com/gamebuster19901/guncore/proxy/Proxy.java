@@ -57,7 +57,7 @@ import com.gamebuster19901.guncore.capability.common.tracker.TrackerStorage;
 import com.gamebuster19901.guncore.common.entity.StickyProjectile;
 import com.gamebuster19901.guncore.common.item.abstracts.Ammo;
 import com.gamebuster19901.guncore.common.item.abstracts.Projectile;
-import com.gamebuster19901.guncore.common.util.EasyLocalization;
+import com.gamebuster19901.guncore.common.util.Resourced;
 import com.gamebuster19901.guncore.network.Network;
 import com.gamebuster19901.guncore.test.Test;
 
@@ -145,11 +145,11 @@ public abstract class Proxy {
 		Entity entity = e.getObject();
 		if(entity instanceof LivingEntity || entity instanceof PlayerEntity) {
 			Main.LOGGER.catching(Level.FATAL, new AssertionError());
-			e.addCapability(EasyLocalization.getResourceLocation("guncore", Stickable.class), new StickableDefaultProvider(entity));
+			e.addCapability(Resourced.getResourceLocation("guncore", Stickable.class), new StickableDefaultProvider(entity));
 		}
 		
 		if(entity instanceof StickyProjectile || entity instanceof ArrowEntity) {
-			e.addCapability(EasyLocalization.getResourceLocation("guncore", Sticky.class), new StickyDefaultProvider(entity));
+			e.addCapability(Resourced.getResourceLocation("guncore", Sticky.class), new StickyDefaultProvider(entity));
 		}
 	}
 	

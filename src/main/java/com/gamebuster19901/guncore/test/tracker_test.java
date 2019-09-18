@@ -10,7 +10,7 @@ package com.gamebuster19901.guncore.test;
 import com.gamebuster19901.guncore.capability.common.tracker.Tracker;
 import com.gamebuster19901.guncore.capability.common.tracker.TrackerDefaultProvider;
 import com.gamebuster19901.guncore.capability.common.tracker.impl.TrackerBaseImpl;
-import com.gamebuster19901.guncore.common.util.EasyLocalization;
+import com.gamebuster19901.guncore.common.util.Resourced;
 import com.gamebuster19901.guncore.test.command.TrackingCommand;
 
 import net.minecraft.entity.Entity;
@@ -27,7 +27,7 @@ public class tracker_test extends Test{
 	public void attachEntityCapabilities(AttachCapabilitiesEvent<Entity> e) {
 		Entity entity = e.getObject();
 		if(entity instanceof PlayerEntity) {
-			e.addCapability(EasyLocalization.getResourceLocation("guncore", Tracker.class), new TrackerDefaultProvider(entity));
+			e.addCapability(Resourced.getResourceLocation("guncore", Tracker.class), new TrackerDefaultProvider(entity));
 		}
 	}
 	

@@ -7,7 +7,7 @@
 
 package com.gamebuster19901.guncore.common.entity;
 
-import com.gamebuster19901.guncore.common.util.EasyLocalization;
+import com.gamebuster19901.guncore.common.util.Resourced;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -18,7 +18,7 @@ import net.minecraft.world.dimension.DimensionType;
 
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public abstract class GunCoreEntity extends Entity implements EasyLocalization{
+public abstract class GunCoreEntity extends Entity implements Resourced{
 
 	public GunCoreEntity(EntityType<?> entityTypeIn, World worldIn) {
 		super(entityTypeIn, worldIn);

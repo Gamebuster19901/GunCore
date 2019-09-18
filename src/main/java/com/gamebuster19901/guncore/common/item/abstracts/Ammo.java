@@ -7,13 +7,13 @@
 
 package com.gamebuster19901.guncore.common.item.abstracts;
 
-import com.gamebuster19901.guncore.common.util.EasyLocalization;
+import com.gamebuster19901.guncore.common.util.Resourced;
 
 import net.minecraft.item.Item;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TranslationTextComponent;
 
-public abstract class Ammo extends Item implements EasyLocalization{
+public abstract class Ammo extends Item implements Resourced{
 	private final Projectile projectile;
 	
 	public Ammo(Projectile projectile, int maxStackSize) {

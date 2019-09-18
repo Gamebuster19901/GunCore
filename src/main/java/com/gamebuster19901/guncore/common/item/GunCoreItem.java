@@ -9,14 +9,14 @@ package com.gamebuster19901.guncore.common.item;
 
 import javax.annotation.Nullable;
 
-import com.gamebuster19901.guncore.common.util.EasyLocalization;
+import com.gamebuster19901.guncore.common.util.Resourced;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
-public abstract class GunCoreItem extends Item implements EasyLocalization{
+public abstract class GunCoreItem extends Item implements Resourced{
 	public GunCoreItem() {
 		this(1);
 	}

@@ -12,7 +12,7 @@ import com.gamebuster19901.guncore.capability.common.entity.stickable.StickableD
 import com.gamebuster19901.guncore.capability.common.entity.sticky.Sticky;
 import com.gamebuster19901.guncore.capability.common.entity.sticky.StickyDefaultProvider;
 import com.gamebuster19901.guncore.common.entity.StickyProjectile;
-import com.gamebuster19901.guncore.common.util.EasyLocalization;
+import com.gamebuster19901.guncore.common.util.Resourced;
 import com.gamebuster19901.guncore.test.command.StickCommand;
 
 import net.minecraft.entity.Entity;
@@ -30,11 +30,11 @@ public class sticky_test extends Test{
 	public void attachEntityCapabilities(AttachCapabilitiesEvent<Entity> e) {
 		Entity entity = e.getObject();
 		if(!(entity instanceof LivingEntity || entity instanceof PlayerEntity)) {
-			e.addCapability(EasyLocalization.getResourceLocation("guncore", Stickable.class), new StickableDefaultProvider(entity));
+			e.addCapability(Resourced.getResourceLocation("guncore", Stickable.class), new StickableDefaultProvider(entity));
 		}
 		
 		if(!(entity instanceof StickyProjectile || entity instanceof ArrowEntity)) {
-			e.addCapability(EasyLocalization.getResourceLocation("guncore", Sticky.class), new StickyDefaultProvider(entity));
+			e.addCapability(Resourced.getResourceLocation("guncore", Sticky.class), new StickyDefaultProvider(entity));
 		}
 	}
 	

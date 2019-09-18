@@ -10,7 +10,7 @@ package com.gamebuster19901.guncore.test;
 import java.util.HashSet;
 
 import com.gamebuster19901.guncore.Main;
-import com.gamebuster19901.guncore.common.util.EasyLocalization;
+import com.gamebuster19901.guncore.common.util.Resourced;
 
 import net.minecraft.util.ResourceLocation;
 
@@ -21,7 +21,7 @@ import net.minecraft.util.ResourceLocation;
  * must be named to comply with the java language specification AND the resource location
  * format
  */
-public abstract class Test implements EasyLocalization{
+public abstract class Test implements Resourced{
 
 	private final String name;
 	protected boolean enabled = true;
@@ -44,7 +44,7 @@ public abstract class Test implements EasyLocalization{
 	public static Test[] getActiveTests() {
 		Test[] tests = new Test[]{};
 		try {
-			String values = System.getenv(EasyLocalization.getResourceLocation("guncore", Test.class).toString());
+			String values = System.getenv(Resourced.getResourceLocation("guncore", Test.class).toString());
 			if(values != null && !values.isEmpty()) {
 				HashSet<Test> classes = new HashSet<Test>();
 				String[] classNames = values.split("\\|");

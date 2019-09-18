@@ -14,7 +14,7 @@ import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.gamebuster19901.guncore.common.util.EasyLocalization;
+import com.gamebuster19901.guncore.common.util.Resourced;
 import com.gamebuster19901.guncore.proxy.ClientProxy;
 import com.gamebuster19901.guncore.proxy.Proxy;
 import com.gamebuster19901.guncore.proxy.ServerProxy;
@@ -30,7 +30,7 @@ public class Main {
 	public static final String MODNAME = "GunCore";
 	public static final String VERSION = "1.1.0.1 - 1.14.4";
 	public static final Logger LOGGER = LogManager.getLogger(MODNAME);
-	public static final ResourceLocation FULL_ID = EasyLocalization.getResourceLocation(MODID, Main.class);
+	public static final ResourceLocation FULL_ID = Resourced.getResourceLocation(MODID, Main.class);
 	private static final Test[] TESTS = Test.getActiveTests();
 	
 	public static Proxy proxy;

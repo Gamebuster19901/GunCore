@@ -9,9 +9,9 @@ package com.gamebuster19901.guncore.common.util;
 
 import net.minecraft.util.ResourceLocation;
 
-public interface EasyLocalization{
+public interface Resourced{
 	public default ResourceLocation getResourceLocation() {
-		return new ResourceLocation(getModId() + ':' + toSnakeCase(this.getClass().getSimpleName()));
+		return new ResourceLocation(getModId() + ':' + getResourceName());
 	}
 	
 	public default String getEZTranslationKey() {
@@ -21,6 +21,11 @@ public interface EasyLocalization{
 	public static ResourceLocation getResourceLocation(String modid, Class clazz) {
 		return new ResourceLocation(modid + ':' + toSnakeCase(clazz.getSimpleName()));
 	}
+
+	public default String getResourceName() {
+		return toSnakeCase(this.getClass().getSimpleName());
+	}
+
 	
 	public static String getEZTranslationKey(String modid, Class clazz) {
 		return getResourceLocation(modid, clazz).toString().replace(':', '.');
