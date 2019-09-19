@@ -115,23 +115,23 @@ jar {
 }
 
 task checkVersion() {
-    def versionRegex = ~'(?i)version(?i-)\\s?=\\s?\\"[\\w.-]*\\"';
-    
-    
-    String allContainingFiles = 
-        new File('src/main/java/com/gamebuster19901/guncore/Main.java').text +
-        new File('src/main/resources/META-INF/mods.toml').text +
-        new File('build.gradle').text
-        
-    allContainingFiles = allContainingFiles.replaceAll(' ','')
-        
-    def matcher = allContainingFiles =~ versionRegex
-    
-    assert matcher.find();
-    assert matcher.size() == 3;
-    assert matcher[0].equalsIgnoreCase(matcher[1]) && matcher[1].equalsIgnoreCase(matcher[2])
+	def versionRegex = ~'(?i)version(?i-)\\s?=\\s?\\"[\\w.-]*\\"';
+	
+	
+	String allContainingFiles = 
+		new File('src/main/java/com/gamebuster19901/guncore/Main.java').text +
+		new File('src/main/resources/META-INF/mods.toml').text +
+		new File('build.gradle').text
+		
+	allContainingFiles = allContainingFiles.replaceAll(' ','')
+		
+	def matcher = allContainingFiles =~ versionRegex
+	
+	assert matcher.find();
+	assert matcher.size() == 3;
+	assert matcher[0].equalsIgnoreCase(matcher[1]) && matcher[1].equalsIgnoreCase(matcher[2])
 
-    logger.info("Version verified: " + matcher[0])
+	logger.info("Version verified: " + matcher[0])
 }
 
 task checkLicenses(type: JavaExec) {
