@@ -286,4 +286,14 @@ public class WeaponEnergy implements Weapon, Energy, Reticle, Overlay{
 		weapon.setAutomatic(isAutomatic);
 	}
 
+	@Override
+	public void setMeleeDamage(float meleeDamage) {
+		weapon.setMeleeDamage(meleeDamage);
+	}
+
+	@Override
+	public float getMeleeDamage() {
+		return weapon.getMeleeDamage();
+	}
+
 }

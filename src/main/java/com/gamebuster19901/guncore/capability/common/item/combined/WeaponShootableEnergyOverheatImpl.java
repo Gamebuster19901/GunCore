@@ -286,4 +286,14 @@ public class WeaponShootableEnergyOverheatImpl extends WeaponEnergy implements S
 		energy.extractEnergy(getMaxExtract(), false);
 		overheat.addTemp(getTempIncrease());
 	}
+
+	@Override
+	public float getDamage() {
+		return shootable.getDamage();
+	}
+
+	@Override
+	public void setDamage(float damage) {
+		shootable.setDamage(damage);
+	}
 }

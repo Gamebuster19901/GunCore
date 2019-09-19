@@ -15,7 +15,7 @@ public class WeaponFactory implements Callable<Weapon>{
 	
 	@Override
 	public Weapon call() throws Exception {
-		return new WeaponDefaultImpl(1, true);
+		return new WeaponDefaultImpl(1, 1, true);
 	}
 
 }

@@ -86,6 +86,14 @@ public interface Weapon extends Updateable, INBTSerializable<CompoundNBT>{
 		return 1;
 	}
 	
+	public default boolean canMelee() {
+		return true;
+	}
+	
+	public void setMeleeDamage(float meleeDamage);
+	
+	public float getMeleeDamage();
+	
 	/**
 	 * Convert Feet per second to meters per tick
 	 * @param fps feet per second

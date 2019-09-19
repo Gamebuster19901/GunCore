@@ -32,7 +32,7 @@ public abstract class HeldWeapon extends GunCoreItem{
 			@Override
 			public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction facing) {
 				if(capability == WeaponDefaultImpl.CAPABILITY) {
-					return (LazyOptional<T>) LazyOptional.of(() -> new WeaponDefaultImpl(1,false));
+					return (LazyOptional<T>) LazyOptional.of(() -> new WeaponDefaultImpl(1,1,false));
 				}
 				return LazyOptional.empty();
 			}
