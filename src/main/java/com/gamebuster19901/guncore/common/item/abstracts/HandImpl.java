@@ -151,4 +151,13 @@ public final class HandImpl implements Shootable{
 	@Override
 	public void deserializeNBT(CompoundNBT base) {}
 
+	@Override
+	public float getDamage() {
+		return 0;
+	}
+
+	@Override
+	public void setDamage(float damage) {
+	}
+
 }

@@ -36,12 +36,14 @@ public class ShootableDefaultImpl implements Shootable{
 	protected float maxRecoilX;
 	protected float minRecoilY;
 	protected float maxRecoilY;
+	protected float damage;
 	protected CompoundNBT projectile = NullAmmo.INSTANCE.getProjectile();
 	
 	protected float bloom = maxBloom;
 
 	
-	public ShootableDefaultImpl(float maxBloom, float bloomI, float bloomD, float muzzleVelocity, float minRecoilX, float maxRecoilX, float minRecoilY, float maxRecoilY, CompoundNBT projectile) {
+	public ShootableDefaultImpl(float damage, float maxBloom, float bloomI, float bloomD, float muzzleVelocity, float minRecoilX, float maxRecoilX, float minRecoilY, float maxRecoilY, CompoundNBT projectile) {
+		this.damage = damage;
 		this.maxBloom = maxBloom;
 		this.bloomI = bloomI;
 		this.bloomD = bloomD;
@@ -226,6 +228,7 @@ public class ShootableDefaultImpl implements Shootable{
 	@Override
 	public CompoundNBT serializeNBT() {
 		CompoundNBT nbt = new CompoundNBT();
+		nbt.putFloat("damage", damage);
 		nbt.putFloat("maxBloom", maxBloom);
 		nbt.putFloat("bloomI", bloomI);
 		nbt.putFloat("bloomD", bloomD);
@@ -243,6 +246,7 @@ public class ShootableDefaultImpl implements Shootable{
 	@Override
 	public void deserializeNBT(CompoundNBT base) {
 		CompoundNBT nbt = (CompoundNBT) base;
+		damage = nbt.getFloat("damage");
 		maxBloom = nbt.getFloat("maxBloom");
 		bloomI = nbt.getFloat("bloomI");
 		bloomD = nbt.getFloat("bloomD");
@@ -253,6 +257,16 @@ public class ShootableDefaultImpl implements Shootable{
 		maxRecoilY = nbt.getFloat("maxRecoilY");
 		projectile = nbt.getCompound("projectile");
 		bloom = nbt.getFloat("bloom");
+	}
+
+	@Override
+	public float getDamage() {
+		return damage;
+	}
+
+	@Override
+	public void setDamage(float damage) {
+		this.damage = damage;
 	}
 	
 }

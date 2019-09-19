@@ -35,4 +35,9 @@ public class NullAmmo extends Ammo {
 		return MODID;
 	}
 
+	@Override
+	public float getDamage() {
+		return 0;
+	}
+
 }

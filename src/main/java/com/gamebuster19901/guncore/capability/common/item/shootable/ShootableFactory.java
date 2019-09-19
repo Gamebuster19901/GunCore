@@ -15,7 +15,7 @@ public class ShootableFactory implements Callable<Shootable>{
 	
 	@Override
 	public Shootable call() throws Exception {
-		return new ShootableDefaultImpl(1, 1, 0.025f, 5, 0, 0, 0, 5, null);
+		return new ShootableDefaultImpl(1, 1, 1, 0.025f, 5, 0, 0, 0, 5, null);
 	}
 
 }

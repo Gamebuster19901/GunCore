@@ -30,4 +30,6 @@ public abstract class Ammo extends Item implements Resourced{
 	public final CompoundNBT getProjectile() {
 		return projectile.getProjectileNBT();
 	}
+	
+	public abstract float getDamage();
 }
