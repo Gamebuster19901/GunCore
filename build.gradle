@@ -146,6 +146,7 @@ task checkLicenses(type: JavaExec) {
 
 build.dependsOn checkVersion
 build.dependsOn checkLicenses
+build.finalizedBy publish
 jar.dependsOn checkLicenses
 
 task applyLicenses(type: JavaExec) {
