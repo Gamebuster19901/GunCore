@@ -3,11 +3,14 @@ buildscript {
 		jcenter()
 		mavenCentral()
 		maven { url "https://files.minecraftforge.net/maven" }
-		maven { url "https://jitpack.io" }   
 	}
 	dependencies {
 		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
-		classpath group: 'com.github.Gamebuster19901', name: 'LicenseChecker', version: '-SNAPSHOT', changing: true;
+		classpath('com.gamebuster19901:LicenseChecker'){
+			version {
+				branch = "master"
+			}
+		}
 	}
 }
 apply plugin: 'net.minecraftforge.gradle'
