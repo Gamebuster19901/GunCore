@@ -120,6 +120,7 @@ jar {
 task checkVersion() {
 	def versionRegex = ~'(?i)version(?i-)\\s?=\\s?\\"[\\w.-]*\\"';
 	
+	println project.buildscript.sourceFile
 	
 	String allContainingFiles = 
 		new File('src/main/java/com/gamebuster19901/guncore/Main.java').text +
