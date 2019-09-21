@@ -3,6 +3,7 @@ buildscript {
 		jcenter()
 		mavenCentral()
 		maven { url "https://files.minecraftforge.net/maven" }
+		mavenLocal()
 	}
 	dependencies {
 		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
@@ -120,11 +121,13 @@ jar {
 task checkVersion() {
 	def versionRegex = ~'(?i)version(?i-)\\s?=\\s?\\"[\\w.-]*\\"';
 	
+	def gradlef = project.buildscript.sourceFile.toString();
+	def dir = new File(gradlef).getParent().toString();
 	
 	String allContainingFiles = 
-		new File('src/main/java/com/gamebuster19901/guncore/Main.java').text +
-		new File('src/main/resources/META-INF/mods.toml').text +
-		new File('build.gradle').text
+		new File(dir + '/src/main/java/com/gamebuster19901/guncore/Main.java').text +
+		new File(dir + '/src/main/resources/META-INF/mods.toml').text +
+		new File(gradlef).text
 		
 	allContainingFiles = allContainingFiles.replaceAll(' ','')
 		
