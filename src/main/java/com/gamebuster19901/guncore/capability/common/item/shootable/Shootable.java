@@ -146,8 +146,8 @@ public interface Shootable extends Updateable, INBTSerializable<CompoundNBT>{
 		new Projectile(getProjectile()).shoot(world, pos, vector, this);
 	}
 	
-	public float getDamage();
+	public float getBaseDamage();
 	
-	public void setDamage(float damage);
+	public void setBaseDamage(float damage);
 	
 }

@@ -374,14 +374,14 @@ public class WeaponShootableReloadableImpl implements Weapon, Shootable, Reloada
 	}
 
 	@Override
-	public float getDamage() {
-		return this.getAmmoType().getDamage() + shootable.getDamage();
+	public float getBaseDamage() {
+		return shootable.getBaseDamage();
 	}
 	
 
 	@Override
-	public void setDamage(float damage) {
-		shootable.setDamage(damage);
+	public void setBaseDamage(float damage) {
+		shootable.setBaseDamage(damage);
 	}
 	
 	@Override

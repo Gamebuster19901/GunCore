@@ -15,11 +15,13 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 public abstract class Ammo extends Item implements Resourced{
 	private final Projectile projectile;
+	private final float damage;
 	
-	public Ammo(Projectile projectile, int maxStackSize) {
+	public Ammo(Projectile projectile, int maxStackSize, float additonalDamage) {
 		super(new Item.Properties().maxStackSize(maxStackSize));
 		this.setRegistryName(getResourceLocation());
 		this.projectile = projectile;
+		this.damage = additonalDamage;
 	}
 	
 	public TranslationTextComponent getIcon() {
@@ -31,5 +33,7 @@ public abstract class Ammo extends Item implements Resourced{
 		return projectile.getProjectileNBT();
 	}
 	
-	public abstract float getDamage();
+	public float getDamage() {
+		return damage;
+	}
 }

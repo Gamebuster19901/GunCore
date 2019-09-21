@@ -44,10 +44,15 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	
 	protected CompoundNBT gun;
 	protected UUID shooter;
-	protected float damage = 1f; //damage to deal if this hits an entity
+	protected float damage = 0f; //damage to deal if this hits an entity
 	
-	public ProjectileEntity(EntityType type, World worldIn) {
-		super(type, worldIn);
+	public ProjectileEntity(EntityType type, World world) {
+		super(type, world);
+	}
+	
+	public ProjectileEntity(EntityType type, World world, float damage) {
+		super(type, world);
+		this.damage = damage;
 	}
 	
 	public void shoot(Shootable gun, @Nullable Entity shooter) {
@@ -140,7 +145,11 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 			
 			if(entity instanceof LivingEntity) {
 				LivingEntity hitEntity = (LivingEntity) entity;
-				hitEntity.attackEntityFrom(damageSource, this.damage);
+				float gunDamage = 0;
+				if(gun != null) {
+					gunDamage = gun.getFloat("baseDamage");
+				}
+				hitEntity.attackEntityFrom(damageSource, this.damage + gunDamage);
 			}
 		}
 		onHit();

@@ -27,7 +27,7 @@ public class NullAmmo extends Ammo {
 	public static final NullAmmo INSTANCE = new NullAmmo();
 	
 	public NullAmmo() {
-		super(snowball, 1);
+		super(snowball, 1, 0);
 	}
 
 	@Override

@@ -288,12 +288,12 @@ public class WeaponShootableEnergyOverheatImpl extends WeaponEnergy implements S
 	}
 
 	@Override
-	public float getDamage() {
-		return shootable.getDamage();
+	public float getBaseDamage() {
+		return shootable.getBaseDamage();
 	}
 
 	@Override
-	public void setDamage(float damage) {
-		shootable.setDamage(damage);
+	public void setBaseDamage(float damage) {
+		shootable.setBaseDamage(damage);
 	}
 }

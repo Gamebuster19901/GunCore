@@ -12,8 +12,12 @@ import net.minecraft.world.World;
 
 public abstract class StickyProjectile extends ProjectileEntity{
 
-	public StickyProjectile(EntityType type, World worldIn) {
-		super(type, worldIn);
+	public StickyProjectile(EntityType type, World world) {
+		super(type, world);
+	}
+	
+	public StickyProjectile(EntityType type, World world, float damage) {
+		super(type, world, damage);
 	}
 
 }
