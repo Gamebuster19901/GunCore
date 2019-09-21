@@ -11,7 +11,12 @@ import com.gamebuster19901.guncore.capability.common.item.weapon.Weapon;
 import com.gamebuster19901.guncore.capability.common.item.weapon.WeaponDefaultImpl;
 import com.gamebuster19901.guncore.common.item.GunCoreItem;
 
+import com.google.common.collect.Multimap;
+
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
@@ -68,5 +73,18 @@ public abstract class HeldWeapon extends GunCoreItem{
 	@Override
 	public void readShareTag(ItemStack stack, CompoundNBT nbt) {
 		stack.getCapability(WeaponDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new).deserializeNBT(nbt);
+	}
+	
+	@Override
+	public Multimap<String, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
+		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
+		if(slot == EquipmentSlotType.MAINHAND) {
+			Weapon weapon = stack.getCapability(WeaponDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);
+			if(weapon.canMelee()) {
+				float damage = weapon.getMeleeDamage();
+				multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", damage, AttributeModifier.Operation.ADDITION));
+			}
+		}
+		return multimap;
 	}
 }
