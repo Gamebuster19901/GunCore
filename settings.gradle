@@ -1,3 +1,4 @@
+rootProject.name = "GunCore"
 sourceControl {
     gitRepository("https://github.com/Gamebuster19901/LicenseChecker.git") {
         producesModule("com.gamebuster19901:LicenseChecker")
