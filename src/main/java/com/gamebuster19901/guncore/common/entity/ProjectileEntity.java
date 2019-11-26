@@ -169,7 +169,7 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	@Nullable
 	protected EntityRayTraceResult getCollidingEntity(Vec3d start, Vec3d end, Predicate<Entity> targets) {
 		AxisAlignedBB bounds = new AxisAlignedBB(start, end);
-		return ProjectileHelper.func_221273_a(this, start, end, bounds, targets, 0f);
+		return ProjectileHelper.rayTraceEntities(this, start, end, bounds, targets, 0f);
 	}
 	
 	protected float getNextSoundPitch() {
