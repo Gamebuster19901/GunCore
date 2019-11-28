@@ -64,7 +64,7 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	public void tick() {
 		if(this.world != null && !this.removed) {
 			if(this.ticksExisted == 1) {
-				this.world.playSound(posX, posY, posZ, getShootingSound(), SoundCategory.NEUTRAL, 1f, getNextSoundPitch(), false);
+				this.world.playSound(posX, posY, posZ, getDischargeSound(), SoundCategory.NEUTRAL, 1f, getNextSoundPitch(), false);
 			}
 			else if(this.ticksExisted > 120 || this.ticksExisted < 1) {
 				this.remove();
@@ -131,11 +131,13 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	}
 
 	@Nullable
-	public abstract SoundEvent getShootingSound();
-
+	public abstract SoundEvent getDischargeSound();
 	
 	@Nullable
 	public abstract SoundEvent getImpactSound();
+	
+	@Nullable
+	public abstract SoundEvent getIdleSound();
 	
 	public void hitEntity(EntityRayTraceResult rayTrace) {
 		if(!world.isRemote) {
