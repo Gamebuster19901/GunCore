@@ -8,7 +8,6 @@
 package com.gamebuster19901.guncore.proxy;
 
 import java.util.HashSet;
-import org.apache.logging.log4j.Level;
 
 import com.gamebuster19901.guncore.Main;
 import com.gamebuster19901.guncore.capability.client.item.overlay.Overlay;
@@ -144,7 +143,6 @@ public abstract class Proxy {
 	public void attachEntityCapabilities(AttachCapabilitiesEvent<Entity> e) {
 		Entity entity = e.getObject();
 		if(entity instanceof LivingEntity || entity instanceof PlayerEntity) {
-			Main.LOGGER.catching(Level.FATAL, new AssertionError());
 			e.addCapability(Resourced.getResourceLocation("guncore", Stickable.class), new StickableDefaultProvider(entity));
 		}
 		
