@@ -28,4 +28,8 @@ public interface Charge extends Updateable, INBTSerializable<CompoundNBT>{
 	
 	public int getMaxChargeTime();
 	
+	public default float getChargeProgress() {
+		return (float)getChargeTime() / (float)getMaxChargeTime();
+	}
+	
 }
