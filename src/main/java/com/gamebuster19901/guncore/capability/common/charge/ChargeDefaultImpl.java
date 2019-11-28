@@ -13,6 +13,10 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 
 public class ChargeDefaultImpl implements Charge{
 
+	public static final String CHARGING = "charging";
+	public static final String CHARGE_TIME = "chargeTime";
+	public static final String MAX_CHARGE_TIME = "maxChargeTime";
+	
 	@CapabilityInject(Charge.class)
 	public static Capability<Charge> CAPABILITY;
 	
@@ -84,18 +88,18 @@ public class ChargeDefaultImpl implements Charge{
 	public CompoundNBT serializeNBT() {
 		CompoundNBT nbt = new CompoundNBT();
 		
-		nbt.putBoolean("charging", charging);
-		nbt.putInt("chargeTime", chargeTime);
-		nbt.putInt("maxChargeTime", maxChargeTime);
+		nbt.putBoolean(CHARGING, charging);
+		nbt.putInt(CHARGE_TIME, chargeTime);
+		nbt.putInt(MAX_CHARGE_TIME, maxChargeTime);
 		
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
-		charging = nbt.getBoolean("charging");
-		chargeTime = nbt.getInt("chargeTime");
-		maxChargeTime = nbt.getInt("maxChargeTime");
+		charging = nbt.getBoolean(CHARGING);
+		chargeTime = nbt.getInt(CHARGE_TIME);
+		maxChargeTime = nbt.getInt(MAX_CHARGE_TIME);
 	}
 
 }

@@ -34,6 +34,10 @@ public class StickableDefaultImpl implements Stickable{
 	@CapabilityInject(Stickable.class)
 	public static Capability<Stickable> CAPABILITY;
 	
+	public static final String STICKS = "sticks";
+	public static final String ENTITY = "entity";
+	public static final String ID = "id";
+	
 	private Multimap<Class<? extends Sticky>, Sticky> sticks = HashMultimap.create();
 	private Entity entity;
 
@@ -99,23 +103,23 @@ public class StickableDefaultImpl implements Stickable{
 		
 		for(Sticky sticky : this.sticks.values()) {
 			CompoundNBT data = new CompoundNBT();
-			data.put("entity", sticky.getStickyEntity().serializeNBT());
+			data.put(ENTITY, sticky.getStickyEntity().serializeNBT());
 			sticks.add(data);
 		}
 		
-		nbt.putInt("id", entity.getEntityId()); //used so UpdateStickable can find the stickable on the client
-		nbt.put("sticks", sticks);
+		nbt.putInt(ID, entity.getEntityId()); //used so UpdateStickable packet can find the stickable on the client
+		nbt.put(STICKS, sticks);
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
 		clear();
-		ListNBT sticks = nbt.getList("sticks", 10);
+		ListNBT sticks = nbt.getList(STICKS, 10);
 		World world = this.getEntity().world;
 		for(int i = 0; i < sticks.size(); i++) {
 			CompoundNBT data = (CompoundNBT) sticks.get(i);
-			Entity e = EntityType.func_220335_a(data.getCompound("entity"), world, Function.identity());
+			Entity e = EntityType.func_220335_a(data.getCompound(ENTITY), world, Function.identity());
 			e.remove(true);
 			if(e != null && e.getCapability(StickyDefaultImpl.CAPABILITY).isPresent()) {
 				Sticky sticky = e.getCapability(StickyDefaultImpl.CAPABILITY).orElseThrow(AssertionError::new);

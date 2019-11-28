@@ -23,7 +23,7 @@ public class TrackerEntityImpl extends TrackerBaseImpl{
 		return tracker.getEntityWorld();
 	}
 
-	private Entity getTracker() {
+	public Entity getTracker() {
 		return tracker;
 	}
 

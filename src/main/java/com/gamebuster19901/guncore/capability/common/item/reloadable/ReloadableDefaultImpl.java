@@ -23,6 +23,13 @@ public class ReloadableDefaultImpl implements Reloadable{
 	@CapabilityInject(Reloadable.class)
 	public static Capability<Reloadable> CAPABILITY = null;
 	
+	public static final String MAG_SIZE = "magSize";
+	public static final String RELOAD_TIME = "reloadTime";
+	public static final String AMOUNT_LOADED = "amountLoaded";
+	public static final String RELOAD_PROGRESS = "reloadProgress";
+	public static final String IS_RELOADING = "isReloading";
+	public static final String AMMO_TYPE = "ammoType";
+	
 	protected int magSize;
 	protected int reloadTime;
 	
@@ -146,24 +153,24 @@ public class ReloadableDefaultImpl implements Reloadable{
 	@Override
 	public CompoundNBT serializeNBT() {
 		CompoundNBT nbt = new CompoundNBT();
-		nbt.putInt("magSize", magSize);
-		nbt.putInt("reloadTime", reloadTime);
-		nbt.putInt("amountLoaded", amountLoaded);
-		nbt.putInt("reloadProgress", reloadProgress);
-		nbt.putBoolean("isReloading", isReloading);
-		nbt.putString("ammoType", ammoType.getResourceLocation().toString());
+		nbt.putInt(MAG_SIZE, magSize);
+		nbt.putInt(RELOAD_TIME, reloadTime);
+		nbt.putInt(AMOUNT_LOADED, amountLoaded);
+		nbt.putInt(RELOAD_PROGRESS, reloadProgress);
+		nbt.putBoolean(IS_RELOADING, isReloading);
+		nbt.putString(AMMO_TYPE, ammoType.getResourceLocation().toString());
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(CompoundNBT tag) {
 		CompoundNBT nbt = (CompoundNBT) tag;
-		magSize = nbt.getInt("magSize");
-		reloadTime = nbt.getInt("reloadTime");
-		amountLoaded = nbt.getInt("amountLoaded");
-		reloadProgress = nbt.getInt("reloadProgress");
-		isReloading = nbt.getBoolean("isReloading");
-		ResourceLocation ammo = new ResourceLocation(nbt.getString("ammoType"));
+		magSize = nbt.getInt(MAG_SIZE);
+		reloadTime = nbt.getInt(RELOAD_TIME);
+		amountLoaded = nbt.getInt(AMOUNT_LOADED);
+		reloadProgress = nbt.getInt(RELOAD_PROGRESS);
+		isReloading = nbt.getBoolean(IS_RELOADING);
+		ResourceLocation ammo = new ResourceLocation(nbt.getString(AMMO_TYPE));
 		if(ForgeRegistries.ITEMS.containsKey(ammo)) {
 			ammoType = (Ammo) ForgeRegistries.ITEMS.getValue(ammo);
 		}

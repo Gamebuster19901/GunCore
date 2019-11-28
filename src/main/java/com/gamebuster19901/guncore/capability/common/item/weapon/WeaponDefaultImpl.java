@@ -16,6 +16,11 @@ public class WeaponDefaultImpl implements Weapon{
 	@CapabilityInject(Weapon.class)
 	public static Capability<Weapon> CAPABILITY = null;
 	
+	public static final String MELEE_DAMAGE = "meleeDamage";
+	public static final String FIRE_RATE = "fireRate";
+	public static final String AUTOMATIC = "isAutomatic";
+	public static final String NEXT_FIRE = "nextFire";
+	
 	protected float meleeDamage;
 	protected int fireRate;
 	protected boolean isAutomatic;
@@ -93,19 +98,19 @@ public class WeaponDefaultImpl implements Weapon{
 	@Override
 	public CompoundNBT serializeNBT() {
 		CompoundNBT nbt = new CompoundNBT();
-		nbt.putFloat("meleeDamage", meleeDamage);
-		nbt.putInt("fireRate", fireRate);
-		nbt.putBoolean("isAutomatic", isAutomatic);
-		nbt.putByte("nextFire", nextFire);
+		nbt.putFloat(MELEE_DAMAGE, meleeDamage);
+		nbt.putInt(FIRE_RATE, fireRate);
+		nbt.putBoolean(AUTOMATIC, isAutomatic);
+		nbt.putByte(NEXT_FIRE, nextFire);
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(CompoundNBT tag) {
 		CompoundNBT nbt = (CompoundNBT) tag;
-		meleeDamage = nbt.getFloat("meleeDamage");
-		fireRate = nbt.getInt("fireRate");
-		isAutomatic = nbt.getBoolean("isAutomatic");
-		nextFire = nbt.getByte("nextFire");
+		meleeDamage = nbt.getFloat(MELEE_DAMAGE);
+		fireRate = nbt.getInt(FIRE_RATE);
+		isAutomatic = nbt.getBoolean(AUTOMATIC);
+		nextFire = nbt.getByte(NEXT_FIRE);
 	}
 }

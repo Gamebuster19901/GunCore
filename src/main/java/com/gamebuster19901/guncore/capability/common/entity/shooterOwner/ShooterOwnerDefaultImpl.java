@@ -22,6 +22,9 @@ public class ShooterOwnerDefaultImpl implements ShooterOwner, INBTSerializable<C
 	@CapabilityInject(ShooterOwner.class)
 	public static Capability<ShooterOwner> CAPABILITY = null;
 	
+	public static final String SHOOTER = "shooter";
+	public static final String GUN = "gun";
+	
 	private UUID shooter;
 	private CompoundNBT gun;
 	
@@ -67,18 +70,18 @@ public class ShooterOwnerDefaultImpl implements ShooterOwner, INBTSerializable<C
 	@Override
 	public CompoundNBT serializeNBT() {
 		CompoundNBT nbt = new CompoundNBT();
-		nbt.put("gun", gun);
+		nbt.put(GUN, gun);
 		if(shooter != null) {
-			nbt.putString("shooter", shooter.toString());
+			nbt.putString(SHOOTER, shooter.toString());
 		}
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
-		this.gun = nbt.getCompound("gun");
-		if(nbt.contains("shooter")) {
-			this.shooter = UUID.fromString("shooter");
+		this.gun = nbt.getCompound(GUN);
+		if(nbt.contains(SHOOTER)) {
+			this.shooter = UUID.fromString(SHOOTER);
 		}
 	}
 }

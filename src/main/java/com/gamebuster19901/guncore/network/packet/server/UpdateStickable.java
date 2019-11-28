@@ -10,6 +10,7 @@ package com.gamebuster19901.guncore.network.packet.server;
 import java.util.function.Supplier;
 
 import com.gamebuster19901.guncore.capability.common.entity.stickable.Stickable;
+import static com.gamebuster19901.guncore.capability.common.entity.stickable.StickableDefaultImpl.ID;
 import com.gamebuster19901.guncore.capability.common.entity.stickable.StickableDefaultImpl;
 import com.gamebuster19901.guncore.exception.CapabilityMismatchError;
 import com.gamebuster19901.guncore.network.Network;
@@ -41,7 +42,7 @@ public class UpdateStickable {
 	public void handle(Supplier<NetworkEvent.Context> context) {
 		context.get().enqueueWork(() -> {
 			CompoundNBT nbt = buf.readCompoundTag();
-			Entity e = Minecraft.getInstance().world.getEntityByID(nbt.getInt("id"));
+			Entity e = Minecraft.getInstance().world.getEntityByID(nbt.getInt(ID));
 			Stickable stickable = e.getCapability(StickableDefaultImpl.CAPABILITY).orElseThrow(() -> new CapabilityMismatchError(StickableDefaultImpl.CAPABILITY, e));
 			stickable.deserializeNBT(nbt);
 		});

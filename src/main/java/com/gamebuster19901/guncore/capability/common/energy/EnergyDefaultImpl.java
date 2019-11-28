@@ -17,6 +17,13 @@ public class EnergyDefaultImpl implements Energy{
 	@CapabilityInject(Energy.class)
 	public static Capability<Energy> CAPABILITY = null;
 	
+	public static final String ENERGY = "energy";
+	public static final String CAPACITY = "capacity";
+	public static final String MAX_RECEIVE = "maxReceive";
+	public static final String MAX_EXTRACT = "maxExtract";
+	public static final String CAN_RECEIVE = "canReceive";
+	public static final String CAN_EXTRACT = "canExtract";
+	
 	private int energy;
 	private int capacity;
 	private int maxReceive;
@@ -140,23 +147,23 @@ public class EnergyDefaultImpl implements Energy{
 	@Override
 	public CompoundNBT serializeNBT() {
 		CompoundNBT nbt = new CompoundNBT();
-		nbt.putInt("energy", energy);
-		nbt.putInt("capacity", capacity);
-		nbt.putInt("maxReceive", maxReceive);
-		nbt.putInt("maxExtract", maxExtract);
-		nbt.putBoolean("canReceive", canReceive);
-		nbt.putBoolean("canExtract", canExtract);
+		nbt.putInt(ENERGY, energy);
+		nbt.putInt(CAPACITY, capacity);
+		nbt.putInt(MAX_RECEIVE, maxReceive);
+		nbt.putInt(MAX_EXTRACT, maxExtract);
+		nbt.putBoolean(CAN_RECEIVE, canReceive);
+		nbt.putBoolean(CAN_EXTRACT, canExtract);
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
-		energy = nbt.getInt("energy");
-		capacity = nbt.getInt("capacity");
-		maxReceive = nbt.getInt("maxReceive");
-		maxExtract = nbt.getInt("maxExtract");
-		canReceive = nbt.getBoolean("canReceive");
-		canExtract = nbt.getBoolean("canExtract");
+		energy = nbt.getInt(ENERGY);
+		capacity = nbt.getInt(CAPACITY);
+		maxReceive = nbt.getInt(MAX_RECEIVE);
+		maxExtract = nbt.getInt(MAX_EXTRACT);
+		canReceive = nbt.getBoolean(CAN_RECEIVE);
+		canExtract = nbt.getBoolean(CAN_EXTRACT);
 	}
 
 	@Override

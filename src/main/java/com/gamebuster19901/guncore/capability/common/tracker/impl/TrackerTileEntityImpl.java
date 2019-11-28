@@ -13,8 +13,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
-public class TrackerTileEntityImpl extends TrackerBaseImpl{
+public class TrackerTileEntityImpl extends TrackerBaseImpl {
 
+	public static final String TILE_W = "tileW";
+	public static final String TILE_X = "tileX";
+	public static final String TILE_Y = "tileY";
+	public static final String TILE_Z = "tileZ";
+	
 	private TileEntity tracker;
 	
 	public TrackerTileEntityImpl(TileEntity tracker) {
@@ -26,7 +31,7 @@ public class TrackerTileEntityImpl extends TrackerBaseImpl{
 		return tracker.getWorld();
 	}
 	
-	private Chunk getChunk() {
+	public Chunk getChunk() {
 		return (Chunk) tracker.getWorld().getChunk(tracker.getPos());
 	}
 	
@@ -36,9 +41,10 @@ public class TrackerTileEntityImpl extends TrackerBaseImpl{
 
 		BlockPos pos = tracker.getPos();
 		
-		nbt.putInt("tileX", pos.getX());
-		nbt.putInt("tileY", pos.getY());
-		nbt.putInt("tileZ", pos.getZ());
+		nbt.putInt(TILE_W, tracker.getWorld().getDimension().getType().getId());
+		nbt.putInt(TILE_X, pos.getX());
+		nbt.putInt(TILE_Y, pos.getY());
+		nbt.putInt(TILE_Z, pos.getZ());
 		
 		return nbt;
 	}

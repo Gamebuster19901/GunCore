@@ -22,9 +22,22 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
-public class ShootableDefaultImpl implements Shootable{
+public class ShootableDefaultImpl implements Shootable {
+	
 	@CapabilityInject(Shootable.class)
 	public static Capability<Shootable> CAPABILITY = null;
+	
+	public static final String MAX_BLOOM = "maxBloom";
+	public static final String BLOOM_INCREASE = "bloomI";
+	public static final String BLOOM_DECREASE = "bloomD";
+	public static final String MUZZLE_VELOCITY = "muzzleVelocity";
+	public static final String MIN_RECOIL_X = "minRecoilX";
+	public static final String MAX_RECOIL_X = "maxRecoilY";
+	public static final String MIN_RECOIL_Y = "minRecoilY";
+	public static final String MAX_RECOIL_Y = "maxRecoilY";
+	public static final String BASE_DAMAGE = "baseDamage";
+	public static final String PROJECTILE = "projectile";
+	public static final String BLOOM = "bloom";
 	
 	protected Random rand = new Random();
 	
@@ -231,17 +244,17 @@ public class ShootableDefaultImpl implements Shootable{
 	@Override
 	public CompoundNBT serializeNBT() {
 		CompoundNBT nbt = new CompoundNBT();
-		nbt.putFloat("baseDamage", baseDamage);
-		nbt.putFloat("maxBloom", maxBloom);
-		nbt.putFloat("bloomI", bloomI);
-		nbt.putFloat("bloomD", bloomD);
-		nbt.putFloat("muzzleVelocity", muzzleVelocity);
-		nbt.putFloat("minRecoilX", minRecoilX);
-		nbt.putFloat("minRecoilY", minRecoilY);
-		nbt.putFloat("maxRecoilX", maxRecoilX);
-		nbt.putFloat("maxRecoilY", maxRecoilY);
-		nbt.put("projectile", projectile);
-		nbt.putFloat("bloom", bloom);
+		nbt.putFloat(BASE_DAMAGE, baseDamage);
+		nbt.putFloat(MAX_BLOOM, maxBloom);
+		nbt.putFloat(BLOOM_INCREASE, bloomI);
+		nbt.putFloat(BLOOM_DECREASE, bloomD);
+		nbt.putFloat(MUZZLE_VELOCITY, muzzleVelocity);
+		nbt.putFloat(MIN_RECOIL_X, minRecoilX);
+		nbt.putFloat(MIN_RECOIL_Y, minRecoilY);
+		nbt.putFloat(MAX_RECOIL_X, maxRecoilX);
+		nbt.putFloat(MAX_RECOIL_Y, maxRecoilY);
+		nbt.put(PROJECTILE, projectile);
+		nbt.putFloat(BLOOM, bloom);
 		return nbt;
 	}
 
@@ -249,17 +262,17 @@ public class ShootableDefaultImpl implements Shootable{
 	@Override
 	public void deserializeNBT(CompoundNBT base) {
 		CompoundNBT nbt = (CompoundNBT) base;
-		baseDamage = nbt.getFloat("baseDamage");
-		maxBloom = nbt.getFloat("maxBloom");
-		bloomI = nbt.getFloat("bloomI");
-		bloomD = nbt.getFloat("bloomD");
-		muzzleVelocity = nbt.getFloat("muzzleVelocity");
-		minRecoilX = nbt.getFloat("minRecoilX");
-		minRecoilY = nbt.getFloat("minRecoilY");
-		maxRecoilX = nbt.getFloat("maxRecoilX");
-		maxRecoilY = nbt.getFloat("maxRecoilY");
-		projectile = nbt.getCompound("projectile");
-		bloom = nbt.getFloat("bloom");
+		baseDamage = nbt.getFloat(BASE_DAMAGE);
+		maxBloom = nbt.getFloat(MAX_BLOOM);
+		bloomI = nbt.getFloat(BLOOM_INCREASE);
+		bloomD = nbt.getFloat(BLOOM_DECREASE);
+		muzzleVelocity = nbt.getFloat(MUZZLE_VELOCITY);
+		minRecoilX = nbt.getFloat(MIN_RECOIL_X);
+		minRecoilY = nbt.getFloat(MIN_RECOIL_Y);
+		maxRecoilX = nbt.getFloat(MAX_RECOIL_X);
+		maxRecoilY = nbt.getFloat(MAX_RECOIL_Y);
+		projectile = nbt.getCompound(PROJECTILE);
+		bloom = nbt.getFloat(BLOOM);
 	}
 
 	@Override

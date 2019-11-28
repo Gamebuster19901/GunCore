@@ -19,6 +19,13 @@ public class OverheatDefaultImpl implements Overheat{
 	@CapabilityInject(Overheat.class)
 	public static Capability<Overheat> CAPABILITY;
 	
+	public static final String OVERHEATING = "overheating";
+	public static final String TEMP = "temp";
+	public static final String MIN_TEMP = "minTemp";
+	public static final String MAX_TEMP = "maxTemp";
+	public static final String TEMP_DECREASE = "tempDecrease";
+	public static final String TEMP_INCREASE = "tempIncrease";
+	
 	private boolean overheating;
 	private double temp;
 	private double minTemp;
@@ -138,24 +145,24 @@ public class OverheatDefaultImpl implements Overheat{
 	public CompoundNBT serializeNBT() {
 		CompoundNBT nbt = new CompoundNBT();
 		
-		nbt.putBoolean("overheating", overheating);
-		nbt.putDouble("temp", temp);
-		nbt.putDouble("minTemp", minTemp);
-		nbt.putDouble("maxTemp", maxTemp);
-		nbt.putDouble("tempDecrease", tempDecrease);
-		nbt.putDouble("tempIncrease", tempIncrease);
+		nbt.putBoolean(OVERHEATING, overheating);
+		nbt.putDouble(TEMP, temp);
+		nbt.putDouble(MIN_TEMP, minTemp);
+		nbt.putDouble(MAX_TEMP, maxTemp);
+		nbt.putDouble(TEMP_DECREASE, tempDecrease);
+		nbt.putDouble(TEMP_INCREASE, tempIncrease);
 		
 		return nbt;
 	}
 
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
-		overheating = nbt.getBoolean("overheating");
-		temp = nbt.getDouble("temp");
-		minTemp = nbt.getDouble("minTemp");
-		maxTemp = nbt.getDouble("maxTemp");
-		tempDecrease = nbt.getDouble("tempDecrease");
-		tempIncrease = nbt.getDouble("tempIncrease");
+		overheating = nbt.getBoolean(OVERHEATING);
+		temp = nbt.getDouble(TEMP);
+		minTemp = nbt.getDouble(MIN_TEMP);
+		maxTemp = nbt.getDouble(MAX_TEMP);
+		tempDecrease = nbt.getDouble(TEMP_DECREASE);
+		tempIncrease = nbt.getDouble(TEMP_INCREASE);
 		
 	}
 

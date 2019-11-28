@@ -28,6 +28,15 @@ public abstract class TrackerBaseImpl implements Tracker, Clearable{
 	@CapabilityInject(Tracker.class)
 	public static Capability<Tracker> CAPABILITY;
 	
+	public static final String UUID = "uuid";
+	public static final String ID = "id";
+	public static final String DEST_W = "destW";
+	public static final String DEST_X = "destX";
+	public static final String DEST_Y = "destY";
+	public static final String DEST_Z = "destZ";
+	public static final String DEST_RANGE = "destRange";
+	public static final String ACT_RANGE = "actRange";
+	
 	private Entity trackee;
 	private World world;
 	private Vec3d dest;
@@ -100,22 +109,22 @@ public abstract class TrackerBaseImpl implements Tracker, Clearable{
 	public CompoundNBT serializeNBT() {
 		CompoundNBT nbt = new CompoundNBT();
 		if(trackee != null) {
-			nbt.putUniqueId("uuid", trackee.getUniqueID());
-			nbt.putInt("id", trackee.getEntityId());
+			nbt.putUniqueId(UUID, trackee.getUniqueID());
+			nbt.putInt(ID, trackee.getEntityId());
 		}
 		else {
 			if(world != null) {
-				nbt.putInt("destW", world.getDimension().getType().getId());
+				nbt.putInt(DEST_W, world.getDimension().getType().getId());
 			}
 			if(dest != null) {
-				nbt.putDouble("destX", dest.getX());
-				nbt.putDouble("destY", dest.getY());
-				nbt.putDouble("destZ", dest.getZ());
+				nbt.putDouble(DEST_X, dest.getX());
+				nbt.putDouble(DEST_Y, dest.getY());
+				nbt.putDouble(DEST_Z, dest.getZ());
 			}
 		}
 		
-		nbt.putDouble("destRange", destinationRange);
-		nbt.putDouble("actRange", activationRange);
+		nbt.putDouble(DEST_RANGE, destinationRange);
+		nbt.putDouble(ACT_RANGE, activationRange);
 		
 		return nbt;
 	}
@@ -124,8 +133,8 @@ public abstract class TrackerBaseImpl implements Tracker, Clearable{
 	@Override
 	public void deserializeNBT(CompoundNBT nbt) {
 		World world = getWorld();
-		if(nbt.contains("id")) {
-			UUID uuid = nbt.getUniqueId("uuid");
+		if(nbt.contains(ID)) {
+			UUID uuid = nbt.getUniqueId(UUID);
 			if(!world.isRemote) {
 				Entity trackee = ((ServerWorld)getWorld()).getEntityByUuid(uuid);
 				if(trackee != null) {
@@ -133,7 +142,7 @@ public abstract class TrackerBaseImpl implements Tracker, Clearable{
 				}
 			}
 			else {
-				Entity trackee = world.getEntityByID(nbt.getInt("id"));
+				Entity trackee = world.getEntityByID(nbt.getInt(ID));
 				if(trackee != null) {
 					if(trackee.getUniqueID().equals(uuid)) {
 						track(trackee);
@@ -146,18 +155,18 @@ public abstract class TrackerBaseImpl implements Tracker, Clearable{
 		}
 		else {
 			if(!world.isRemote) {
-				ServerWorld destWorld = DimensionManager.getWorld(world.getServer(), DimensionManager.getRegistry().getByValue(nbt.getInt("destW")), false, false);
-				track(destWorld, new Vec3d(nbt.getDouble("destX"), nbt.getDouble("destY"), nbt.getDouble("destZ")));
+				ServerWorld destWorld = DimensionManager.getWorld(world.getServer(), DimensionManager.getRegistry().getByValue(nbt.getInt(DEST_W)), false, false);
+				track(destWorld, new Vec3d(nbt.getDouble(DEST_X), nbt.getDouble(DEST_Y), nbt.getDouble(DEST_Z)));
 			}
 			else {
-				if(world.getDimension().getType().getId() == nbt.getInt("destW")) {
-					track(world, new Vec3d(nbt.getDouble("destX"), nbt.getDouble("destY"), nbt.getDouble("destZ")));
+				if(world.getDimension().getType().getId() == nbt.getInt(DEST_W)) {
+					track(world, new Vec3d(nbt.getDouble(DEST_X), nbt.getDouble(DEST_Y), nbt.getDouble(DEST_Z)));
 				}
 			}
 		}
 		
-		setRange(nbt.getDouble("destRange"));
-		setActivationRange(nbt.getDouble("actRange"));
+		setRange(nbt.getDouble(DEST_RANGE));
+		setActivationRange(nbt.getDouble(ACT_RANGE));
 		
 	}
 

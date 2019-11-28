@@ -13,6 +13,7 @@ import java.util.function.Predicate;
 import javax.annotation.Nullable;
 
 import com.gamebuster19901.guncore.capability.common.entity.shooterOwner.ShooterOwner;
+import static com.gamebuster19901.guncore.capability.common.item.shootable.ShootableDefaultImpl.BASE_DAMAGE;
 import com.gamebuster19901.guncore.capability.common.item.shootable.Shootable;
 import com.gamebuster19901.guncore.common.util.Resourced;
 import com.gamebuster19901.guncore.common.util.GunCoreDamageSource;
@@ -41,6 +42,11 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	
 	public static final Predicate<Entity> ANY_ENTITY = (entity) -> {return true;};
 	public static final Predicate<Entity> DEFAULT_TARGETS = EntityPredicates.NOT_SPECTATING.and(Entity::canBeCollidedWith);
+	
+	public static final String ID = "id";
+	public static final String GUN = "gun";
+	public static final String SHOOTER = "shooter";
+	public static final String TICKS_EXISTED = "ticksExisted";
 	
 	protected CompoundNBT gun;
 	protected UUID shooter;
@@ -102,31 +108,31 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	@Override
 	public CompoundNBT serializeNBT() {
 		CompoundNBT ret = new CompoundNBT();
-		ret.putString("id", getResourceLocation().toString());
-		ret.putInt("ticksExisted", this.ticksExisted);
+		ret.putString(ID, getResourceLocation().toString());
+		ret.putInt(TICKS_EXISTED, this.ticksExisted);
 		this.writeUnlessRemoved(ret);
 		return ret;
 	}
 	
 	@Override
 	protected void readAdditional(CompoundNBT compound) {
-		this.ticksExisted = compound.getInt("ticksExisted");
-		if(compound.contains("gun")) {
-			this.gun = compound.getCompound("gun");
+		this.ticksExisted = compound.getInt(TICKS_EXISTED);
+		if(compound.contains(GUN)) {
+			this.gun = compound.getCompound(GUN);
 		}
-		if(compound.contains("shooter")) {
-			this.shooter = UUID.fromString(compound.getString("shooter"));
+		if(compound.contains(SHOOTER)) {
+			this.shooter = UUID.fromString(compound.getString(SHOOTER));
 		}
 	}
 
 	@Override
 	protected void writeAdditional(CompoundNBT compound) {
-		compound.putInt("ticksExisted", this.ticksExisted);
+		compound.putInt(TICKS_EXISTED, this.ticksExisted);
 		if(gun != null) {
-			compound.put("gun", gun);
+			compound.put(GUN, gun);
 		}
 		if(shooter != null) {
-			compound.putString("shooter", shooter.toString());
+			compound.putString(SHOOTER, shooter.toString());
 		}
 	}
 
@@ -149,7 +155,7 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 				LivingEntity hitEntity = (LivingEntity) entity;
 				float gunDamage = 0;
 				if(gun != null) {
-					gunDamage = gun.getFloat("baseDamage");
+					gunDamage = gun.getFloat(BASE_DAMAGE);
 				}
 				hitEntity.attackEntityFrom(damageSource, this.damage + gunDamage);
 			}
