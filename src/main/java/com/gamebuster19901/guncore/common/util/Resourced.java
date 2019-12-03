@@ -11,24 +11,41 @@ import net.minecraft.util.ResourceLocation;
 
 public interface Resourced{
 	public default ResourceLocation getResourceLocation() {
-		return new ResourceLocation(getModId() + ':' + getResourceName());
+		return getResourceLocation(getModId(), this.getClass());
+	}
+	
+	public default ResourceLocation getResourceLocation(String additional) {
+		return getResourceLocation(getModId(), this.getClass(), additional);
 	}
 	
 	public default String getEZTranslationKey() {
-		return getResourceLocation().toString().replace(':', '.');
+		return getEZTranslationKey(getModId(), this.getClass());
+	}
+	
+	public default String getEZTranslationKey(String additional) {
+		return getEZTranslationKey(getModId(), this.getClass(), additional);
 	}
 	
 	public static ResourceLocation getResourceLocation(String modid, Class clazz) {
 		return new ResourceLocation(modid + ':' + toSnakeCase(clazz.getSimpleName()));
 	}
-
-	public default String getResourceName() {
-		return toSnakeCase(this.getClass().getSimpleName());
+	
+	public static ResourceLocation getResourceLocation(String modid, Class clazz, String additional) {
+		if(additional.charAt(0) != '_') {
+			additional = "_" + additional;
+		}
+		return new ResourceLocation(modid + ":" + toSnakeCase(clazz.getSimpleName() + additional));
 	}
-
 	
 	public static String getEZTranslationKey(String modid, Class clazz) {
 		return getResourceLocation(modid, clazz).toString().replace(':', '.');
+	}
+	
+	public static String getEZTranslationKey(String modid, Class clazz, String additional) {
+		if(additional.charAt(0) != '_') {
+			additional = "_" + additional;
+		}
+		return getResourceLocation(modid, clazz, additional).toString().replace(':', '.');
 	}
 	
 	public static String toSnakeCase(String s) {
