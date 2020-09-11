@@ -30,6 +30,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
@@ -66,11 +67,12 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 		this.setShooter(shooter);
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void tick() {
-		if(this.world != null && !this.removed) {
+		if(this.world != null && !this.removed && !world.isRemote) {
 			if(this.ticksExisted == 1) {
-				this.world.playSound(posX, posY, posZ, getDischargeSound(), SoundCategory.NEUTRAL, 1f, getNextSoundPitch(), false);
+				this.world.playSound(null, posX, posY, posZ, getDischargeSound(), SoundCategory.NEUTRAL, 1f, getNextSoundPitch());
 			}
 			else if(this.ticksExisted > 120 || this.ticksExisted < 1) {
 				this.remove();
@@ -82,15 +84,13 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 			Vec3d pos = this.getPositionVector();
 			Vec3d nextPos = pos.add(this.getMotion());
 			
-			RayTraceResult blockResult = this.world.rayTraceBlocks(new RayTraceContext(pos, nextPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
-			if(blockResult != null) {
-				blockResult.getHitVec();
+			BlockRayTraceResult blockResult = this.world.rayTraceBlocks(new RayTraceContext(pos, nextPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.ANY, this));
+			if(blockResult != null && !world.getBlockState(blockResult.getPos()).isAir()) {
 				hitType = BLOCK;
 			}
 			
 			EntityRayTraceResult entityResult = getCollidingEntity(pos, nextPos, DEFAULT_TARGETS);
 			if(entityResult != null) {
-				entityResult.getHitVec();
 				hitType = ENTITY;
 			}
 
@@ -163,10 +163,15 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 		onHit();
 	}
 	
-	public void hitBlock(RayTraceResult rayTrace) {
-		this.world.playSound(null, posX, posY, posZ, getImpactSound(), SoundCategory.NEUTRAL, 1f, getNextSoundPitch());
-		SoundType blockSound = world.getBlockState(new BlockPos(rayTrace.getHitVec())).getSoundType(world, new BlockPos(rayTrace.getHitVec()), this);
-		this.world.playSound(null, posX, posY, posZ, blockSound.getBreakSound(), SoundCategory.NEUTRAL, blockSound.volume, blockSound.pitch);
+	public void hitBlock(BlockRayTraceResult rayTrace) {
+		if(!world.isRemote) {
+			if(getImpactSound() != null) {
+				this.world.playSound(null, posX, posY, posZ, getImpactSound(), SoundCategory.NEUTRAL, 1f, getNextSoundPitch());
+			}
+			SoundType blockSound = world.getBlockState(rayTrace.getPos()).getSoundType(world, rayTrace.getPos(), this);
+			this.world.playSound(null, posX, posY, posZ, blockSound.getBreakSound(), SoundCategory.NEUTRAL, 3f, blockSound.pitch);
+			System.out.println(this.world.getBlockState(rayTrace.getPos()));
+		}
 		onHit();
 	}
 	
