@@ -60,6 +60,7 @@ public abstract class Test implements Resourced{
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static Class<? extends Test> toClass(String locationString) throws ClassNotFoundException, NoClassDefFoundError, ClassCastException{
 		ResourceLocation location = new ResourceLocation(locationString);
 		return (Class<? extends Test>) Class.forName(Test.class.getPackage().getName() + "." + location.getPath());

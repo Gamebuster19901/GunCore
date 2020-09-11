@@ -46,7 +46,7 @@ public class ReticleDefaultImpl extends AbstractGui implements Reticle{
 	public void render(float partialTicks, int scaledWidth, int scaledHeight) {
 		GameSettings gameSettings = mc.gameSettings;
 		if(gameSettings.thirdPersonView == 0) {
-			this.blit((scaledWidth / 2) - (width() / 2), (scaledHeight / 2) - (height() / 2), this.blitOffset, 0, 0, width(), height(), width(), height());
+			blit((scaledWidth / 2) - (width() / 2), (scaledHeight / 2) - (height() / 2), this.blitOffset, 0, 0, width(), height(), width(), height());
 		}
 	}
 	
@@ -62,10 +62,10 @@ public class ReticleDefaultImpl extends AbstractGui implements Reticle{
 		int offset2 = -2;
 		int bloom = MathHelper.ceil(shootable.getBloom());
 		
-		this.blit(x + offset1 + bloom, y + offset2, this.blitOffset, 5, 0, 2, 8, width(), height());
-		this.blit(x - offset1 - bloom, y + offset2, this.blitOffset, 5, 0, 2, 8, width(), height());
-		this.blit(x + offset2 - 1, y + 1 + offset1 + bloom, this.blitOffset, 0, 5, 8, 2, width(), height());
-		this.blit(x + offset2 - 1, y + 1 - offset1 - bloom, this.blitOffset, 0, 5, 8, 2, width(), height());
+		blit(x + offset1 + bloom, y + offset2, this.blitOffset, 5, 0, 2, 8, width(), height());
+		blit(x - offset1 - bloom, y + offset2, this.blitOffset, 5, 0, 2, 8, width(), height());
+		blit(x + offset2 - 1, y + 1 + offset1 + bloom, this.blitOffset, 0, 5, 8, 2, width(), height());
+		blit(x + offset2 - 1, y + 1 - offset1 - bloom, this.blitOffset, 0, 5, 8, 2, width(), height());
 		unbind();
 	}
 

@@ -129,8 +129,8 @@ public abstract class TrackerBaseImpl implements Tracker, Clearable{
 		return nbt;
 	}
 
-	@SuppressWarnings("resource")
 	@Override
+	@SuppressWarnings({ "deprecation" })
 	public void deserializeNBT(CompoundNBT nbt) {
 		World world = getWorld();
 		if(nbt.contains(ID)) {

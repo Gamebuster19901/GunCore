@@ -25,10 +25,12 @@ import net.minecraftforge.common.capabilities.CapabilityProvider;
 @SuppressWarnings("serial")
 public class CapabilityMismatchError extends Error{
 	
+	@SuppressWarnings("rawtypes")
 	public CapabilityMismatchError(Capability capability, CapabilityProvider object) {
 		super(object + " has capability " + capability.getName() + " on the server, but not on the client!");
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public CapabilityMismatchError(Capability capability, CapabilityProvider object, Throwable cause) {
 		super(object + " has capability " + capability.getName() + " on the server, but not on the client!", cause);
 	}

@@ -80,6 +80,7 @@ public class RenderHelper{
 	
 	private static final Field LAYER_RENDERERS = ForgeReflectionHelper.findField(LivingRenderer.class, "layerRenderers");
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void replaceArrowLayerRenderer(PlayerRenderer renderer) {
 		try {
 			List<LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>>> list = (List<LayerRenderer<AbstractClientPlayerEntity, PlayerModel<AbstractClientPlayerEntity>>>) LAYER_RENDERERS.get(renderer);

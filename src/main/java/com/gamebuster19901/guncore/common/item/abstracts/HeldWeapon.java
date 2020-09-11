@@ -35,6 +35,7 @@ public abstract class HeldWeapon extends GunCoreItem{
 	public ICapabilityProvider initCapabilities(ItemStack stack, CompoundNBT nbt) {
 		return new ICapabilityProvider() {			
 			@Override
+			@SuppressWarnings("unchecked")
 			public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction facing) {
 				if(capability == WeaponDefaultImpl.CAPABILITY) {
 					return (LazyOptional<T>) LazyOptional.of(() -> new WeaponDefaultImpl(1,1,false));

@@ -39,6 +39,7 @@ public class UpdateStickable {
 		buf.writeCompoundTag(stickable.serializeNBT());
 	}
 	
+	@SuppressWarnings("resource")
 	public void handle(Supplier<NetworkEvent.Context> context) {
 		context.get().enqueueWork(() -> {
 			CompoundNBT nbt = buf.readCompoundTag();

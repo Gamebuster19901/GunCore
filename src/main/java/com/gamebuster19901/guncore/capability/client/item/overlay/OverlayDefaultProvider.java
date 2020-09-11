@@ -17,6 +17,7 @@ public class OverlayDefaultProvider implements ICapabilityProvider{
 	public final OverlayDefaultImpl impl = (OverlayDefaultImpl) getCapability(OverlayDefaultImpl.CAPABILITY, null).orElseThrow(AssertionError::new);
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
 		if(cap == OverlayDefaultImpl.CAPABILITY) {
 			return (LazyOptional<T>) LazyOptional.of(this::getImpl);

@@ -33,7 +33,7 @@ public class ClientProxy extends Proxy{
 	private static final Field PLAYER_RENDERER = ForgeReflectionHelper.findField(EntityRendererManager.class, "playerRenderer");
 	
 	@SubscribeEvent
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void clientSetup(FMLClientSetupEvent e){
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(RenderHelper.class);

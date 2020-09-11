@@ -32,6 +32,7 @@ public class TrackerDefaultProvider implements ICapabilitySerializable<CompoundN
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
 		if(cap == TrackerBaseImpl.CAPABILITY) {
 			return (LazyOptional<T>) LazyOptional.of(this::getImpl);

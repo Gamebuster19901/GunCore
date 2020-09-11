@@ -28,6 +28,7 @@ public abstract class GunCoreEntity extends Entity implements Resourced{
 	}
 	
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean writeUnlessRemoved(CompoundNBT compound) {
 		String s = getResourceLocation().toString();
 		if (!this.removed && s != null) {

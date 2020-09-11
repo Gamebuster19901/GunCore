@@ -26,10 +26,12 @@ public interface Resourced{
 		return getEZTranslationKey(getModId(), this.getClass(), additional);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static ResourceLocation getResourceLocation(String modid, Class clazz) {
 		return new ResourceLocation(modid + ':' + toSnakeCase(clazz.getSimpleName()));
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static ResourceLocation getResourceLocation(String modid, Class clazz, String additional) {
 		if(additional.charAt(0) != '_') {
 			additional = "_" + additional;
@@ -37,10 +39,12 @@ public interface Resourced{
 		return new ResourceLocation(modid + ":" + toSnakeCase(clazz.getSimpleName() + additional));
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static String getEZTranslationKey(String modid, Class clazz) {
 		return getResourceLocation(modid, clazz).toString().replace(':', '.');
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public static String getEZTranslationKey(String modid, Class clazz, String additional) {
 		if(additional.charAt(0) != '_') {
 			additional = "_" + additional;

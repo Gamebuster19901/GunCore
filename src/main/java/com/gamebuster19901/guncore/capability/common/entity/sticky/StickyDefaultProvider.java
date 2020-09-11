@@ -22,6 +22,7 @@ public class StickyDefaultProvider implements ICapabilityProvider{
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side){
 		if(cap == StickyDefaultImpl.CAPABILITY) {
 			return (LazyOptional<T>) LazyOptional.of(this::getImpl);

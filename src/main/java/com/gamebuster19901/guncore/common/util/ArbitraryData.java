@@ -17,6 +17,7 @@ import com.gamebuster19901.guncore.Main;
 
 public class ArbitraryData {
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private HashMap<Class, Object> data = new HashMap();
 	
 	public ArbitraryData(Object...objects) {
@@ -28,11 +29,13 @@ public class ArbitraryData {
 	}
 	
 	@Nullable
+	@SuppressWarnings("unchecked")
 	public <T> T get(Class<T> type) {
 		return (T)data.get(type);
 	}
 	
 	@Nullable
+	@SuppressWarnings("unchecked")
 	public <T> T getInstanceOf(Class<T> type) {
 		for(Object obj : data.values()) {
 			if(type.isInstance(obj)) {

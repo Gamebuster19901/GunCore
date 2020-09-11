@@ -29,7 +29,6 @@ import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
@@ -53,10 +52,12 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	protected UUID shooter;
 	protected float damage = 0f; //damage to deal if this hits an entity
 	
+	@SuppressWarnings("rawtypes")
 	public ProjectileEntity(EntityType type, World world) {
 		super(type, world);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public ProjectileEntity(EntityType type, World world, float damage) {
 		super(type, world);
 		this.damage = damage;
