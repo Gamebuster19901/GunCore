@@ -46,6 +46,7 @@ public class UpdateStickable {
 			Entity e = Minecraft.getInstance().world.getEntityByID(nbt.getInt(ID));
 			Stickable stickable = e.getCapability(StickableDefaultImpl.CAPABILITY).orElseThrow(() -> new CapabilityMismatchError(StickableDefaultImpl.CAPABILITY, e));
 			stickable.deserializeNBT(nbt);
+			context.get().setPacketHandled(true);
 		});
 	}
 	
