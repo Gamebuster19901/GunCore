@@ -158,6 +158,8 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 				if(gun != null) {
 					gunDamage = gun.getFloat(BASE_DAMAGE);
 				}
+				hitEntity.hurtResistantTime = 0;
+				hitEntity.hurtTime = 0;
 				hitEntity.attackEntityFrom(damageSource, this.damage + gunDamage);
 			}
 		}
