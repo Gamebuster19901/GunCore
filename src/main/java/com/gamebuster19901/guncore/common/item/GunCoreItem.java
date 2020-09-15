@@ -19,6 +19,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 public abstract class GunCoreItem extends Item implements Resourced{
 	public GunCoreItem() {
 		this(1);
+		this.setRegistryName(getResourceLocation());
 	}
 	
 	public GunCoreItem(int stackSize) {
@@ -28,6 +29,7 @@ public abstract class GunCoreItem extends Item implements Resourced{
 	
 	public GunCoreItem(Item.Properties properties) {
 		super(properties);
+		this.setRegistryName(getResourceLocation());
 	}
 	
     /**
