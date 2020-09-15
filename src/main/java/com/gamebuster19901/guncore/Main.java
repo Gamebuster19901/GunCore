@@ -28,7 +28,7 @@ import net.minecraftforge.fml.common.Mod;
 public class Main {
 	public static final String MODID = "guncore";
 	public static final String MODNAME = "GunCore";
-	public static final String VERSION = "1.7.1.0 - 1.14.4";
+	public static final String VERSION = "1.7.2.0 - 1.14.4";
 	public static final Logger LOGGER = LogManager.getLogger(MODNAME);
 	public static final ResourceLocation FULL_ID = Resourced.getResourceLocation(MODID, Main.class);
 	private static final Test[] TESTS = Test.getActiveTests();
