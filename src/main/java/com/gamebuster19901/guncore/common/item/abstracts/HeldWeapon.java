@@ -17,6 +17,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
@@ -29,6 +30,14 @@ public abstract class HeldWeapon extends GunCoreItem{
 	
 	public HeldWeapon() {
 		super(1);
+	}
+	
+	public HeldWeapon(int stackSize) {
+		super(stackSize);
+	}
+	
+	public HeldWeapon(Item.Properties properties) {
+		super(properties);
 	}
 
 	@Override
