@@ -3,7 +3,7 @@ loaderVersion="[25,)" #mandatory (24 is current forge version)
 issueTrackerURL="http://my.issue.tracker/" #optional
 [[mods]] #mandatory
 modId="guncore" #mandatory
-version="1.7.2.0-1.14.4" #mandatory
+version="1.15.2-1.7.2.0" #mandatory
 displayName="GunCore" #mandatory
 logoFile="examplemod.png" #optional
 credits="" #optional
@@ -21,7 +21,7 @@ Add descripion later!
     # Does this dependency have to exist - if not, ordering below must be specified
     mandatory=true #mandatory
     # The version range of the dependency
-    versionRange="[25,)" #mandatory
+    versionRange="[31,)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
@@ -30,6 +30,6 @@ Add descripion later!
 [[dependencies.guncore]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.14.4]"
+    versionRange="[1.15.2]"
     ordering="NONE"
     side="BOTH"
