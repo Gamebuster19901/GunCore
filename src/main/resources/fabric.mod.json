@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "guncore",
+  "version": "${version}",
+
+  "name": "Guncore",
+  "description": "GunCore Mod.\n\nAdd description later!",
+  "authors": [
+    "Gamebuster19901"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Gamebuster19901/GunCore",
+    "sources": "https://github.com/Gamebuster19901/GunCore",
+    "issues": "https://github.com/Gamebuster19901/GunCore/issues"
+  },
+
+  "license": "All Rights Reserved",
+  "icon": "assets/modid/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.gamebuster19901.guncore.GunCore"
+    ]
+  },
+  "mixins": [
+    "guncore.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "oni": ">=1.16.5-0.0.0.0"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": ["library"]
+    }
+  }
+}
