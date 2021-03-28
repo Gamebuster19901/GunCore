@@ -1,3 +1,17 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		mavenLocal()
+	}
+	dependencies{
+		classpath('com.gamebuster19901:LicenseChecker'){
+			version {
+				branch = "master"
+			}
+		}
+	}
+}
+
 plugins {
 	id 'fabric-loom' version '0.6-SNAPSHOT'
 	id 'maven-publish'
@@ -68,6 +82,64 @@ jar {
 	}
 }
 
+
+task checkVersion() {
+	def versionRegex = ~'(?i)version(?i-)\\s?=\\s?\\"[\\w.-]*\\"';
+	
+	def gradlef = project.buildscript.sourceFile.toString();
+	def dir = new File(gradlef).getParent().toString();
+	
+	String allContainingFiles = 
+		new File(dir + '/src/main/java/com/gamebuster19901/guncore/Main.java').text +
+		new File(dir + '/src/main/resources/META-INF/mods.toml').text +
+		new File(gradlef).text
+		
+	allContainingFiles = allContainingFiles.replaceAll(' ','')
+		
+	def matcher = allContainingFiles =~ versionRegex
+	
+	assert matcher.find();
+	assert matcher.size() == 3;
+	assert matcher[0].equalsIgnoreCase(matcher[1]) && matcher[1].equalsIgnoreCase(matcher[2])
+
+	logger.info("Version verified: " + matcher[0])
+}
+
+task checkLicenses(type: JavaExec) {
+	classpath += sourceSets.main.runtimeClasspath
+	classpath += buildscript.configurations.classpath
+	println main = "com.gamebuster19901.license.LicenseChecker"
+	args = ['notBinary', 'silenceSkips', "classes:com.gamebuster19901.license.test.Test"]
+}
+
+build.dependsOn checkVersion
+build.dependsOn checkLicenses
+build.finalizedBy publish
+jar.dependsOn checkLicenses
+
+task applyLicenses(type: JavaExec) {
+	classpath += sourceSets.main.runtimeClasspath
+	classpath += buildscript.configurations.classpath
+	println main = "com.gamebuster19901.license.LicenseChecker"
+	args = ['notBinary', 'applyLicenses']
+}
+
+task editLicenses(type:JavaExec) {
+	classpath += sourceSets.main.runtimeClasspath
+	classpath += buildscript.configurations.classpath
+	standardInput = System.in
+	println main = "com.gamebuster19901.license.create.CreateChecker"
+	args = ['notBinary', 'applyLicenses']
+}
+
+task stripLicenses(type:JavaExec){
+	classpath += sourceSets.main.runtimeClasspath
+	classpath += buildscript.configurations.classpath
+	standardInput = System.in
+	println main = "com.gamebuster19901.license.LicenseChecker"
+	args = ['notBinary', 'stripLicenses']
+}
+
 // configure the maven publication
 publishing {
 	publications {
@@ -88,5 +160,6 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
+		mavenLocal()
 	}
 }
