@@ -7,14 +7,14 @@
 
 package com.gamebuster19901.guncore.common.util;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 
 public interface Resourced{
-	public default ResourceLocation getResourceLocation() {
+	public default Identifier getResourceLocation() {
 		return getResourceLocation(getModId(), this.getClass());
 	}
 	
-	public default ResourceLocation getResourceLocation(String additional) {
+	public default Identifier getResourceLocation(String additional) {
 		return getResourceLocation(getModId(), this.getClass(), additional);
 	}
 	
@@ -27,16 +27,16 @@ public interface Resourced{
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public static ResourceLocation getResourceLocation(String modid, Class clazz) {
-		return new ResourceLocation(modid + ':' + toSnakeCase(clazz.getSimpleName()));
+	public static Identifier getResourceLocation(String modid, Class clazz) {
+		return new Identifier(modid + ':' + toSnakeCase(clazz.getSimpleName()));
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public static ResourceLocation getResourceLocation(String modid, Class clazz, String additional) {
+	public static Identifier getResourceLocation(String modid, Class clazz, String additional) {
 		if(additional.charAt(0) != '_') {
 			additional = "_" + additional;
 		}
-		return new ResourceLocation(modid + ":" + toSnakeCase(clazz.getSimpleName() + additional));
+		return new Identifier(modid + ":" + toSnakeCase(clazz.getSimpleName() + additional));
 	}
 	
 	@SuppressWarnings("rawtypes")
