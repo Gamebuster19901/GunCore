@@ -9,10 +9,10 @@ package com.gamebuster19901.guncore.test;
 
 import java.util.HashSet;
 
-import com.gamebuster19901.guncore.Main;
+import com.gamebuster19901.guncore.GunCore;
 import com.gamebuster19901.guncore.common.util.Resourced;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Identifier;
 
 /**
  * Tests are chosen to be loaded at runtime using the environment variable "guncore:test"
@@ -38,7 +38,7 @@ public abstract class Test implements Resourced{
 	
 	@Override
 	public final String getModId() {
-		return Main.MODID;
+		return GunCore.MODID;
 	}
 	
 	public static Test[] getActiveTests() {
@@ -62,7 +62,7 @@ public abstract class Test implements Resourced{
 	
 	@SuppressWarnings("unchecked")
 	private static Class<? extends Test> toClass(String locationString) throws ClassNotFoundException, NoClassDefFoundError, ClassCastException{
-		ResourceLocation location = new ResourceLocation(locationString);
+		Identifier location = new Identifier(locationString);
 		return (Class<? extends Test>) Class.forName(Test.class.getPackage().getName() + "." + location.getPath());
 	}
 	
