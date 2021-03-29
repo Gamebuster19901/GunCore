@@ -9,9 +9,10 @@ package com.gamebuster19901.guncore.common.item;
 
 import com.gamebuster19901.guncore.common.item.abstracts.Ammo;
 import com.gamebuster19901.guncore.common.item.abstracts.Projectile;
-import static com.gamebuster19901.guncore.Main.MODID;
+import static com.gamebuster19901.guncore.GunCore.MODID;
 
-import net.minecraft.entity.projectile.SnowballEntity;
+import net.minecraft.entity.projectile.thrown.SnowballEntity;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.dimension.DimensionType;
 
 public class NullAmmo extends Ammo {
@@ -19,8 +20,7 @@ public class NullAmmo extends Ammo {
 	private static final Projectile snowball;
 	static {
 		SnowballEntity entity = new SnowballEntity(null, 0, 0, 0);
-		entity.dimension = DimensionType.OVERWORLD;
-		snowball = new Projectile(entity.serializeNBT());
+		snowball = new Projectile(entity.toTag(new CompoundTag()));
 	}
 	 
 	

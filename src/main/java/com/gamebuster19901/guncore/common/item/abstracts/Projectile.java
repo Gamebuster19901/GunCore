@@ -9,7 +9,6 @@ package com.gamebuster19901.guncore.common.item.abstracts;
 
 import java.lang.reflect.Field;
 import java.util.Random;
-import java.util.function.Function;
 
 import com.gamebuster19901.guncore.capability.common.item.shootable.Shootable;
 import com.gamebuster19901.guncore.common.entity.ProjectileEntity;
@@ -18,16 +17,15 @@ import com.gamebuster19901.guncore.common.util.VecMath;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IProjectile;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public final class Projectile implements IProjectile{
+public final class Projectile {
 	private static final Field RAND = ForgeReflectionHelper.findField(Entity.class, "rand");
 	
-	protected final CompoundNBT projectile;
+	protected final CompoundTag projectile;
 	
 	protected double x;
 	protected double y;
@@ -40,7 +38,7 @@ public final class Projectile implements IProjectile{
 	/**
 	 * @param projectile the nbt representing the projectile
 	 */
-	public Projectile(CompoundNBT projectile) {
+	public Projectile(CompoundTag projectile) {
 		this.projectile = projectile;
 	}
 	
@@ -48,7 +46,7 @@ public final class Projectile implements IProjectile{
 	 * @param projectile the projectile to shoot
 	 */
 	public Projectile(Entity projectile) {
-		this(projectile.serializeNBT());
+		this(projectile.toTag(new CompoundTag()));
 	}
 	
 	/**
@@ -60,11 +58,11 @@ public final class Projectile implements IProjectile{
 	 */
 	public void shoot(Entity shooter, Shootable gun) {
 		this.shooter = shooter;
-		Vec3d pos = shooter.getEyePosition(1).add(new Vec3d(0,-0.5,0));
-		Vec3d lookVec = shooter.getLookVec().add(0,0.3d,0);
+		Vec3d pos = shooter.getRotationVector().add(new Vec3d(0,-0.5,0));
+		Vec3d lookVec = shooter.getRotationVector().add(0,0.3d,0);
 		float distance = 1.5f;
 		
-		shoot(shooter.getEntityWorld(), VecMath.traverse(pos, lookVec, distance), shooter.getLookVec(), gun);
+		shoot(shooter.getEntityWorld(), VecMath.traverse(pos, lookVec, distance), lookVec, gun);
 	}
 	
 	/**
@@ -78,7 +76,7 @@ public final class Projectile implements IProjectile{
 	 */
 	public void shoot(Entity shooter, World world, Vec3d pos, Vec3d vector, Shootable gun) {
 		this.shooter = shooter;
-		shoot(shooter.getEntityWorld(), new Vec3d(shooter.posX, shooter.posY, shooter.posZ), shooter.getLookVec(), gun);
+		shoot(shooter.getEntityWorld(), new Vec3d(shooter.getX(), shooter.getY(), shooter.getZ()), shooter.getRotationVector(), gun);
 	}
 	
 	/**
@@ -94,20 +92,20 @@ public final class Projectile implements IProjectile{
 			gun = HandImpl.INSTANCE;
 		}
 		this.gun = gun;
-		if(!world.isRemote && projectile != null) {
+		if(!world.isClient && projectile != null) {
 			projectile.putString("ownerName", shooter.getName().getString());
-			projectileEntity = (ProjectileEntity)EntityType.func_220335_a(projectile, world, Function.identity());
-			projectileEntity.setPosition(pos.getX(), pos.getY(), pos.getZ());
+			projectileEntity = (ProjectileEntity)EntityType.getEntityFromTag(projectile, world).get();
+			projectileEntity.setPos(pos.getX(), pos.getY(), pos.getZ());
 			if(projectileEntity != null) {
 				try {
-					projectileEntity.setUniqueId(MathHelper.getRandomUUID((Random)RAND.get(projectileEntity)));
+					projectileEntity.setUuid(MathHelper.randomUuid((Random)RAND.get(projectileEntity)));
 				} catch (IllegalArgumentException | IllegalAccessException e) {
 					throw new AssertionError(e);
 				}
-				Vec3d lookVec = shooter.getLookVec();
+				Vec3d lookVec = shooter.getRotationVector();
 				projectileEntity.shoot(gun, shooter);
 				shoot(lookVec.x, lookVec.y, lookVec.z, gun.getMuzzleVelocity(), gun.getBloom()); //Shoot before spawning entity so it has momentum when spawned!
-				world.addEntity(projectileEntity);
+				world.spawnEntity(projectileEntity);
 				return;
 			}
 			
@@ -120,7 +118,6 @@ public final class Projectile implements IProjectile{
 	 * See EntityArrow
 	 * @deprecated Use any of the other shoot() methods in this class.
 	 */
-	@Override
 	@Deprecated
 	public void shoot(double vx, double vy, double vz, float velocity, float inaccuracy) {
 		if(projectileEntity != null) {
@@ -141,16 +138,16 @@ public final class Projectile implements IProjectile{
 			vx = vx * (double)velocity;
 			vy = vy * (double)velocity;
 			vz = vz * (double)velocity;
-			projectileEntity.setMotion(new Vec3d(vx,vy,vz));
+			projectileEntity.setVelocity(new Vec3d(vx,vy,vz));
 			float f1 = MathHelper.sqrt(vx * vx + vz * vz);
-			projectileEntity.rotationYaw = -(float)(MathHelper.atan2(vx, vz) * (180D / Math.PI));
-			projectileEntity.rotationPitch = -(float)(MathHelper.atan2(vy, (double)f1) * (180D / Math.PI));
-			projectileEntity.prevRotationYaw = -projectileEntity.rotationYaw;
-			projectileEntity.prevRotationPitch = -projectileEntity.rotationPitch;
+			projectileEntity.yaw = -(float)(MathHelper.atan2(vx, vz) * (180D / Math.PI));
+			projectileEntity.pitch = -(float)(MathHelper.atan2(vy, (double)f1) * (180D / Math.PI));
+			projectileEntity.prevYaw = -projectileEntity.yaw;
+			projectileEntity.prevPitch = -projectileEntity.pitch;
 		}
 	}
 	
-	public CompoundNBT getProjectileNBT() {
+	public CompoundTag getProjectileNBT() {
 		return projectile;
 	}
 	

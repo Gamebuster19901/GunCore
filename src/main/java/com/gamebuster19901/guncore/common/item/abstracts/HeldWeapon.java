@@ -26,18 +26,10 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 
-public abstract class HeldWeapon extends GunCoreItem{
+public abstract class HeldWeapon extends Item{
 	
-	public HeldWeapon() {
-		super(1);
-	}
-	
-	public HeldWeapon(int stackSize) {
-		super(stackSize);
-	}
-	
-	public HeldWeapon(Item.Properties properties) {
-		super(properties);
+	public HeldWeapon(Item.Settings settings) {
+		super(settings);
 	}
 
 	@Override

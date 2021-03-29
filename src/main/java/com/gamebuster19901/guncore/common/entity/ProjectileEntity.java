@@ -10,8 +10,6 @@ package com.gamebuster19901.guncore.common.entity;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-import javax.annotation.Nullable;
-
 import com.gamebuster19901.guncore.capability.common.entity.shooterOwner.ShooterOwner;
 import static com.gamebuster19901.guncore.capability.common.item.shootable.ShootableDefaultImpl.BASE_DAMAGE;
 import com.gamebuster19901.guncore.capability.common.item.shootable.Shootable;
@@ -24,10 +22,12 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.predicate.entity.DamageSourcePredicate;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityPredicates;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -36,7 +36,7 @@ import net.minecraft.util.math.RayTraceResult;
 import static net.minecraft.util.math.RayTraceResult.Type.*;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.world.ServerWorld;
 
 public abstract class ProjectileEntity extends GunCoreEntity implements ShooterOwner, Resourced{
 	
@@ -48,7 +48,7 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	public static final String SHOOTER = "shooter";
 	public static final String TICKS_EXISTED = "ticksExisted";
 	
-	protected CompoundNBT gun;
+	protected CompoundTag gun;
 	protected UUID shooter;
 	protected float damage = 0f; //damage to deal if this hits an entity
 	
@@ -63,7 +63,7 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 		this.damage = damage;
 	}
 	
-	public void shoot(Shootable gun, @Nullable Entity shooter) {
+	public void shoot(Shootable gun, @org.jetbrains.annotations.Nullable Entity shooter) {
 		this.setGun(gun);
 		this.setShooter(shooter);
 	}
@@ -71,11 +71,11 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 	@SuppressWarnings("deprecation")
 	@Override
 	public void tick() {
-		if(this.world != null && !this.removed && !world.isRemote) {
-			if(this.ticksExisted == 1) {
-				this.world.playSound(null, posX, posY, posZ, getDischargeSound(), SoundCategory.NEUTRAL, 1f, getNextSoundPitch());
+		if(this.world != null && !this.removed && !world.isClient) {
+			if(this.age == 1) {
+				this.world.playSound(null, getX(), getY(), getZ(), getDischargeSound(), SoundCategory.NEUTRAL, 1f, getNextSoundPitch());
 			}
-			else if(this.ticksExisted > 120 || this.ticksExisted < 1) {
+			else if(this.age > 120 || this.age < 1) {
 				this.remove();
 				return;
 			}
@@ -192,10 +192,10 @@ public abstract class ProjectileEntity extends GunCoreEntity implements ShooterO
 		return this.rand.nextFloat() * (1.5f - 1) + 1;
 	}
 	
-	protected DamageSource getDamageSource() {
+	protected DamageSourcePredicate getDamageSource() {
 		Entity shooter = null;
-		for(Entity e: ((ServerWorld)world).getEntities(null, ANY_ENTITY)) {
-			if(e.getUniqueID() == this.shooter) {
+		for(Entity e: ((ServerWorld)world).getEntitiesByType(null, ANY_ENTITY)) {
+			if(e.getUuid() == this.shooter) {
 				shooter = e;
 				break;
 			}
