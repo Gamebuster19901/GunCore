@@ -13,7 +13,6 @@ import static com.gamebuster19901.guncore.GunCore.MODID;
 
 import net.minecraft.entity.projectile.thrown.SnowballEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.dimension.DimensionType;
 
 public class NullAmmo extends Ammo {
 
